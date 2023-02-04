@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/game/archer/Attack.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 120, 120 )
+extents = Vector2( 180, 180 )
 
 [node name="Archer" type="Node2D"]
 script = ExtResource( 2 )
@@ -23,6 +23,8 @@ shape = SubResource( 2 )
 
 [node name="TrajectoryDraw" type="Node2D" parent="."]
 script = ExtResource( 3 )
+
+[node name="Line2D" type="Line2D" parent="."]
 
 [connection signal="bow_grabbed" from="AimArea" to="." method="_on_AimArea_bow_grabbed"]
 [connection signal="bow_moved" from="AimArea" to="." method="_on_AimArea_bow_moved"]

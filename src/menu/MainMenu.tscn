@@ -39,45 +39,54 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Shop" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 20.0
-margin_top = 160.0
-margin_right = 140.0
-margin_bottom = 200.0
+margin_right = 120.0
+margin_bottom = 40.0
 text = "Shop"
 
 [node name="Hunt" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 500.0
-margin_top = 160.0
-margin_right = 620.0
-margin_bottom = 200.0
+margin_left = 520.0
+margin_right = 640.0
+margin_bottom = 40.0
 text = "Hunt"
 
 [node name="Range" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 340.0
+margin_left = 400.0
 margin_top = 280.0
-margin_right = 460.0
+margin_right = 520.0
 margin_bottom = 320.0
 text = "Practice"
 
 [node name="Duel" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 180.0
+margin_left = 120.0
 margin_top = 280.0
-margin_right = 300.0
+margin_right = 240.0
 margin_bottom = 320.0
 text = "Duel"
+
+[node name="Quit" type="Button" parent="Panels/Menu/MenuOptions"]
+margin_left = 260.0
+margin_top = 320.0
+margin_right = 380.0
+margin_bottom = 360.0
+text = "Quit"
 
 [node name="Hunt" parent="Panels" instance=ExtResource( 2 )]
 margin_left = 1280.0
 margin_right = 1920.0
 
-[node name="Overlay" type="CanvasLayer" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 640.0
+margin_right = 1280.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 1 )
 
-[node name="Left" type="Panel" parent="Overlay"]
-margin_right = 60.0
-margin_bottom = 40.0
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = -640.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 1 )
 
-[node name="Right" type="Panel" parent="Overlay"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -60.0
-margin_bottom = 40.0
+[connection signal="back" from="Panels/Shop" to="." method="_on_Shop_back"]
+[connection signal="button_up" from="Panels/Menu/MenuOptions/Shop" to="." method="_on_Shop_button_up"]
+[connection signal="button_up" from="Panels/Menu/MenuOptions/Hunt" to="." method="_on_Hunt_button_up"]
+[connection signal="button_up" from="Panels/Menu/MenuOptions/Quit" to="." method="_on_Quit_button_up"]
+[connection signal="back" from="Panels/Hunt" to="." method="_on_Hunt_back"]
