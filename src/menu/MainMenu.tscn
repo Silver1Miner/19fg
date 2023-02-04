@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+
+[node name="Title" type="Label" parent="."]
+margin_right = 640.0
+margin_bottom = 40.0
+text = "Flying General"
+align = 1
+valign = 1
+
+[node name="Shop" type="Button" parent="."]
+margin_left = 20.0
+margin_top = 160.0
+margin_right = 120.0
+margin_bottom = 200.0
+text = "Shop"
+
+[node name="Armory" type="Button" parent="."]
+margin_left = 20.0
+margin_top = 240.0
+margin_right = 120.0
+margin_bottom = 280.0
+text = "Armory"
+
+[node name="Hunt" type="Button" parent="."]
+margin_left = 520.0
+margin_top = 160.0
+margin_right = 620.0
+margin_bottom = 200.0
+text = "Hunt"
+
+[node name="Range" type="Button" parent="."]
+margin_left = 520.0
+margin_top = 240.0
+margin_right = 620.0
+margin_bottom = 280.0
+text = "Range"
+
+[node name="Duel" type="Button" parent="."]
+margin_left = 260.0
+margin_top = 280.0
+margin_right = 380.0
+margin_bottom = 320.0
+text = "Duel"

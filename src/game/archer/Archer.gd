@@ -1,7 +1,7 @@
 extends Node2D
 
-export var bow_elastic_force = 40
-export var gravity = 9.8
+export var bow_elastic_force = 20
+export var gravity = 98
 export var max_draw = 10
 onready var aim_area = $AimArea
 onready var trajectory_draw = $TrajectoryDraw
@@ -50,5 +50,6 @@ func _on_AimArea_bow_moved(touch_position: Vector2) -> void:
 
 func _on_AimArea_bow_released() -> void:
 	print("fire!")
-	arrow_instance.gravity_scale = gravity
+	if arrow_instance:
+		arrow_instance.gravity_scale = gravity
 	state = States.IDLE
