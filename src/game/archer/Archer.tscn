@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://assets/game/arrows/Arrows.png" type="Texture" id=1]
 [ext_resource path="res://src/game/archer/Archer.gd" type="Script" id=2]
 [ext_resource path="res://src/game/archer/TrajectoryDraw.gd" type="Script" id=3]
 [ext_resource path="res://assets/game/archer/Attack.png" type="Texture" id=4]
@@ -13,3 +14,13 @@ hframes = 6
 
 [node name="TrajectoryDraw" type="Node2D" parent="."]
 script = ExtResource( 3 )
+
+[node name="ArrowDisplay" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="ArrowDisplay"]
+position = Vector2( 20, 0 )
+rotation = 2.35619
+scale = Vector2( 1, 1 )
+texture = ExtResource( 1 )
+hframes = 3
+frame = 2

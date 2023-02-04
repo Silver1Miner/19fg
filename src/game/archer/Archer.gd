@@ -2,8 +2,9 @@ extends Node2D
 
 signal update_draw(draw_start, draw_end)
 
-export var bow_elastic_force = 10.0
-export var gravity = 9.8
+export var bow_elastic_force = 1.0
+export var gravity = 0.98
+onready var arrow_display = $ArrowDisplay
 onready var trajectory_draw = $TrajectoryDraw
 onready var draw_start = Vector2.ZERO
 onready var draw_end = Vector2.ZERO
@@ -19,7 +20,7 @@ enum States {
 var state = States.READY
 
 func _ready() -> void:
-	pass
+	arrow_display.visible = false
 
 func _input(event):
 	if state == States.READY:
@@ -39,10 +40,11 @@ func _physics_process(_delta):
 	match state:
 		States.AIMING:
 			launch_impulse = update_impulse()
+			arrow_display.rotation = (draw_start - draw_end).angle()
 			trajectory_draw.draw_trajectory(
-				launch_impulse / arrow_instance.mass,
+				launch_impulse / 10 / arrow_instance.mass,
 				arrow_instance.global_position,
-				gravity
+				gravity * 10
 			)
 			pass
 
@@ -54,6 +56,7 @@ func load_projectile():
 	arrow_instance = Arrow.instance()
 	add_child(arrow_instance)
 	arrow_instance.global_position = global_position
+	arrow_display.visible = true
 
 func bow_grab(touch_position: Vector2) -> void:
 	load_projectile()
@@ -73,9 +76,11 @@ func bow_release(touch_position: Vector2) -> void:
 	print("fire! at ", touch_position)
 	draw_end = touch_position
 	if arrow_instance:
+		arrow_display.visible = false
+		arrow_instance.visible = true
 		arrow_instance.gravity_scale = gravity
-		arrow_instance.apply_impulse(Vector2.ZERO, launch_impulse)
-	state = States.IDLE
+		arrow_instance.apply_central_impulse(launch_impulse)
+	state = States.READY
 	draw_start = Vector2.ZERO
 	draw_end = Vector2.ZERO
 	emit_signal("update_draw", draw_start, draw_end)

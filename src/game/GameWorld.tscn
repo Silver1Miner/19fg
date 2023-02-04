@@ -18,6 +18,11 @@ margin_right = 80.0
 margin_bottom = 40.0
 text = "Back"
 
+[node name="Angle" type="Label" parent="HUD"]
+margin_top = 280.0
+margin_right = 80.0
+margin_bottom = 360.0
+
 [node name="Line2D" type="Line2D" parent="."]
 
 [connection signal="update_draw" from="Archer" to="." method="_on_Archer_update_draw"]
