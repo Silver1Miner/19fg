@@ -1,26 +1,39 @@
 extends Node2D
 
-export var bow_elastic_force = 20
-export var gravity = 98
-export var max_draw = 10
-onready var aim_area = $AimArea
+signal update_draw(draw_start, draw_end)
+
+export var bow_elastic_force = 10.0
+export var gravity = 9.8
 onready var trajectory_draw = $TrajectoryDraw
-onready var line_draw = $Line2D
+onready var draw_start = Vector2.ZERO
+onready var draw_end = Vector2.ZERO
 var launch_impulse = Vector2.ZERO
 var Arrow = preload("res://src/game/archer/Arrow.tscn")
 var arrow_instance = null
 
 enum States {
 	IDLE,
-	LOADING,
 	READY,
 	AIMING,
 }
-var state = States.IDLE
+var state = States.READY
 
 func _ready() -> void:
-	line_draw.add_point(Vector2.ZERO)
-	line_draw.add_point(Vector2.ZERO)
+	pass
+
+func _input(event):
+	if state == States.READY:
+		if event is InputEventScreenTouch:
+			if event.is_pressed():
+				bow_grab(event.position)
+				state = States.AIMING
+	elif state == States.AIMING:
+		if event is InputEventScreenTouch:
+			if not event.is_pressed():
+				bow_release(event.position)
+				state = States.IDLE
+		if event is InputEventScreenDrag:
+			bow_move(event.position)
 
 func _physics_process(_delta):
 	match state:
@@ -34,30 +47,35 @@ func _physics_process(_delta):
 			pass
 
 func update_impulse() -> Vector2:
-	return bow_elastic_force * (arrow_instance.global_position - global_position)
+	return bow_elastic_force * (draw_start - draw_end)
 
 func load_projectile():
-	state = States.LOADING
+	state = States.AIMING
 	arrow_instance = Arrow.instance()
 	add_child(arrow_instance)
 	arrow_instance.global_position = global_position
 
-func _on_AimArea_bow_grabbed(touch_position: Vector2) -> void:
+func bow_grab(touch_position: Vector2) -> void:
 	load_projectile()
-	line_draw.points[0] = touch_position
-	print("start aiming")
+	draw_start = touch_position
+	draw_end = touch_position
+	print("start aiming at ", touch_position)
+	emit_signal("update_draw", draw_start, draw_end)
 
-func _on_AimArea_bow_moved(touch_position: Vector2) -> void:
+func bow_move(touch_position: Vector2) -> void:
 	if state == States.IDLE:
 		return
-	line_draw.points[1] = touch_position
+	draw_end = touch_position
 	state = States.AIMING
+	emit_signal("update_draw", draw_start, draw_end)
 
-func _on_AimArea_bow_released(touch_position: Vector2) -> void:
-	print("fire!")
-	line_draw.points[1] = touch_position
+func bow_release(touch_position: Vector2) -> void:
+	print("fire! at ", touch_position)
+	draw_end = touch_position
 	if arrow_instance:
 		arrow_instance.gravity_scale = gravity
+		arrow_instance.apply_impulse(Vector2.ZERO, launch_impulse)
 	state = States.IDLE
-	line_draw.points[0] = Vector2.ZERO
-	line_draw.points[1] = Vector2.ZERO
+	draw_start = Vector2.ZERO
+	draw_end = Vector2.ZERO
+	emit_signal("update_draw", draw_start, draw_end)

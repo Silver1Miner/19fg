@@ -31,3 +31,7 @@ func _on_Shop_button_up() -> void:
 
 func _on_Quit_button_up() -> void:
 	get_tree().quit()
+
+func _on_Range_pressed() -> void:
+	if get_tree().change_scene("res://src/game/GameWorld.tscn") != OK:
+		push_error("fail to change scene")

@@ -88,5 +88,6 @@ color = Color( 0, 0, 0, 1 )
 [connection signal="back" from="Panels/Shop" to="." method="_on_Shop_back"]
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Shop" to="." method="_on_Shop_button_up"]
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Hunt" to="." method="_on_Hunt_button_up"]
+[connection signal="pressed" from="Panels/Menu/MenuOptions/Range" to="." method="_on_Range_pressed"]
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Quit" to="." method="_on_Quit_button_up"]
 [connection signal="back" from="Panels/Hunt" to="." method="_on_Hunt_back"]

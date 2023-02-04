@@ -4,8 +4,8 @@ var initial_velocity = Vector2()
 var drawing = false
 var gravity = 98
 var points = {
-	"gap": 25,
-	"radius": 6,
+	"gap": 50,
+	"radius": 2,
 	"color": Color(1, 0, 0)
 }
 
@@ -28,7 +28,7 @@ func _draw() -> void:
 	var col = points.color
 	if drawing:
 		var angle = -initial_velocity.angle()
-		for i in range (50):
+		for i in range (20):
 			var x = i * (points.gap)
 			var pos = Vector2(x, trajectory_equation(
 				x,
