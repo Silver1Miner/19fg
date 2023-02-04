@@ -1,0 +1,35 @@
+[gd_scene format=2]
+
+[node name="Shop" type="Control"]
+margin_right = 640.0
+margin_bottom = 360.0
+rect_min_size = Vector2( 640, 360 )
+
+[node name="ShopPanel" type="Panel" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 300.0
+margin_bottom = 340.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 300.0
+margin_bottom = 340.0
+
+[node name="ShopOptions" type="VBoxContainer" parent="ScrollContainer"]
+margin_right = 120.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="ScrollContainer/ShopOptions"]
+margin_right = 120.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 120, 40 )
+text = "Buy Gems"
+align = 1
+valign = 1
+
+[node name="LoadoutPanel" type="Panel" parent="."]
+margin_left = 320.0
+margin_right = 640.0
+margin_bottom = 360.0

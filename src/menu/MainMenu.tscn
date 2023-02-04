@@ -1,50 +1,83 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/menu/Hunt.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/menu/Shop.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/menu/MainMenu.gd" type="Script" id=4]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
+script = ExtResource( 4 )
 
-[node name="Title" type="Label" parent="."]
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Panels" type="HBoxContainer" parent="."]
+margin_left = -640.0
+margin_right = 1280.0
+margin_bottom = 360.0
+custom_constants/separation = 0
+
+[node name="Shop" parent="Panels" instance=ExtResource( 3 )]
+
+[node name="Menu" type="Control" parent="Panels"]
+margin_left = 640.0
+margin_right = 1280.0
+margin_bottom = 360.0
+rect_min_size = Vector2( 640, 360 )
+
+[node name="Title" type="Label" parent="Panels/Menu"]
 margin_right = 640.0
 margin_bottom = 40.0
 text = "Flying General"
 align = 1
 valign = 1
 
-[node name="Shop" type="Button" parent="."]
+[node name="MenuOptions" type="Control" parent="Panels/Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Shop" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_left = 20.0
 margin_top = 160.0
-margin_right = 120.0
+margin_right = 140.0
 margin_bottom = 200.0
 text = "Shop"
 
-[node name="Armory" type="Button" parent="."]
-margin_left = 20.0
-margin_top = 240.0
-margin_right = 120.0
-margin_bottom = 280.0
-text = "Armory"
-
-[node name="Hunt" type="Button" parent="."]
-margin_left = 520.0
+[node name="Hunt" type="Button" parent="Panels/Menu/MenuOptions"]
+margin_left = 500.0
 margin_top = 160.0
 margin_right = 620.0
 margin_bottom = 200.0
 text = "Hunt"
 
-[node name="Range" type="Button" parent="."]
-margin_left = 520.0
-margin_top = 240.0
-margin_right = 620.0
-margin_bottom = 280.0
-text = "Range"
-
-[node name="Duel" type="Button" parent="."]
-margin_left = 260.0
+[node name="Range" type="Button" parent="Panels/Menu/MenuOptions"]
+margin_left = 340.0
 margin_top = 280.0
-margin_right = 380.0
+margin_right = 460.0
+margin_bottom = 320.0
+text = "Practice"
+
+[node name="Duel" type="Button" parent="Panels/Menu/MenuOptions"]
+margin_left = 180.0
+margin_top = 280.0
+margin_right = 300.0
 margin_bottom = 320.0
 text = "Duel"
+
+[node name="Hunt" parent="Panels" instance=ExtResource( 2 )]
+margin_left = 1280.0
+margin_right = 1920.0
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="Left" type="Panel" parent="Overlay"]
+margin_right = 60.0
+margin_bottom = 40.0
+
+[node name="Right" type="Panel" parent="Overlay"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -60.0
+margin_bottom = 40.0
