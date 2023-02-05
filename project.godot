@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "RigidBody2D",
+"base": "Area2D",
 "class": "Arrow",
 "language": "GDScript",
 "path": "res://src/game/archer/Arrow.gd"
@@ -23,16 +23,23 @@ _global_script_classes=[ {
 "class": "Date",
 "language": "GDScript",
 "path": "res://src/ui/calendar/date.gd"
+}, {
+"base": "Area2D",
+"class": "Target",
+"language": "GDScript",
+"path": "res://src/game/targets/Target.gd"
 } ]
 _global_script_class_icons={
 "Arrow": "",
 "Calendar": "",
-"Date": ""
+"Date": "",
+"Target": ""
 }
 
 [application]
 
 config/name="Flying General"
+run/main_scene="res://src/menu/MainMenu.tscn"
 boot_splash/image="res://assets/launcher/launcher-2436-1125.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"

@@ -4,7 +4,7 @@ var initial_velocity = Vector2()
 var drawing = false
 var gravity = 98
 var points = {
-	"gap": 50,
+	"gap": 10,
 	"radius": 2,
 	"color": Color(1, 0, 0)
 }
