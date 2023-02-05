@@ -49,10 +49,11 @@ func update_calendar_buttons(selected_date: Date):
 	for i in range(days_in_month):
 		var btn_node : Button = buttons_container.get_node("btn_" + str(i + start_day_of_week))
 		btn_node.set_text(str(i + 1))
-		if str(i+1) in UserData.current_loaded:
-			btn_node.set_disabled(false)
-		else:
-			btn_node.set_disabled(true)
+		#if str(i+1) in UserData.current_loaded:
+		#	btn_node.set_disabled(false)
+		#else:
+		#	btn_node.set_disabled(true)
+		btn_node.set_disabled(false)
 
 func _clear_calendar_buttons():
 	for i in range(BUTTONS_COUNT):
