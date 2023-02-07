@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/menu/Shop.gd" type="Script" id=1]
+[ext_resource path="res://src/menu/LoadoutMenu.tscn" type="PackedScene" id=2]
 
 [node name="Shop" type="Control"]
 margin_right = 640.0
@@ -9,6 +10,7 @@ rect_min_size = Vector2( 640, 360 )
 script = ExtResource( 1 )
 
 [node name="ShopPanel" type="Panel" parent="."]
+visible = false
 margin_top = 40.0
 margin_right = 320.0
 margin_bottom = 360.0
@@ -19,31 +21,173 @@ margin_right = 320.0
 margin_bottom = 360.0
 
 [node name="ShopOptions" type="VBoxContainer" parent="ScrollContainer"]
-margin_right = 120.0
-margin_bottom = 40.0
+margin_right = 300.0
+margin_bottom = 820.0
+custom_constants/separation = 20
 
-[node name="Label" type="Label" parent="ScrollContainer/ShopOptions"]
-margin_right = 120.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 120, 40 )
-text = "Buy Gems"
+[node name="Tools" type="Panel" parent="ScrollContainer/ShopOptions"]
+margin_right = 300.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 0, 180 )
+
+[node name="ToolOptions" type="VBoxContainer" parent="ScrollContainer/ShopOptions/Tools"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 280.0
+margin_bottom = 100.0
+
+[node name="Label" type="Label" parent="ScrollContainer/ShopOptions/Tools/ToolOptions"]
+margin_right = 260.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+text = "Buy Bonus Arrows"
 align = 1
 valign = 1
 
-[node name="LoadoutPanel" type="Panel" parent="."]
-margin_left = 320.0
-margin_top = 40.0
-margin_right = 640.0
-margin_bottom = 360.0
+[node name="ArrowOptions" type="HBoxContainer" parent="ScrollContainer/ShopOptions/Tools/ToolOptions"]
+margin_top = 24.0
+margin_right = 260.0
+margin_bottom = 144.0
+custom_constants/separation = 40
+alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="LoadoutPanel"]
-margin_right = 160.0
-margin_bottom = 320.0
+[node name="BuyBonusArrows1" type="Button" parent="ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions"]
+margin_left = 30.0
+margin_right = 110.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 80, 120 )
 
-[node name="LoadoutOptions" type="VBoxContainer" parent="LoadoutPanel"]
-margin_left = 160.0
-margin_right = 320.0
-margin_bottom = 320.0
+[node name="Label" type="Label" parent="ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions/BuyBonusArrows1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "10 Arrows
+
+for
+
+160 Coins"
+align = 1
+valign = 1
+
+[node name="BuyBonusArrows2" type="Button" parent="ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions"]
+margin_left = 150.0
+margin_right = 230.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 80, 120 )
+
+[node name="Label" type="Label" parent="ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions/BuyBonusArrows2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "100 Arrows
+
+for
+
+1600 Coins"
+align = 1
+valign = 1
+
+[node name="Unlocks" type="Panel" parent="ScrollContainer/ShopOptions"]
+margin_top = 200.0
+margin_right = 300.0
+margin_bottom = 500.0
+rect_min_size = Vector2( 300, 300 )
+
+[node name="Support" type="Panel" parent="ScrollContainer/ShopOptions"]
+margin_top = 520.0
+margin_right = 300.0
+margin_bottom = 820.0
+rect_min_size = Vector2( 300, 300 )
+
+[node name="SupportOptions" type="VBoxContainer" parent="ScrollContainer/ShopOptions/Support"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 280.0
+margin_bottom = 280.0
+rect_min_size = Vector2( 260, 0 )
+custom_constants/separation = 0
+
+[node name="Tips" type="Label" parent="ScrollContainer/ShopOptions/Support/SupportOptions"]
+margin_right = 260.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 120, 60 )
+text = "Tip Jar
+Show Support
+(+60 Coins)"
+align = 1
+valign = 2
+autowrap = true
+
+[node name="BuyTip" type="Button" parent="ScrollContainer/ShopOptions/Support/SupportOptions"]
+margin_top = 60.0
+margin_right = 260.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 120, 40 )
+text = "$0.99"
+
+[node name="Gems" type="Label" parent="ScrollContainer/ShopOptions/Support/SupportOptions"]
+margin_top = 100.0
+margin_right = 260.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 120, 30 )
+text = "Buy Coins"
+align = 1
+valign = 2
+autowrap = true
+
+[node name="GemOptions" type="HBoxContainer" parent="ScrollContainer/ShopOptions/Support/SupportOptions"]
+margin_top = 130.0
+margin_right = 260.0
+margin_bottom = 250.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="BuyGems1" type="Button" parent="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions"]
+margin_right = 80.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 80, 120 )
+
+[node name="Label" type="Label" parent="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "300
+(+15)
+
+$4.99"
+align = 1
+valign = 1
+
+[node name="BuyGems2" type="Button" parent="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions"]
+margin_left = 90.0
+margin_right = 170.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 80, 120 )
+
+[node name="Label" type="Label" parent="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "600
+(+30)
+
+$9.99"
+align = 1
+valign = 1
+
+[node name="BuyGems3" type="Button" parent="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions"]
+margin_left = 180.0
+margin_right = 260.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 80, 120 )
+
+[node name="Label" type="Label" parent="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "1500
+(+150)
+
+$19.99"
+align = 1
+valign = 1
+
+[node name="LoadoutMenu" parent="." instance=ExtResource( 2 )]
 
 [node name="Back" type="Button" parent="."]
 margin_left = 520.0
@@ -79,4 +223,10 @@ text = "999999"
 align = 1
 valign = 1
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[connection signal="button_up" from="ScrollContainer/ShopOptions/Support/SupportOptions/BuyTip" to="." method="_on_BuyTip_button_up"]
+[connection signal="button_up" from="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems1" to="." method="_on_BuyGems1_button_up"]
+[connection signal="button_up" from="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems2" to="." method="_on_BuyGems2_button_up"]
+[connection signal="button_up" from="ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems3" to="." method="_on_BuyGems3_button_up"]
 [connection signal="button_up" from="Back" to="." method="_on_Back_button_up"]
