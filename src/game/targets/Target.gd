@@ -14,7 +14,7 @@ func _physics_process(delta: float) -> void:
 		gravity = 0
 		velocity = Vector2.ZERO
 		shot = false
-	position += velocity * delta
+	global_position += velocity * delta
 	if velocity != Vector2.ZERO:
 		rotation = velocity.angle()
 	if shot:
@@ -23,7 +23,5 @@ func _physics_process(delta: float) -> void:
 func _on_Target_area_entered(area: Area2D) -> void:
 	if area.is_in_group("arrow"):
 		area.remove_from_group("arrow")
-		area.fired = false
-		area.get_parent().remove_child(area)
-		call_deferred("add_child",area)
+		area.stick_to(self)
 		shot = true

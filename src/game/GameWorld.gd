@@ -9,6 +9,12 @@ func _ready() -> void:
 	line_draw.add_point(Vector2.ZERO)
 	line_draw.add_point(Vector2.ZERO)
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		Engine.time_scale = 0.2
+	elif event.is_action_released("ui_cancel"):
+		Engine.time_scale = 1.0
+
 func _on_Back_pressed() -> void:
 	if get_tree().change_scene("res://src/menu/MainMenu.tscn") != OK:
 		push_error("fail to change scene")

@@ -4,6 +4,7 @@ signal update_draw(draw_start, draw_end)
 export var bow_elastic_force = 1000.0
 export var gravity = 10.0
 onready var reload_timer = $Timer
+onready var reload_bar = $ProgressBar
 onready var arrow_display = $ArrowDisplay
 onready var trajectory_draw = $TrajectoryDraw
 onready var draw_start = Vector2.ZERO
@@ -21,6 +22,7 @@ var state = States.READY
 
 func _ready() -> void:
 	arrow_display.visible = false
+	reload_bar.max_value = reload_timer.time_left
 
 func _input(event):
 	if state == States.READY:
@@ -35,6 +37,7 @@ func _input(event):
 			bow_move(event.position)
 
 func _physics_process(_delta):
+	reload_bar.value = reload_timer.time_left
 	match state:
 		States.AIMING:
 			if arrow_instance:
@@ -53,7 +56,7 @@ func load_projectile():
 	state = States.AIMING
 	arrow_instance = Arrow.instance()
 	get_parent().add_child(arrow_instance)
-	arrow_instance.position = global_position
+	arrow_instance.position = position
 	arrow_display.visible = true
 
 func bow_grab(touch_position: Vector2) -> void:
