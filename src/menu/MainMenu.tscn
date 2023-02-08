@@ -38,6 +38,27 @@ valign = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
 
+[node name="DuelOptions" type="VBoxContainer" parent="Panels/Menu/MenuOptions"]
+visible = false
+margin_left = 120.0
+margin_top = 160.0
+margin_right = 240.0
+margin_bottom = 260.0
+custom_constants/separation = 20
+
+[node name="VsComputer" type="Button" parent="Panels/Menu/MenuOptions/DuelOptions"]
+margin_right = 120.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 120, 40 )
+text = "VS Bot"
+
+[node name="VsHuman" type="Button" parent="Panels/Menu/MenuOptions/DuelOptions"]
+margin_top = 60.0
+margin_right = 120.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 120, 40 )
+text = "VS Human"
+
 [node name="Shop" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_right = 120.0
 margin_bottom = 40.0
@@ -61,6 +82,7 @@ margin_left = 120.0
 margin_top = 280.0
 margin_right = 240.0
 margin_bottom = 320.0
+toggle_mode = true
 text = "Duel"
 
 [node name="Quit" type="Button" parent="Panels/Menu/MenuOptions"]
@@ -89,5 +111,6 @@ color = Color( 0, 0, 0, 1 )
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Shop" to="." method="_on_Shop_button_up"]
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Hunt" to="." method="_on_Hunt_button_up"]
 [connection signal="pressed" from="Panels/Menu/MenuOptions/Range" to="." method="_on_Range_pressed"]
+[connection signal="toggled" from="Panels/Menu/MenuOptions/Duel" to="." method="_on_Duel_toggled"]
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Quit" to="." method="_on_Quit_button_up"]
 [connection signal="back" from="Panels/Hunt" to="." method="_on_Hunt_back"]

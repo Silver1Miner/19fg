@@ -1,8 +1,9 @@
 class_name Arrow
 extends Area2D
 
-onready var head = $CollisionShape2D
+signal landed()
 
+onready var head = $CollisionShape2D
 var fired = false
 export var mass = 10.0
 export var velocity = Vector2.ZERO
@@ -15,8 +16,10 @@ func deactivate() -> void:
 	gravity = 0
 	velocity = Vector2.ZERO
 	fired = false
+	emit_signal("landed")
 
 func stick_to(target: Area2D) -> void:
+	remove_from_group("arrow")
 	call_deferred("_reparent", target, target.global_position - global_position)
 
 func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
@@ -27,7 +30,7 @@ func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
 	deactivate()
 
 func _physics_process(delta: float) -> void:
-	if head.global_position.y > 330:
+	if fired and head.global_position.y > 330:
 		deactivate()
 	if fired:
 		velocity.y += gravity * mass * delta

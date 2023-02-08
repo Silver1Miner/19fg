@@ -1,8 +1,12 @@
 extends Node2D
 
 signal update_draw(draw_start, draw_end)
+export var player_group = "P1"
+export var enemy_group = "P2"
+export var hunting_mode = false
 export var bow_elastic_force = 1000.0
 export var gravity = 10.0
+onready var hitbox = $Hitbox
 onready var reload_timer = $Timer
 onready var reload_bar = $ProgressBar
 onready var arrow_display = $ArrowDisplay
@@ -28,6 +32,7 @@ func _input(event):
 	if state == States.READY:
 		if event is InputEventScreenTouch:
 			if event.is_pressed():
+				trajectory_draw.visible = true
 				bow_grab(event.position)
 	elif state == States.AIMING:
 		if event is InputEventScreenTouch:
@@ -35,6 +40,8 @@ func _input(event):
 				bow_release(event.position)
 		if event is InputEventScreenDrag:
 			bow_move(event.position)
+	else:
+		trajectory_draw.visible = false
 
 func _physics_process(_delta):
 	reload_bar.value = reload_timer.time_left
@@ -55,7 +62,9 @@ func update_impulse() -> Vector2:
 func load_projectile():
 	state = States.AIMING
 	arrow_instance = Arrow.instance()
+	arrow_instance.connect("landed", get_parent(), "_on_arrow_landed")
 	get_parent().add_child(arrow_instance)
+	arrow_instance.add_to_group(player_group)
 	arrow_instance.position = position
 	arrow_display.visible = true
 
@@ -89,8 +98,14 @@ func bow_release(touch_position: Vector2) -> void:
 	draw_end = Vector2.ZERO
 	emit_signal("update_draw", draw_start, draw_end)
 	state = States.IDLE
-	reload_timer.start()
+	if hunting_mode:
+		reload_timer.start()
 
 func _on_Timer_timeout() -> void:
-	if state == States.IDLE:
+	if hunting_mode and state == States.IDLE:
 		state = States.READY
+
+func _on_Hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group(enemy_group):
+		area.remove_from_group(enemy_group)
+		area.stick_to(hitbox)

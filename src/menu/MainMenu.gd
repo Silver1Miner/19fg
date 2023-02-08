@@ -3,6 +3,7 @@ extends Control
 var current_panel = 1
 onready var tween = $Tween
 onready var panes = $Panels
+onready var duel_options = $Panels/Menu/MenuOptions/DuelOptions
 
 func _ready() -> void:
 	if OS.get_name() in ["HTML5", "iOS", "Android"]:
@@ -35,3 +36,6 @@ func _on_Quit_button_up() -> void:
 func _on_Range_pressed() -> void:
 	if get_tree().change_scene("res://src/game/GameWorld.tscn") != OK:
 		push_error("fail to change scene")
+
+func _on_Duel_toggled(button_pressed: bool) -> void:
+	duel_options.visible = button_pressed
