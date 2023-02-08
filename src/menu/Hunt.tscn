@@ -1,12 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/ui/calendar/CalendarUI.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/menu/Hunt.gd" type="Script" id=2]
+[ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=3]
+[ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 30
+font_data = ExtResource( 4 )
 
 [node name="Hunt" type="Control"]
 margin_right = 640.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 640, 360 )
+theme = ExtResource( 3 )
 script = ExtResource( 2 )
 
 [node name="Back" type="Button" parent="."]
@@ -27,7 +34,7 @@ margin_top = 80.0
 margin_right = 260.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 0, 60 )
-max_value = 99.0
+step = 10.0
 align = 1
 
 [node name="Inventory" type="VBoxContainer" parent="."]
@@ -176,6 +183,7 @@ valign = 1
 margin_left = 280.0
 margin_right = 640.0
 margin_bottom = 40.0
+custom_fonts/font = SubResource( 1 )
 text = "HUNTING LOG"
 align = 1
 valign = 1
