@@ -9,6 +9,7 @@ export var gravity = 10.0
 onready var hitbox = $Hitbox
 onready var reload_timer = $Timer
 onready var reload_bar = $ProgressBar
+onready var aiming_sprite = $Aiming
 onready var arrow_display = $ArrowDisplay
 onready var trajectory_draw = $TrajectoryDraw
 onready var draw_start = Vector2.ZERO
@@ -49,6 +50,7 @@ func _physics_process(_delta):
 		States.AIMING:
 			if arrow_instance:
 				launch_impulse = update_impulse()
+				aiming_sprite.rotation = (draw_start - draw_end).angle()
 				arrow_display.rotation = (draw_start - draw_end).angle()
 				trajectory_draw.draw_trajectory(
 					launch_impulse / arrow_instance.mass,

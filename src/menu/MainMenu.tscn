@@ -5,7 +5,7 @@
 [ext_resource path="res://src/menu/Shop.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/menu/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://assets/backgrounds/horse-gab2ed9557_1280.png" type="Texture" id=6]
+[ext_resource path="res://assets/backgrounds/horse-g8169b04f9_640.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 36
@@ -25,7 +25,6 @@ script = ExtResource( 4 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 6 )
-expand = true
 
 [node name="Panels" type="HBoxContainer" parent="."]
 margin_left = -640.0
