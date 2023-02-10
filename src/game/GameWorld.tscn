@@ -6,16 +6,18 @@
 [node name="GameWorld" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Archer1" parent="." instance=ExtResource( 2 )]
+[node name="Archer" parent="." instance=ExtResource( 2 )]
 position = Vector2( 80, 280 )
 
 [node name="Archer2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 3
+frame = 1
 
 [node name="SpawnTimer" type="Timer" parent="."]
+
+[node name="Tick" type="Timer" parent="."]
 
 [node name="Spawner" type="Node2D" parent="."]
 
@@ -31,32 +33,44 @@ position = Vector2( -40, 40 )
 [node name="Position2D4" type="Position2D" parent="Spawner"]
 position = Vector2( -40, 80 )
 
-[node name="HUD" type="Control" parent="."]
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Back" type="Button" parent="HUD"]
+[node name="Back" type="Button" parent="CanvasLayer/HUD"]
 margin_right = 80.0
 margin_bottom = 40.0
 text = "Back"
 
-[node name="Angle" type="Label" parent="HUD"]
+[node name="Score" type="Label" parent="CanvasLayer/HUD"]
 margin_top = 80.0
 margin_right = 80.0
 margin_bottom = 160.0
 text = "Text"
 
-[node name="HSlider" type="HSlider" parent="HUD"]
+[node name="HSlider" type="HSlider" parent="CanvasLayer/HUD"]
 margin_left = 160.0
 margin_right = 520.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 360, 0 )
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="Angle" type="Label" parent="CanvasLayer/HUD"]
+margin_left = 80.0
+margin_top = 80.0
+margin_right = 120.0
+margin_bottom = 94.0
+text = "0"
 
-[connection signal="update_draw" from="Archer1" to="." method="_on_Archer_update_draw"]
+[connection signal="arrow_fired" from="Archer" to="." method="_on_Archer_arrow_fired"]
+[connection signal="increase_score" from="Archer" to="." method="_on_Archer_increase_score"]
+[connection signal="update_draw" from="Archer" to="." method="_on_Archer_update_draw"]
 [connection signal="update_draw" from="Archer2" to="." method="_on_Archer_update_draw"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
-[connection signal="pressed" from="HUD/Back" to="." method="_on_Back_pressed"]
+[connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
+[connection signal="pressed" from="CanvasLayer/HUD/Back" to="." method="_on_Back_pressed"]
 
 [editable path="Archer2"]

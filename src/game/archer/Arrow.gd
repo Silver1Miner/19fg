@@ -41,5 +41,6 @@ func _physics_process(delta: float) -> void:
 	elif on_ground:
 		global_position += Vector2.LEFT * 50 * delta
 	if global_position.x < -80:
+		emit_signal("landed")
 		print("arrow out of range")
 		queue_free()

@@ -1,6 +1,8 @@
 extends Node2D
 
 signal update_draw(draw_start, draw_end)
+signal arrow_fired()
+signal increase_score(score_increase)
 export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
@@ -11,12 +13,12 @@ onready var pickupbox = $PickupBox
 onready var reload_timer = $Timer
 onready var reload_bar = $ProgressBar
 onready var aiming_sprite = $Aiming
-onready var arrow_display = $ArrowDisplay
 onready var trajectory_draw = $TrajectoryDraw
 onready var draw_start = Vector2.ZERO
 onready var draw_end = Vector2.ZERO
 var launch_impulse = Vector2.ZERO
 var Arrow = preload("res://src/game/archer/Arrow.tscn")
+var FCT = preload("res://src/game/effects/FCT.tscn")
 var arrow_instance = null
 
 enum States {
@@ -27,11 +29,10 @@ enum States {
 var state = States.READY
 
 func _ready() -> void:
-	arrow_display.visible = false
 	reload_bar.max_value = reload_timer.time_left
 
 func active_toggle(disable: bool) -> void:
-	#visible = disable
+	visible = disable
 	hitbox.monitoring = disable
 	pickupbox.monitoring = disable
 
@@ -57,7 +58,6 @@ func _physics_process(_delta):
 			if arrow_instance:
 				launch_impulse = update_impulse()
 				aiming_sprite.rotation = (draw_start - draw_end).angle()
-				arrow_display.rotation = (draw_start - draw_end).angle()
 				trajectory_draw.draw_trajectory(
 					launch_impulse / arrow_instance.mass,
 					arrow_instance.global_position,
@@ -74,7 +74,7 @@ func load_projectile():
 	get_parent().add_child(arrow_instance)
 	arrow_instance.add_to_group(player_group)
 	arrow_instance.position = position
-	arrow_display.visible = true
+	arrow_instance.visible = false
 
 func bow_grab(touch_position: Vector2) -> void:
 	if state == States.IDLE:
@@ -96,12 +96,12 @@ func bow_release(touch_position: Vector2) -> void:
 	print("fire! at ", touch_position)
 	draw_end = touch_position
 	if arrow_instance:
-		arrow_display.visible = false
 		arrow_instance.visible = true
 		arrow_instance.gravity = gravity * 10
 		arrow_instance.fired = true
 		arrow_instance.velocity = launch_impulse
 		arrow_instance = null
+		emit_signal("arrow_fired")
 	draw_start = Vector2.ZERO
 	draw_end = Vector2.ZERO
 	emit_signal("update_draw", draw_start, draw_end)
@@ -121,5 +121,10 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 func _on_PickupBox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("prize"):
 		print("prize collected")
+		var fct = FCT.instance()
+		get_parent().add_child(fct)
+		fct.rect_position = global_position
+		fct.show_value(str(area.score_value), Vector2(0,-8), 1, PI/2, false)
+		emit_signal("increase_score", area.score_value)
 		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")
 		area.queue_free()
