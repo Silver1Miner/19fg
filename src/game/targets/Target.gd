@@ -3,22 +3,26 @@ class_name Target
 
 var shot = false
 onready var body = $CollisionShape2D
-export var mass = 10.0
-export var velocity = Vector2.RIGHT * 100
+export var mass = 0.1
+export var speed = 50
+export var direction = Vector2.RIGHT
 
 func _ready() -> void:
-	pass
+	add_to_group("prize")
 
 func _physics_process(delta: float) -> void:
+	if body.global_position.x < -80 or body.global_position.x > 640 + 80:
+		print("target out of range")
+		queue_free()
 	if body.global_position.y > 330:
 		gravity = 0
-		velocity = Vector2.ZERO
+		direction = Vector2.LEFT
 		shot = false
-	global_position += velocity * delta
-	if velocity != Vector2.ZERO:
-		rotation = velocity.angle()
+	global_position += direction * speed * delta
+	if direction.y != 0:
+		rotation = direction.angle()
 	if shot:
-		velocity.y += gravity * mass * delta
+		direction.y += gravity * mass * delta
 
 func _on_Target_area_entered(area: Area2D) -> void:
 	if area.is_in_group("arrow"):

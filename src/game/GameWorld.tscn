@@ -7,13 +7,13 @@
 script = ExtResource( 1 )
 
 [node name="Archer1" parent="." instance=ExtResource( 2 )]
-position = Vector2( 120, 280 )
+position = Vector2( 80, 280 )
 
 [node name="Archer2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 8
+frame = 3
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -41,9 +41,9 @@ margin_bottom = 40.0
 text = "Back"
 
 [node name="Angle" type="Label" parent="HUD"]
-margin_top = 280.0
+margin_top = 80.0
 margin_right = 80.0
-margin_bottom = 360.0
+margin_bottom = 160.0
 text = "Text"
 
 [node name="HSlider" type="HSlider" parent="HUD"]

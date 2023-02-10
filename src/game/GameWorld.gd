@@ -3,7 +3,7 @@ extends Node2D
 enum GameModes {HUNT,DUEL,PRACTICE}
 enum DuelStates {P1TURN, P2TURN, END}
 export var duel_state = DuelStates.END
-export var game_mode = GameModes.DUEL
+export var game_mode = GameModes.HUNT
 export var targets = preload("res://src/game/targets/Target.tscn")
 onready var line_draw = $Line2D
 onready var angle_display = $HUD/Angle
@@ -26,15 +26,18 @@ func change_game_mode(new_mode: int) -> void:
 		0: # HUNT
 			archer1.state = 1
 			archer2.state = 0
+			archer2.active_toggle(false)
 			spawn_timer.start()
 		1: # DUEL
 			duel_state = DuelStates.P1TURN
+			archer2.active_toggle(true)
 			archer1.state = 1
 			archer2.state = 0
 			spawn_timer.stop()
 		2: # PRACTICE
 			archer1.state = 1
 			archer2.state = 0
+			archer2.active_toggle(false)
 			spawn_timer.stop()
 
 func _input(event: InputEvent) -> void:
@@ -47,6 +50,8 @@ func _on_arrow_landed() -> void:
 	print("arrow landed")
 	if game_mode == GameModes.DUEL:
 		next_turn()
+	else:
+		archer1.state = 1
 
 func next_turn() -> void:
 	if duel_state == DuelStates.P1TURN:
@@ -70,5 +75,6 @@ func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
 func _on_SpawnTimer_timeout() -> void:
 	var target_instance = targets.instance()
 	add_child(target_instance)
-	target_instance.global_position = $Spawner/Position2D2.global_position
-	target_instance.velocity = Vector2.LEFT * 100
+	target_instance.global_position = $Spawner/Position2D4.global_position
+	target_instance.direction = Vector2.RIGHT
+	spawn_timer.start()

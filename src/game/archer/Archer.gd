@@ -7,6 +7,7 @@ export var hunting_mode = false
 export var bow_elastic_force = 1000.0
 export var gravity = 10.0
 onready var hitbox = $Hitbox
+onready var pickupbox = $PickupBox
 onready var reload_timer = $Timer
 onready var reload_bar = $ProgressBar
 onready var aiming_sprite = $Aiming
@@ -28,6 +29,11 @@ var state = States.READY
 func _ready() -> void:
 	arrow_display.visible = false
 	reload_bar.max_value = reload_timer.time_left
+
+func active_toggle(disable: bool) -> void:
+	#visible = disable
+	hitbox.monitoring = disable
+	pickupbox.monitoring = disable
 
 func _input(event):
 	if state == States.READY:
@@ -111,3 +117,9 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group(enemy_group):
 		area.remove_from_group(enemy_group)
 		area.stick_to(hitbox)
+
+func _on_PickupBox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("prize"):
+		print("prize collected")
+		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")
+		area.queue_free()

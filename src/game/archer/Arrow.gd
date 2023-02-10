@@ -5,6 +5,7 @@ signal landed()
 
 onready var head = $CollisionShape2D
 var fired = false
+var on_ground = false
 export var mass = 10.0
 export var velocity = Vector2.ZERO
 
@@ -19,7 +20,6 @@ func deactivate() -> void:
 	emit_signal("landed")
 
 func stick_to(target: Area2D) -> void:
-	remove_from_group("arrow")
 	call_deferred("_reparent", target, target.global_position - global_position)
 
 func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
@@ -30,9 +30,16 @@ func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
 	deactivate()
 
 func _physics_process(delta: float) -> void:
-	if fired and head.global_position.y > 330:
-		deactivate()
 	if fired:
+		if head.global_position.y > 350:
+			deactivate()
+			on_ground = true
+			return
 		velocity.y += gravity * mass * delta
 		global_position += velocity * delta
 		global_rotation = velocity.angle()
+	elif on_ground:
+		global_position += Vector2.LEFT * 50 * delta
+	if global_position.x < -80:
+		print("arrow out of range")
+		queue_free()

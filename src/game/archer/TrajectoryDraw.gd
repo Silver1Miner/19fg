@@ -28,7 +28,8 @@ func _draw() -> void:
 	var col = points.color
 	if drawing:
 		var angle = -initial_velocity.angle()
-		for i in range (20):
+		#for i in range (20):
+		for i in range (200):
 			var x = i * (points.gap)
 			var pos = Vector2(x, trajectory_equation(
 				x,
@@ -36,7 +37,8 @@ func _draw() -> void:
 				gravity,
 				initial_velocity.length())
 			)
-			col.a = 1 - (i / 50.0)
+			col.a = 1
+			#col.a = 1 - (i / 50.0)
 			draw_circle(pos, points.radius * (col.a + 0.1), col)
 
 func trajectory_equation(x: float, teta: float, g: float, v0: float) -> float:
