@@ -1,6 +1,6 @@
 [gd_scene format=2]
 
-[node name="LoadoutMenu" type="Panel"]
+[node name="LoadoutMenu" type="Control"]
 margin_left = 320.0
 margin_top = 40.0
 margin_right = 640.0

@@ -1,11 +1,13 @@
 extends Node2D
 
+signal end_game()
 enum GameModes {HUNT,DUEL,PRACTICE}
 enum DuelStates {P1TURN, P2TURN, END}
 export var duel_state = DuelStates.END
 export var game_mode = GameModes.HUNT
 export var targets = preload("res://src/game/targets/Target.tscn")
 onready var line_draw = $Line2D
+onready var game_objects = $GameObjects
 onready var score_display = $CanvasLayer/HUD/Score
 onready var angle_display = $CanvasLayer/HUD/Angle
 onready var spawn_timer = $SpawnTimer
@@ -13,35 +15,50 @@ onready var tick = $Tick
 onready var archer1 = $Archer
 onready var archer2 = $Archer2
 onready var hud = $CanvasLayer/HUD
+onready var clock_display = $CanvasLayer/HUD/Clock
+var current_seed = 1
 var score = 0
+var seconds = 0
+var minutes = 0
 var arrows = 10
-var time = 0
+var shots = 0
+var hits = 0
+var game_started = false
 
 func _ready() -> void:
+	hud.visible = false
+	archer1.state = 0
+	archer2.state = 0
 	line_draw.add_point(Vector2.ZERO)
 	line_draw.add_point(Vector2.ZERO)
-	change_game_mode(game_mode)
-	archer1.player_group = "P1"
-	archer1.enemy_group = "P2"
-	archer2.player_group = "P2"
-	archer2.enemy_group = "P1"
-	hud.get_node("Score").text = str(score)
 
-func change_game_mode(new_mode: int) -> void:
+func start_game(new_mode: int) -> void:
+	game_started = true
+	hud.visible = true
 	game_mode = new_mode
 	match game_mode:
 		0: # HUNT
+			clock_display.visible = true
+			seconds = 0
+			minutes = 0
+			arrows = UserData.arrows_brought
+			clock_display.text = "00:00"
+			tick.start(1.0)
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
 			spawn_timer.start()
 		1: # DUEL
+			clock_display.visible = false
+			tick.stop()
 			duel_state = DuelStates.P1TURN
 			archer2.active_toggle(true)
 			archer1.state = 1
 			archer2.state = 0
 			spawn_timer.stop()
 		2: # PRACTICE
+			clock_display.visible = false
+			tick.stop()
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
@@ -57,7 +74,7 @@ func _on_arrow_landed() -> void:
 	print("arrow landed")
 	if game_mode == GameModes.DUEL:
 		next_turn()
-	else:
+	elif game_started:
 		archer1.state = 1
 
 func next_turn() -> void:
@@ -71,8 +88,7 @@ func next_turn() -> void:
 		archer2.state = 0
 
 func _on_Back_pressed() -> void:
-	if get_tree().change_scene("res://src/menu/MainMenu.tscn") != OK:
-		push_error("fail to change scene")
+	end_game()
 
 func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
 	line_draw.points[0] = draw_start
@@ -83,7 +99,7 @@ func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
 
 func _on_SpawnTimer_timeout() -> void:
 	var target_instance = targets.instance()
-	add_child(target_instance)
+	game_objects.add_child(target_instance)
 	target_instance.global_position = $Spawner/Position2D4.global_position
 	target_instance.direction = Vector2.RIGHT
 
@@ -95,4 +111,37 @@ func _on_Archer_increase_score(score_increase) -> void:
 	score_display.text = str(score)
 
 func _on_Tick_timeout() -> void:
-	time += 1
+	seconds += 1
+	if seconds < 0:
+		seconds = 1
+	elif seconds >= 60:
+		minutes += 1
+		seconds = 0
+	var minute_display = ""
+	if minutes < 10:
+		minute_display = "0" + str(minutes)
+	else:
+		minute_display = str(minutes)
+	var second_display = ""
+	if seconds < 10:
+		second_display = "0" + str(int(seconds))
+	else:
+		second_display = str(int(seconds))
+	clock_display.text = minute_display + ":" + second_display
+
+func _on_Home_button_up() -> void:
+	# save game result
+	end_game()
+
+func end_game() -> void:
+	game_started = false
+	for obj in game_objects.get_children():
+		game_objects.remove_child(obj)
+		obj.queue_free()
+	archer1.state = 0
+	archer2.state = 0
+	spawn_timer.stop()
+	tick.stop()
+	hud.visible = false
+	emit_signal("end_game")
+

@@ -1,6 +1,7 @@
 extends Control
 
 signal back()
+signal start_hunt()
 onready var date_display = $HuntDisplay/DateDisplay
 
 func _ready() -> void:
@@ -12,3 +13,6 @@ func _on_Back_button_up() -> void:
 func _on_CalendarUI_date_selected(date_obj: Date) -> void:
 	if date_display:
 		date_display.text = str(date_obj.get_year()) + "/" + str(date_obj.get_month()) + "/" + str(date_obj.get_day())
+
+func _on_Hunt_pressed() -> void:
+	emit_signal("start_hunt")

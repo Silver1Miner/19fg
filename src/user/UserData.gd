@@ -1,6 +1,8 @@
 extends Node
 
 const privacy_policy_link = "https://itch.io/t/2578167/privacy-policy"
+var current_game_mode = 0
+var arrows_brought = 10
 # SETTINGS
 var jukebox_index = 0
 var mute_music = false

@@ -1,5 +1,10 @@
 extends Control
 
+signal to_shop()
+signal to_main()
+signal to_log()
+signal start_practice()
+signal start_hunt()
 var current_panel = 1
 onready var tween = $Tween
 onready var panes = $Panels
@@ -11,6 +16,12 @@ func _ready() -> void:
 
 func change_panel(select: int) -> void:
 	current_panel = select
+	if current_panel == 0:
+		emit_signal("to_shop")
+	elif current_panel == 1:
+		emit_signal("to_main")
+	elif current_panel == 2:
+		emit_signal("to_log")
 	if tween:
 		Audio.play_slide()
 		tween.interpolate_property(panes, "rect_position:x",
@@ -34,8 +45,10 @@ func _on_Quit_button_up() -> void:
 	get_tree().quit()
 
 func _on_Range_pressed() -> void:
-	if get_tree().change_scene("res://src/game/GameWorld.tscn") != OK:
-		push_error("fail to change scene")
+	emit_signal("start_practice")
 
 func _on_Duel_toggled(button_pressed: bool) -> void:
 	duel_options.visible = button_pressed
+
+func _on_Hunt_start_hunt() -> void:
+	emit_signal("start_hunt")

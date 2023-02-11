@@ -189,4 +189,5 @@ align = 1
 valign = 1
 
 [connection signal="button_up" from="Back" to="." method="_on_Back_button_up"]
+[connection signal="pressed" from="Hunt" to="." method="_on_Hunt_pressed"]
 [connection signal="date_selected" from="CalendarUI" to="." method="_on_CalendarUI_date_selected"]

@@ -25,7 +25,7 @@ func stick_to(target: Area2D) -> void:
 func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
 	get_parent().remove_child(self)
 	new_parent.add_child(self)
-	global_position = new_parent.global_position - hit_pos
+	global_position = new_parent.global_position - (hit_pos*0.2)
 	global_rotation = velocity.angle()
 	deactivate()
 

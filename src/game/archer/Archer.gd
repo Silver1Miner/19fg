@@ -8,10 +8,10 @@ export var enemy_group = "P2"
 export var hunting_mode = false
 export var bow_elastic_force = 1000.0
 export var gravity = 10.0
+onready var game_objects = get_node_or_null("../GameObjects")
 onready var hitbox = $Hitbox
 onready var pickupbox = $PickupBox
 onready var reload_timer = $Timer
-onready var reload_bar = $ProgressBar
 onready var aiming_sprite = $Aiming
 onready var trajectory_draw = $TrajectoryDraw
 onready var draw_start = Vector2.ZERO
@@ -29,7 +29,7 @@ enum States {
 var state = States.READY
 
 func _ready() -> void:
-	reload_bar.max_value = reload_timer.time_left
+	pass
 
 func active_toggle(disable: bool) -> void:
 	visible = disable
@@ -52,7 +52,6 @@ func _input(event):
 		trajectory_draw.visible = false
 
 func _physics_process(_delta):
-	reload_bar.value = reload_timer.time_left
 	match state:
 		States.AIMING:
 			if arrow_instance:
@@ -69,12 +68,13 @@ func update_impulse() -> Vector2:
 
 func load_projectile():
 	state = States.AIMING
-	arrow_instance = Arrow.instance()
-	arrow_instance.connect("landed", get_parent(), "_on_arrow_landed")
-	get_parent().add_child(arrow_instance)
-	arrow_instance.add_to_group(player_group)
-	arrow_instance.position = position
-	arrow_instance.visible = false
+	if game_objects:
+		arrow_instance = Arrow.instance()
+		game_objects.add_child(arrow_instance)
+		arrow_instance.connect("landed", get_parent(), "_on_arrow_landed")
+		arrow_instance.add_to_group(player_group)
+		arrow_instance.position = position
+		arrow_instance.visible = false
 
 func bow_grab(touch_position: Vector2) -> void:
 	if state == States.IDLE:
