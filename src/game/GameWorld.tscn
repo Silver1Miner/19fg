@@ -16,7 +16,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 7
+frame = 9
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -50,26 +50,172 @@ margin_right = 80.0
 margin_bottom = 40.0
 text = "Back"
 
-[node name="Score" type="Label" parent="CanvasLayer/HUD"]
-margin_top = 80.0
-margin_right = 80.0
-margin_bottom = 160.0
-text = "Text"
+[node name="Accuracy" type="VBoxContainer" parent="CanvasLayer/HUD"]
+margin_left = 500.0
+margin_right = 565.0
+margin_bottom = 48.0
+custom_constants/separation = 0
 
-[node name="Angle" type="Label" parent="CanvasLayer/HUD"]
-margin_left = 80.0
-margin_top = 80.0
-margin_right = 120.0
-margin_bottom = 94.0
-text = "0"
+[node name="Shots" type="HBoxContainer" parent="CanvasLayer/HUD/Accuracy"]
+margin_right = 65.0
+margin_bottom = 24.0
 
-[node name="Clock" type="Label" parent="CanvasLayer/HUD"]
-margin_left = 560.0
-margin_right = 640.0
-margin_bottom = 40.0
+[node name="Label" type="Label" parent="CanvasLayer/HUD/Accuracy/Shots"]
+margin_right = 41.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 40, 20 )
+text = "Shots:"
+align = 2
+
+[node name="ShotsValue" type="Label" parent="CanvasLayer/HUD/Accuracy/Shots"]
+margin_left = 45.0
+margin_right = 65.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 20 )
+text = "99"
+align = 1
+
+[node name="Hits" type="HBoxContainer" parent="CanvasLayer/HUD/Accuracy"]
+margin_top = 24.0
+margin_right = 65.0
+margin_bottom = 48.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/Accuracy/Hits"]
+margin_right = 40.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 40, 20 )
+text = "Hits:"
+align = 2
+
+[node name="HitsValue" type="Label" parent="CanvasLayer/HUD/Accuracy/Hits"]
+margin_left = 44.0
+margin_right = 64.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 20 )
+text = "99"
+align = 1
+
+[node name="Status" type="VBoxContainer" parent="CanvasLayer/HUD"]
+margin_left = 100.0
+margin_right = 214.0
+margin_bottom = 48.0
+custom_constants/separation = 0
+
+[node name="Clock" type="Label" parent="CanvasLayer/HUD/Status"]
+margin_right = 114.0
+margin_bottom = 24.0
 text = "00:00"
 align = 1
 valign = 1
+
+[node name="Score" type="HBoxContainer" parent="CanvasLayer/HUD/Status"]
+margin_top = 24.0
+margin_right = 114.0
+margin_bottom = 48.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/Status/Score"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Score:"
+align = 2
+
+[node name="ScoreValue" type="Label" parent="CanvasLayer/HUD/Status/Score"]
+margin_left = 54.0
+margin_right = 114.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 60, 0 )
+text = "999999"
+
+[node name="Aim" type="VBoxContainer" parent="CanvasLayer/HUD"]
+margin_left = 240.0
+margin_right = 324.0
+margin_bottom = 48.0
+custom_constants/separation = 0
+
+[node name="Angle" type="HBoxContainer" parent="CanvasLayer/HUD/Aim"]
+margin_right = 84.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/Aim/Angle"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Angle:"
+align = 2
+
+[node name="AngleValue" type="Label" parent="CanvasLayer/HUD/Aim/Angle"]
+margin_left = 54.0
+margin_right = 84.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 30, 0 )
+text = "0"
+align = 1
+
+[node name="Power" type="HBoxContainer" parent="CanvasLayer/HUD/Aim"]
+margin_top = 24.0
+margin_right = 84.0
+margin_bottom = 48.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/Aim/Power"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Power:"
+align = 2
+
+[node name="PowerValue" type="Label" parent="CanvasLayer/HUD/Aim/Power"]
+margin_left = 54.0
+margin_right = 84.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 30, 0 )
+text = "0"
+align = 1
+
+[node name="Inventory" type="VBoxContainer" parent="CanvasLayer/HUD"]
+margin_left = 400.0
+margin_right = 484.0
+margin_bottom = 48.0
+custom_constants/separation = 0
+
+[node name="Arrows" type="HBoxContainer" parent="CanvasLayer/HUD/Inventory"]
+margin_right = 84.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/Inventory/Arrows"]
+margin_right = 60.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 60, 0 )
+text = "Arrows:"
+align = 2
+
+[node name="ArrowValue" type="Label" parent="CanvasLayer/HUD/Inventory/Arrows"]
+margin_left = 64.0
+margin_right = 84.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 0 )
+text = "99"
+align = 1
+
+[node name="Bagged" type="HBoxContainer" parent="CanvasLayer/HUD/Inventory"]
+margin_top = 24.0
+margin_right = 84.0
+margin_bottom = 48.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/Inventory/Bagged"]
+margin_right = 60.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 60, 0 )
+text = "Bagged:"
+align = 2
+
+[node name="BaggedValeu" type="Label" parent="CanvasLayer/HUD/Inventory/Bagged"]
+margin_left = 64.0
+margin_right = 84.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 20, 0 )
+text = "99"
+align = 1
 
 [node name="GameOver" type="ColorRect" parent="CanvasLayer/HUD"]
 visible = false

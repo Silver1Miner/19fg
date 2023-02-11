@@ -7,28 +7,34 @@ export var duel_state = DuelStates.END
 export var game_mode = GameModes.HUNT
 export var targets = preload("res://src/game/targets/Target.tscn")
 onready var line_draw = $Line2D
+onready var game_over = $CanvasLayer/HUD/GameOver
 onready var game_objects = $GameObjects
-onready var score_display = $CanvasLayer/HUD/Score
-onready var angle_display = $CanvasLayer/HUD/Angle
+onready var status_display = $CanvasLayer/HUD/Status
+onready var score_display = $CanvasLayer/HUD/Status/Score/ScoreValue
+onready var angle_display = $CanvasLayer/HUD/Aim/Angle/AngleValue
 onready var spawn_timer = $SpawnTimer
 onready var tick = $Tick
 onready var archer1 = $Archer
 onready var archer2 = $Archer2
 onready var hud = $CanvasLayer/HUD
-onready var clock_display = $CanvasLayer/HUD/Clock
+onready var clock_display = $CanvasLayer/HUD/Status/Clock
+onready var shots_display = $CanvasLayer/HUD/Accuracy/Shots/ShotsValue
+onready var hits_display = $CanvasLayer/HUD/Accuracy/Hits/HitsValue
+onready var arrow_display = $CanvasLayer/HUD/Inventory/Arrows/ArrowValue
 var current_seed = 1
-var score = 0
+var score = 0 setget _set_score
 var seconds = 0
 var minutes = 0
-var arrows = 10
-var shots = 0
-var hits = 0
+var arrows = 10 setget _set_arrows
+var shots = 0 setget _set_shots
+var hits = 0 setget _set_hits
 var game_started = false
 
 func _ready() -> void:
 	hud.visible = false
 	archer1.state = 0
 	archer2.state = 0
+	archer2.active_toggle(false)
 	line_draw.add_point(Vector2.ZERO)
 	line_draw.add_point(Vector2.ZERO)
 
@@ -38,10 +44,13 @@ func start_game(new_mode: int) -> void:
 	game_mode = new_mode
 	match game_mode:
 		0: # HUNT
-			clock_display.visible = true
+			status_display.visible = true
 			seconds = 0
 			minutes = 0
-			arrows = UserData.arrows_brought
+			_set_score(0)
+			_set_shots(0)
+			_set_hits(0)
+			_set_arrows(UserData.arrows_brought)
 			clock_display.text = "00:00"
 			tick.start(1.0)
 			archer1.state = 1
@@ -49,7 +58,7 @@ func start_game(new_mode: int) -> void:
 			archer2.active_toggle(false)
 			spawn_timer.start()
 		1: # DUEL
-			clock_display.visible = false
+			status_display.visible = false
 			tick.stop()
 			duel_state = DuelStates.P1TURN
 			archer2.active_toggle(true)
@@ -57,7 +66,7 @@ func start_game(new_mode: int) -> void:
 			archer2.state = 0
 			spawn_timer.stop()
 		2: # PRACTICE
-			clock_display.visible = false
+			status_display.visible = false
 			tick.stop()
 			archer1.state = 1
 			archer2.state = 0
@@ -88,27 +97,42 @@ func next_turn() -> void:
 		archer2.state = 0
 
 func _on_Back_pressed() -> void:
-	end_game()
+	if game_mode == GameModes.HUNT:
+		game_over.visible = true
+	else:
+		end_game()
 
 func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
 	line_draw.points[0] = draw_start
 	line_draw.points[1] = draw_end
-	var angle = 180 - rad2deg((draw_end - draw_start).angle())
+	var angle = rad2deg((draw_end - draw_start).angle())
+	var angle_displayed = 0
+	if angle < 0.0:
+		angle_displayed = -180.0 - angle
+	elif angle < 180.0 and angle > 0:
+		angle_displayed = 180.0 - angle
+	else:
+		angle_displayed = 0.0
+	angle_display.text = str(stepify(angle_displayed, 0.01))
 	print(angle)
-	angle_display = str(angle)
 
 func _on_SpawnTimer_timeout() -> void:
 	var target_instance = targets.instance()
 	game_objects.add_child(target_instance)
+	if target_instance.connect("shot", self, "_on_target_hit") != OK:
+		push_error("fail to connect target shot signal")
 	target_instance.global_position = $Spawner/Position2D4.global_position
 	target_instance.direction = Vector2.RIGHT
 
 func _on_Archer_arrow_fired() -> void:
-	pass # Replace with function body.
+	_set_shots(shots + 1)
+	_set_arrows(arrows - 1)
 
-func _on_Archer_increase_score(score_increase) -> void:
-	score += score_increase
-	score_display.text = str(score)
+func _on_target_hit() -> void:
+	_set_hits(hits + 1)
+
+func _on_Archer_increase_score(score_increase: int) -> void:
+	_set_score(score + score_increase)
 
 func _on_Tick_timeout() -> void:
 	seconds += 1
@@ -145,3 +169,18 @@ func end_game() -> void:
 	hud.visible = false
 	emit_signal("end_game")
 
+func _set_score(new_value: int) -> void:
+	score = new_value
+	score_display.text = str(score)
+
+func _set_arrows(new_value: int) -> void:
+	arrows = new_value
+	arrow_display.text = str(arrows)
+
+func _set_shots(new_value: int) -> void:
+	shots = new_value
+	shots_display.text = str(shots)
+
+func _set_hits(new_value: int) -> void:
+	hits = new_value
+	hits_display.text = str(hits)

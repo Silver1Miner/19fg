@@ -1,7 +1,8 @@
 extends Area2D
 class_name Target
 
-var shot = false
+signal shot()
+var is_shot = false
 onready var body = $CollisionShape2D
 onready var anim = $AnimationPlayer
 export var mass = 0.1
@@ -20,11 +21,11 @@ func _physics_process(delta: float) -> void:
 	if body.global_position.y > 330:
 		gravity = 0
 		direction = Vector2.LEFT
-		shot = false
+		is_shot = false
 	global_position += direction * speed * delta
 	if direction.y != 0:
 		rotation = direction.angle()
-	if shot:
+	if is_shot:
 		direction.y += gravity * mass * delta
 
 func _on_Target_area_entered(area: Area2D) -> void:
@@ -34,4 +35,5 @@ func _on_Target_area_entered(area: Area2D) -> void:
 		var impulse = area.velocity.normalized()
 		direction += Vector2(impulse.x, impulse.y * 5)
 		area.stick_to(self)
-		shot = true
+		is_shot = true
+		emit_signal("shot")
