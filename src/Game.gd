@@ -13,7 +13,7 @@ func _ready() -> void:
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "move_game":
 		if start:
-			gameworld.start_game(current_game_mode)
+			gameworld.set_game_mode(current_game_mode)
 		else:
 			main_menu.visible = true
 
@@ -34,4 +34,13 @@ func _on_MainMenu_start_hunt() -> void:
 	anim.play("move_game")
 
 func _on_MainMenu_to_shop() -> void:
-	pass
+	anim.play("to_store")
+
+func _on_MainMenu_to_log() -> void:
+	anim.play("to_log")
+
+func _on_MainMenu_shop_to_main() -> void:
+	anim.play_backwards("to_store")
+
+func _on_MainMenu_log_to_main() -> void:
+	anim.play_backwards("to_log")

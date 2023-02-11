@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/menu/Hunt.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/menu/Shop.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/menu/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://src/menu/Settings.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 36
@@ -48,9 +49,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="DuelOptions" type="VBoxContainer" parent="Panels/Menu/MenuOptions"]
-margin_top = 160.0
+margin_top = 140.0
 margin_right = 120.0
-margin_bottom = 260.0
+margin_bottom = 240.0
 custom_constants/separation = 20
 
 [node name="VsComputer" type="Button" parent="Panels/Menu/MenuOptions/DuelOptions"]
@@ -79,24 +80,33 @@ text = "Hunt"
 
 [node name="Range" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_left = 520.0
-margin_top = 280.0
+margin_top = 260.0
 margin_right = 640.0
-margin_bottom = 320.0
+margin_bottom = 300.0
 text = "Practice"
 
 [node name="Duel" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_top = 280.0
+margin_top = 260.0
 margin_right = 120.0
-margin_bottom = 320.0
+margin_bottom = 300.0
 toggle_mode = true
 text = "Duel"
 
 [node name="Quit" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 260.0
 margin_top = 320.0
-margin_right = 380.0
+margin_right = 120.0
 margin_bottom = 360.0
 text = "Quit"
+
+[node name="Settings" type="Button" parent="Panels/Menu/MenuOptions"]
+margin_left = 520.0
+margin_top = 320.0
+margin_right = 640.0
+margin_bottom = 360.0
+text = "Settings"
+
+[node name="Settings" parent="Panels/Menu" instance=ExtResource( 6 )]
+visible = false
 
 [node name="Hunt" parent="Panels" instance=ExtResource( 2 )]
 margin_left = 1280.0
@@ -119,5 +129,6 @@ color = Color( 0, 0, 0, 1 )
 [connection signal="pressed" from="Panels/Menu/MenuOptions/Range" to="." method="_on_Range_pressed"]
 [connection signal="toggled" from="Panels/Menu/MenuOptions/Duel" to="." method="_on_Duel_toggled"]
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Quit" to="." method="_on_Quit_button_up"]
+[connection signal="pressed" from="Panels/Menu/MenuOptions/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="back" from="Panels/Hunt" to="." method="_on_Hunt_back"]
 [connection signal="start_hunt" from="Panels/Hunt" to="." method="_on_Hunt_start_hunt"]

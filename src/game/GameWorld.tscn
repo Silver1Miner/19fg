@@ -16,7 +16,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 9
+frame = 10
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -230,6 +230,30 @@ margin_right = 400.0
 margin_bottom = 320.0
 text = "Home"
 
+[node name="Instructions" type="ColorRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 3 )
+color = Color( 0, 0, 0, 0.392157 )
+
+[node name="Start" type="Button" parent="CanvasLayer/Instructions"]
+margin_left = 280.0
+margin_top = 300.0
+margin_right = 360.0
+margin_bottom = 340.0
+text = "Start"
+
+[node name="Label" type="Label" parent="CanvasLayer/Instructions"]
+margin_left = 160.0
+margin_top = 120.0
+margin_right = 480.0
+margin_bottom = 240.0
+text = "touch to notch arrow
+drag to pull back arrow
+release to fire arrow"
+align = 1
+valign = 1
+
 [connection signal="arrow_fired" from="Archer" to="." method="_on_Archer_arrow_fired"]
 [connection signal="increase_score" from="Archer" to="." method="_on_Archer_increase_score"]
 [connection signal="update_draw" from="Archer" to="." method="_on_Archer_update_draw"]
@@ -238,5 +262,6 @@ text = "Home"
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
 [connection signal="pressed" from="CanvasLayer/HUD/Back" to="." method="_on_Back_pressed"]
 [connection signal="button_up" from="CanvasLayer/HUD/GameOver/Home" to="." method="_on_Home_button_up"]
+[connection signal="button_up" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_button_up"]
 
 [editable path="Archer2"]

@@ -7,6 +7,7 @@ var arrows_brought = 10
 var jukebox_index = 0
 var mute_music = false
 var mute_sound = false
+var tutorial_on = true
 # RECORDS
 var current_year_loaded = 0
 var current_month_loaded = 0

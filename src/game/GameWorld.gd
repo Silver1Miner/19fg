@@ -17,6 +17,7 @@ onready var tick = $Tick
 onready var archer1 = $Archer
 onready var archer2 = $Archer2
 onready var hud = $CanvasLayer/HUD
+onready var instructions = $CanvasLayer/Instructions
 onready var clock_display = $CanvasLayer/HUD/Status/Clock
 onready var shots_display = $CanvasLayer/HUD/Accuracy/Shots/ShotsValue
 onready var hits_display = $CanvasLayer/HUD/Accuracy/Hits/HitsValue
@@ -32,16 +33,41 @@ var game_started = false
 
 func _ready() -> void:
 	hud.visible = false
+	instructions.visible = false
 	archer1.state = 0
 	archer2.state = 0
 	archer2.active_toggle(false)
 	line_draw.add_point(Vector2.ZERO)
 	line_draw.add_point(Vector2.ZERO)
 
-func start_game(new_mode: int) -> void:
+func set_game_mode(new_mode: int) -> void:
+	game_started = false
+	archer1.state = 0
+	archer2.state = 0
+	archer2.active_toggle(false)
+	spawn_timer.stop()
+	tick.stop()
+	hud.visible = false
+	game_mode = new_mode
+	match game_mode:
+		0: # HUNT
+			pass
+		1: # DUEL
+			pass
+		2: # PRACTICE
+			pass
+	if UserData.tutorial_on:
+		instructions.visible = true
+	else:
+		start_game()
+
+func _on_Start_button_up() -> void:
+	instructions.visible = false
+	start_game()
+
+func start_game() -> void:
 	game_started = true
 	hud.visible = true
-	game_mode = new_mode
 	match game_mode:
 		0: # HUNT
 			status_display.visible = true

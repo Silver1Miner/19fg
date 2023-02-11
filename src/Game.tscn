@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/game/GameWorld.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/menu/MainMenu.tscn" type="PackedScene" id=2]
@@ -50,6 +50,54 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.8 )
 }
 
+[sub_resource type="Animation" id=4]
+resource_name = "to_log"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("GameWorld:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 240, -0.25, 0, 0.25, 0, 80, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.3 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("GameWorld:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -100, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "to_store"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("GameWorld:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 240, -0.25, 0, 0.25, 0, 400, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.3 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("GameWorld:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -100, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
 [node name="Game" type="Node"]
 script = ExtResource( 4 )
 
@@ -61,9 +109,14 @@ position = Vector2( 240, -100 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 1 )
 anims/move_game = SubResource( 2 )
+anims/to_log = SubResource( 4 )
+anims/to_store = SubResource( 3 )
 
 [connection signal="end_game" from="GameWorld" to="." method="_on_GameWorld_end_game"]
+[connection signal="log_to_main" from="MainMenu" to="." method="_on_MainMenu_log_to_main"]
+[connection signal="shop_to_main" from="MainMenu" to="." method="_on_MainMenu_shop_to_main"]
 [connection signal="start_hunt" from="MainMenu" to="." method="_on_MainMenu_start_hunt"]
 [connection signal="start_practice" from="MainMenu" to="." method="_on_MainMenu_start_practice"]
+[connection signal="to_log" from="MainMenu" to="." method="_on_MainMenu_to_log"]
 [connection signal="to_shop" from="MainMenu" to="." method="_on_MainMenu_to_shop"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
