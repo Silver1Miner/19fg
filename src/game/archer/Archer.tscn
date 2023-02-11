@@ -126,6 +126,7 @@ hframes = 6
 [node name="Horse" type="AnimatedSprite" parent="."]
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
+frame = 9
 playing = true
 flip_h = true
 

@@ -5,7 +5,7 @@ signal shop_to_main()
 signal log_to_main()
 signal to_log()
 signal start_practice()
-signal start_hunt()
+signal start_hunt(loaded_arrows)
 var current_panel = 1
 onready var tween = $Tween
 onready var panes = $Panels
@@ -55,8 +55,8 @@ func _on_Range_pressed() -> void:
 func _on_Duel_toggled(button_pressed: bool) -> void:
 	duel_options.visible = button_pressed
 
-func _on_Hunt_start_hunt() -> void:
-	emit_signal("start_hunt")
+func _on_Hunt_start_hunt(loaded_arrows: int) -> void:
+	emit_signal("start_hunt", loaded_arrows)
 
 func _on_Settings_pressed() -> void:
 	settings_menu.visible = true

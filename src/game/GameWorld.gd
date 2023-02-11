@@ -1,7 +1,7 @@
 extends Node2D
 
 signal end_game()
-enum GameModes {HUNT,DUEL,PRACTICE}
+enum GameModes {HUNT, DUEL, PRACTICE}
 enum DuelStates {P1TURN, P2TURN, END}
 export var duel_state = DuelStates.END
 export var game_mode = GameModes.HUNT
@@ -26,7 +26,7 @@ var current_seed = 1
 var score = 0 setget _set_score
 var seconds = 0
 var minutes = 0
-var arrows = 10 setget _set_arrows
+var arrows = 10 setget set_arrows
 var shots = 0 setget _set_shots
 var hits = 0 setget _set_hits
 var game_started = false
@@ -61,7 +61,7 @@ func set_game_mode(new_mode: int) -> void:
 	else:
 		start_game()
 
-func _on_Start_button_up() -> void:
+func _on_Start_pressed() -> void:
 	instructions.visible = false
 	start_game()
 
@@ -76,9 +76,9 @@ func start_game() -> void:
 			_set_score(0)
 			_set_shots(0)
 			_set_hits(0)
-			_set_arrows(UserData.arrows_brought)
 			clock_display.text = "00:00"
 			tick.start(1.0)
+			archer1.hunting_mode = true
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
@@ -87,6 +87,7 @@ func start_game() -> void:
 			status_display.visible = false
 			tick.stop()
 			duel_state = DuelStates.P1TURN
+			archer1.hunting_mode = false
 			archer2.active_toggle(true)
 			archer1.state = 1
 			archer2.state = 0
@@ -94,6 +95,7 @@ func start_game() -> void:
 		2: # PRACTICE
 			status_display.visible = false
 			tick.stop()
+			archer1.hunting_mode = true
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
@@ -109,8 +111,6 @@ func _on_arrow_landed() -> void:
 	print("arrow landed")
 	if game_mode == GameModes.DUEL:
 		next_turn()
-	elif game_started:
-		archer1.state = 1
 
 func next_turn() -> void:
 	if duel_state == DuelStates.P1TURN:
@@ -152,7 +152,7 @@ func _on_SpawnTimer_timeout() -> void:
 
 func _on_Archer_arrow_fired() -> void:
 	_set_shots(shots + 1)
-	_set_arrows(arrows - 1)
+	set_arrows(arrows - 1)
 
 func _on_target_hit() -> void:
 	_set_hits(hits + 1)
@@ -199,9 +199,12 @@ func _set_score(new_value: int) -> void:
 	score = new_value
 	score_display.text = str(score)
 
-func _set_arrows(new_value: int) -> void:
+func set_arrows(new_value: int) -> void:
 	arrows = new_value
 	arrow_display.text = str(arrows)
+	if arrows <= 0:
+		archer1.hunting_mode = false
+		archer1.reload_timer.stop()
 
 func _set_shots(new_value: int) -> void:
 	shots = new_value

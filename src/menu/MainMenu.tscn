@@ -49,6 +49,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="DuelOptions" type="VBoxContainer" parent="Panels/Menu/MenuOptions"]
+visible = false
 margin_top = 140.0
 margin_right = 120.0
 margin_bottom = 240.0

@@ -16,6 +16,8 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			gameworld.set_game_mode(current_game_mode)
 		else:
 			main_menu.visible = true
+			if main_menu.current_panel == 2:
+				anim.play("to_log")
 
 func _on_MainMenu_start_practice() -> void:
 	main_menu.visible = false
@@ -27,9 +29,10 @@ func _on_GameWorld_end_game() -> void:
 	start = false
 	anim.play_backwards("move_game")
 
-func _on_MainMenu_start_hunt() -> void:
+func _on_MainMenu_start_hunt(loaded_arrows: int) -> void:
 	main_menu.visible = false
 	current_game_mode = 0
+	gameworld.set_arrows(loaded_arrows + 10)
 	start = true
 	anim.play("move_game")
 

@@ -2,7 +2,6 @@ extends Node
 
 const privacy_policy_link = "https://itch.io/t/2578167/privacy-policy"
 var current_game_mode = 0
-var arrows_brought = 10
 # SETTINGS
 var jukebox_index = 0
 var mute_music = false
@@ -14,7 +13,7 @@ var current_month_loaded = 0
 var current_loaded = {}
 # INVENTORY
 var owned_tracks = 1
-var owned_arrows = 0
+var owned_arrows = 45
 var gems = 0
 
 var tracks = [

@@ -17,17 +17,19 @@ theme = ExtResource( 3 )
 script = ExtResource( 1 )
 
 [node name="ShopPanel" type="Panel" parent="."]
-margin_right = 300.0
+margin_right = 320.0
 margin_bottom = 360.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ShopPanel"]
+margin_left = 10.0
 margin_top = 40.0
-margin_right = 300.0
+margin_right = 310.0
 margin_bottom = 360.0
+rect_min_size = Vector2( 300, 0 )
 
 [node name="ShopOptions" type="VBoxContainer" parent="ShopPanel/ScrollContainer"]
 margin_right = 300.0
-margin_bottom = 520.0
+margin_bottom = 840.0
 custom_constants/separation = 20
 
 [node name="Tools" type="Panel" parent="ShopPanel/ScrollContainer/ShopOptions"]
@@ -57,10 +59,9 @@ custom_constants/separation = 20
 alignment = 1
 
 [node name="BuyBonusArrows1" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions"]
-margin_left = 20.0
 margin_right = 120.0
 margin_bottom = 120.0
-rect_min_size = Vector2( 100, 120 )
+rect_min_size = Vector2( 120, 120 )
 
 [node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions/BuyBonusArrows1"]
 anchor_right = 1.0
@@ -73,9 +74,9 @@ valign = 1
 
 [node name="BuyBonusArrows2" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions"]
 margin_left = 140.0
-margin_right = 240.0
+margin_right = 260.0
 margin_bottom = 120.0
-rect_min_size = Vector2( 100, 120 )
+rect_min_size = Vector2( 120, 120 )
 
 [node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions/BuyBonusArrows2"]
 anchor_right = 1.0
@@ -87,15 +88,15 @@ align = 1
 valign = 1
 
 [node name="Unlocks" type="Panel" parent="ShopPanel/ScrollContainer/ShopOptions"]
-visible = false
+margin_top = 200.0
 margin_right = 300.0
-margin_bottom = 300.0
+margin_bottom = 500.0
 rect_min_size = Vector2( 300, 300 )
 
 [node name="Support" type="Panel" parent="ShopPanel/ScrollContainer/ShopOptions"]
-margin_top = 200.0
+margin_top = 520.0
 margin_right = 300.0
-margin_bottom = 520.0
+margin_bottom = 840.0
 rect_min_size = Vector2( 300, 320 )
 
 [node name="SupportOptions" type="VBoxContainer" parent="ShopPanel/ScrollContainer/ShopOptions/Support"]

@@ -16,7 +16,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 10
+frame = 8
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -262,6 +262,6 @@ valign = 1
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
 [connection signal="pressed" from="CanvasLayer/HUD/Back" to="." method="_on_Back_pressed"]
 [connection signal="button_up" from="CanvasLayer/HUD/GameOver/Home" to="." method="_on_Home_button_up"]
-[connection signal="button_up" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_button_up"]
+[connection signal="pressed" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_pressed"]
 
 [editable path="Archer2"]
