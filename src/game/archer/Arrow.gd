@@ -31,7 +31,7 @@ func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	if fired:
-		if head.global_position.y > 350:
+		if head.global_position.y > 340:
 			deactivate()
 			on_ground = true
 			return

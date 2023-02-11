@@ -14,6 +14,7 @@ onready var pickupbox = $PickupBox
 onready var reload_timer = $Timer
 onready var aiming_sprite = $Aiming
 onready var trajectory_draw = $TrajectoryDraw
+onready var anim = $AnimationPlayer
 onready var draw_start = Vector2.ZERO
 onready var draw_end = Vector2.ZERO
 var launch_impulse = Vector2.ZERO
@@ -39,7 +40,7 @@ func active_toggle(disable: bool) -> void:
 func _input(event):
 	if state == States.READY:
 		if event is InputEventScreenTouch:
-			if event.is_pressed():
+			if event.position.y > 40 and event.is_pressed():
 				trajectory_draw.visible = true
 				bow_grab(event.position)
 	elif state == States.AIMING:
@@ -75,6 +76,7 @@ func load_projectile():
 		arrow_instance.add_to_group(player_group)
 		arrow_instance.position = position
 		arrow_instance.visible = false
+		anim.play("start_aiming")
 
 func bow_grab(touch_position: Vector2) -> void:
 	if state == States.IDLE:
@@ -102,6 +104,7 @@ func bow_release(touch_position: Vector2) -> void:
 		arrow_instance.velocity = launch_impulse
 		arrow_instance = null
 		emit_signal("arrow_fired")
+		anim.play("fire")
 	draw_start = Vector2.ZERO
 	draw_end = Vector2.ZERO
 	emit_signal("update_draw", draw_start, draw_end)
@@ -128,3 +131,7 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 		emit_signal("increase_score", area.score_value)
 		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")
 		area.queue_free()
+
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+	if anim_name == "fire":
+		aiming_sprite.rotation_degrees = 0
