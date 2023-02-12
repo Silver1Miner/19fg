@@ -7,7 +7,9 @@ export var duel_state = DuelStates.END
 export var game_mode = GameModes.HUNT
 export var targets = preload("res://src/game/targets/Target.tscn")
 onready var line_draw = $Line2D
-onready var game_over = $CanvasLayer/HUD/GameOver
+onready var pause_screen = $CanvasLayer/HUD/Pause
+onready var game_over_screen = $CanvasLayer/HUD/GameOver
+onready var hunting_result = $CanvasLayer/HUD/GameOver/HuntDisplay
 onready var game_objects = $GameObjects
 onready var status_display = $CanvasLayer/HUD/Status
 onready var score_display = $CanvasLayer/HUD/Status/Score/ScoreValue
@@ -22,6 +24,7 @@ onready var clock_display = $CanvasLayer/HUD/Status/Clock
 onready var shots_display = $CanvasLayer/HUD/Accuracy/Shots/ShotsValue
 onready var hits_display = $CanvasLayer/HUD/Accuracy/Hits/HitsValue
 onready var arrow_display = $CanvasLayer/HUD/Inventory/Arrows/ArrowValue
+onready var targets_active_display = $CanvasLayer/HUD/TargetsOnField
 var current_seed = 1
 var score = 0 setget _set_score
 var seconds = 0
@@ -30,9 +33,14 @@ var arrows = 10 setget set_arrows
 var shots = 0 setget _set_shots
 var hits = 0 setget _set_hits
 var game_started = false
+var targets_to_pickup = 0 setget _set_targets_onfield
+var arrow_in_flight = false
 
 func _ready() -> void:
+	_set_targets_onfield(0)
 	hud.visible = false
+	pause_screen.visible = false
+	game_over_screen.visible = false
 	instructions.visible = false
 	archer1.state = 0
 	archer2.state = 0
@@ -48,6 +56,7 @@ func set_game_mode(new_mode: int) -> void:
 	spawn_timer.stop()
 	tick.stop()
 	hud.visible = false
+	pause_screen.visible = false
 	game_mode = new_mode
 	match game_mode:
 		0: # HUNT
@@ -68,6 +77,9 @@ func _on_Start_pressed() -> void:
 func start_game() -> void:
 	game_started = true
 	hud.visible = true
+	get_tree().paused = false
+	pause_screen.visible = false
+	game_over_screen.visible = false
 	match game_mode:
 		0: # HUNT
 			status_display.visible = true
@@ -109,6 +121,8 @@ func _input(event: InputEvent) -> void:
 
 func _on_arrow_landed() -> void:
 	print("arrow landed")
+	arrow_in_flight = false
+	check_hunt_end()
 	if game_mode == GameModes.DUEL:
 		next_turn()
 
@@ -123,10 +137,20 @@ func next_turn() -> void:
 		archer2.state = 0
 
 func _on_Back_pressed() -> void:
-	if game_mode == GameModes.HUNT:
-		game_over.visible = true
-	else:
-		end_game()
+	get_tree().paused = true
+	pause_screen.visible = true
+
+func _on_Resume_pressed() -> void:
+	pause_screen.visible = false
+	get_tree().paused = false
+
+func _on_Home_pressed() -> void:
+	get_tree().paused = false
+	end_game()
+
+func _on_GameOver_pressed() -> void:
+	pass # save game result
+	end_game()
 
 func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
 	line_draw.points[0] = draw_start
@@ -147,14 +171,18 @@ func _on_SpawnTimer_timeout() -> void:
 	game_objects.add_child(target_instance)
 	if target_instance.connect("shot", self, "_on_target_hit") != OK:
 		push_error("fail to connect target shot signal")
+	if target_instance.connect("out_of_range", self, "_on_target_out_of_range") != OK:
+		push_error("fail to connect target out of range signal")
 	target_instance.global_position = $Spawner/Position2D4.global_position
 	target_instance.direction = Vector2.RIGHT
 
 func _on_Archer_arrow_fired() -> void:
+	arrow_in_flight = true
 	_set_shots(shots + 1)
 	set_arrows(arrows - 1)
 
 func _on_target_hit() -> void:
+	_set_targets_onfield(targets_to_pickup + 1)
 	_set_hits(hits + 1)
 
 func _on_Archer_increase_score(score_increase: int) -> void:
@@ -178,10 +206,6 @@ func _on_Tick_timeout() -> void:
 	else:
 		second_display = str(int(seconds))
 	clock_display.text = minute_display + ":" + second_display
-
-func _on_Home_pressed() -> void:
-	# save game result
-	end_game()
 
 func end_game() -> void:
 	game_started = false
@@ -213,3 +237,25 @@ func _set_shots(new_value: int) -> void:
 func _set_hits(new_value: int) -> void:
 	hits = new_value
 	hits_display.text = str(hits)
+
+func _on_target_out_of_range() -> void:
+	_set_targets_onfield(targets_to_pickup - 1)
+
+func _set_targets_onfield(new_value: int) -> void:
+	targets_to_pickup = new_value
+	targets_active_display.text = str(new_value)
+	check_hunt_end()
+
+func check_hunt_end() -> void:
+	if targets_to_pickup == 0 and arrows <= 0 and not arrow_in_flight:
+		tick.stop()
+		save_hunting_results()
+		game_over_screen.visible = true
+
+func save_hunting_results() -> void:
+	var date_dict = OS.get_datetime()
+	hunting_result.update_date_display(date_dict["year"], date_dict["month"], date_dict["day"])
+	hunting_result.update_time_display(minutes, seconds)
+	hunting_result.update_accuracy_display(shots, hits)
+	hunting_result.update_score_display(score)
+	UserData.save_today(minutes, seconds, shots, hits, score)

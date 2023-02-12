@@ -11,6 +11,7 @@ onready var tween = $Tween
 onready var panes = $Panels
 onready var duel_options = $Panels/Menu/MenuOptions/DuelOptions
 onready var settings_menu = $Panels/Menu/Settings
+onready var hunt_pane = $Panels/Hunt
 
 func _ready() -> void:
 	if OS.get_name() in ["HTML5", "iOS", "Android"]:
@@ -26,6 +27,7 @@ func change_panel(select: int) -> void:
 	if current_panel == 0:
 		emit_signal("to_shop")
 	elif current_panel == 2:
+		hunt_pane.check_today()
 		emit_signal("to_log")
 	if tween:
 		Audio.play_slide()

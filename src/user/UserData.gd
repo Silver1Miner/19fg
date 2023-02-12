@@ -96,15 +96,15 @@ func has_record(year: int, month: int, day: int) -> bool:
 	change_records_loaded(year, month)
 	return str(day) in current_loaded
 
-func save_today(seconds: int, minutes: int, shots_fired: int, quarry_bagged: int, points: int) -> void:
+func save_today(minutes: int, seconds: int, shots: int, hits: int, score: int) -> void:
 	change_records_loaded(OS.get_date()["year"], OS.get_date()["month"])
 	var day = OS.get_date()["day"]
 	if current_loaded.has(day):
 		push_error("a record was already saved for this day; overwriting")
 	current_loaded[day] = {
-		"shots_fired": shots_fired,
-		"quarry_bagged": quarry_bagged,
-		"points": points,
+		"shots": shots,
+		"hits": hits,
+		"score": score,
 		"minutes": minutes,
 		"seconds": seconds
 	}

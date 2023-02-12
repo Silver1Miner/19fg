@@ -20,25 +20,44 @@ text = "10"
 align = 1
 valign = 1
 
-[node name="Buttons" type="VBoxContainer" parent="."]
+[node name="Buttons" type="GridContainer" parent="."]
 margin_left = 64.0
-margin_right = 104.0
+margin_right = 144.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 40, 40 )
-custom_constants/separation = 0
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+columns = 2
 
-[node name="Up" type="Button" parent="Buttons"]
+[node name="UpOne" type="Button" parent="Buttons"]
 margin_right = 40.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 30 )
-text = "^"
+text = "+1"
 
-[node name="Down" type="Button" parent="Buttons"]
+[node name="Up" type="Button" parent="Buttons"]
+margin_left = 40.0
+margin_right = 80.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 40, 30 )
+text = "+10"
+
+[node name="DownOne" type="Button" parent="Buttons"]
 margin_top = 30.0
 margin_right = 40.0
 margin_bottom = 60.0
-rect_min_size = Vector2( 0, 30 )
-text = "v"
+rect_min_size = Vector2( 40, 30 )
+text = "-1"
 
+[node name="Down" type="Button" parent="Buttons"]
+margin_left = 40.0
+margin_top = 30.0
+margin_right = 80.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 30 )
+text = "-10"
+
+[connection signal="pressed" from="Buttons/UpOne" to="." method="_on_UpOne_pressed"]
 [connection signal="pressed" from="Buttons/Up" to="." method="_on_Up_pressed"]
+[connection signal="pressed" from="Buttons/DownOne" to="." method="_on_DownOne_pressed"]
 [connection signal="pressed" from="Buttons/Down" to="." method="_on_Down_pressed"]

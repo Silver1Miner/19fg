@@ -2,6 +2,7 @@ extends Area2D
 class_name Target
 
 signal shot()
+signal out_of_range()
 var is_shot = false
 onready var body = $CollisionShape2D
 onready var anim = $AnimationPlayer
@@ -15,17 +16,18 @@ func _ready() -> void:
 	anim.play("flap")
 
 func _physics_process(delta: float) -> void:
-	if body.global_position.x < -80 or body.global_position.x > 640 + 80:
+	if body.global_position.x < -160 or body.global_position.x > 640 + 640:
 		print("target out of range")
+		if is_shot:
+			emit_signal("out_of_range")
 		queue_free()
 	if body.global_position.y > 330:
 		gravity = 0
 		direction = Vector2.LEFT
-		is_shot = false
 	global_position += direction * speed * delta
 	if direction.y != 0:
 		rotation = direction.angle()
-	if is_shot:
+	if is_shot and gravity > 0:
 		direction.y += gravity * mass * delta
 
 func _on_Target_area_entered(area: Area2D) -> void:
@@ -37,3 +39,7 @@ func _on_Target_area_entered(area: Area2D) -> void:
 		area.stick_to(self)
 		is_shot = true
 		emit_signal("shot")
+
+func picked_up() -> void:
+	emit_signal("out_of_range")
+	queue_free()

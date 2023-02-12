@@ -1,13 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/ui/calendar/CalendarUI.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/menu/Hunt.gd" type="Script" id=2]
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=3]
 [ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://src/menu/SpinBox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/menu/HuntDisplay.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 14
 font_data = ExtResource( 4 )
 
 [node name="Hunt" type="Control"]
@@ -18,42 +23,53 @@ theme = ExtResource( 3 )
 script = ExtResource( 2 )
 
 [node name="Back" type="Button" parent="."]
-margin_right = 120.0
-margin_bottom = 30.0
+margin_right = 80.0
+margin_bottom = 40.0
 text = "Back"
 
 [node name="Hunt" type="Button" parent="."]
 margin_left = 20.0
-margin_top = 60.0
+margin_top = 80.0
 margin_right = 120.0
-margin_bottom = 120.0
-text = "Hunt"
+margin_bottom = 140.0
+text = "Daily Hunt"
 
 [node name="SpinBox" parent="." instance=ExtResource( 5 )]
-margin_top = 60.0
-margin_bottom = 120.0
+margin_left = 120.0
+margin_bottom = 140.0
 
-[node name="Inventory" type="VBoxContainer" parent="."]
-margin_left = 140.0
+[node name="Inventory" type="HBoxContainer" parent="."]
+margin_left = 100.0
 margin_right = 260.0
-margin_bottom = 60.0
+margin_bottom = 40.0
 custom_constants/separation = 0
 
-[node name="Label" type="Label" parent="Inventory"]
-margin_right = 120.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 120, 30 )
-text = "Arrow Inventory"
+[node name="Arrows" type="TextureRect" parent="Inventory"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+expand = true
+
+[node name="ArrowCount" type="Label" parent="Inventory"]
+margin_left = 40.0
+margin_right = 80.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+text = "99999"
 align = 1
 valign = 1
 
-[node name="ArrowCount" type="Label" parent="Inventory"]
-margin_top = 30.0
+[node name="Coins" type="Label" parent="Inventory"]
+margin_left = 80.0
 margin_right = 120.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 120, 30 )
-text = "99"
-align = 1
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+
+[node name="CoinCount" type="Label" parent="Inventory"]
+margin_left = 120.0
+margin_top = 8.0
+margin_right = 120.0
+margin_bottom = 32.0
 
 [node name="CalendarUI" parent="." instance=ExtResource( 1 )]
 margin_left = 280.0
@@ -61,122 +77,7 @@ margin_top = 40.0
 margin_right = 280.0
 margin_bottom = 40.0
 
-[node name="HuntDisplay" type="ColorRect" parent="."]
-margin_left = 20.0
-margin_top = 140.0
-margin_right = 260.0
-margin_bottom = 340.0
-color = Color( 0, 0, 0, 0.235294 )
-
-[node name="DateDisplay" type="Label" parent="HuntDisplay"]
-margin_right = 240.0
-margin_bottom = 40.0
-text = "2022/01/12"
-align = 1
-valign = 1
-
-[node name="GridContainer" type="GridContainer" parent="HuntDisplay"]
-margin_top = 40.0
-margin_right = 240.0
-margin_bottom = 220.0
-custom_constants/vseparation = 0
-custom_constants/hseparation = 0
-columns = 2
-
-[node name="Time" type="Label" parent="HuntDisplay/GridContainer"]
-margin_right = 120.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 120, 30 )
-text = "Time"
-align = 1
-valign = 1
-
-[node name="TimeValue" type="Label" parent="HuntDisplay/GridContainer"]
-margin_left = 120.0
-margin_right = 240.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 120, 30 )
-text = "1:00"
-align = 1
-valign = 1
-
-[node name="Shots" type="Label" parent="HuntDisplay/GridContainer"]
-margin_top = 30.0
-margin_right = 120.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 120, 30 )
-text = "Shots"
-align = 1
-valign = 1
-
-[node name="ShotsValue" type="Label" parent="HuntDisplay/GridContainer"]
-margin_left = 120.0
-margin_top = 30.0
-margin_right = 240.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 120, 30 )
-text = "10"
-align = 1
-valign = 1
-
-[node name="Hits" type="Label" parent="HuntDisplay/GridContainer"]
-margin_top = 60.0
-margin_right = 120.0
-margin_bottom = 90.0
-rect_min_size = Vector2( 120, 30 )
-text = "Hits"
-align = 1
-valign = 1
-
-[node name="HitsValue" type="Label" parent="HuntDisplay/GridContainer"]
-margin_left = 120.0
-margin_top = 60.0
-margin_right = 240.0
-margin_bottom = 90.0
-rect_min_size = Vector2( 120, 30 )
-text = "10"
-align = 1
-valign = 1
-
-[node name="Accuracy" type="Label" parent="HuntDisplay/GridContainer"]
-margin_top = 90.0
-margin_right = 120.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 120, 30 )
-text = "Accuracy"
-align = 1
-valign = 1
-
-[node name="AccuracyValue" type="Label" parent="HuntDisplay/GridContainer"]
-margin_left = 120.0
-margin_top = 90.0
-margin_right = 240.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 120, 30 )
-text = "100%"
-align = 1
-valign = 1
-
-[node name="Score" type="Label" parent="HuntDisplay/GridContainer"]
-margin_top = 120.0
-margin_right = 120.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 120, 30 )
-text = "Score"
-align = 1
-valign = 1
-
-[node name="Score2" type="Label" parent="HuntDisplay/GridContainer"]
-margin_left = 120.0
-margin_top = 120.0
-margin_right = 240.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 120, 30 )
-text = "999999"
-align = 1
-valign = 1
-
-[node name="Label" type="Label" parent="."]
+[node name="HuntingTitle" type="Label" parent="."]
 margin_left = 280.0
 margin_right = 640.0
 margin_bottom = 40.0
@@ -185,8 +86,32 @@ text = "HUNTING LOG"
 align = 1
 valign = 1
 
+[node name="Instructions" type="Label" parent="."]
+margin_left = 120.0
+margin_top = 60.0
+margin_right = 260.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 2 )
+text = "Arrows for the Hunt"
+align = 1
+valign = 1
+
+[node name="Instructions2" type="Label" parent="."]
+margin_left = 120.0
+margin_top = 140.0
+margin_right = 260.0
+margin_bottom = 160.0
+custom_fonts/font = SubResource( 2 )
+text = "10 Free Every Day"
+align = 1
+valign = 1
+
+[node name="HuntDisplay" parent="." instance=ExtResource( 6 )]
+
 [connection signal="button_up" from="Back" to="." method="_on_Back_button_up"]
 [connection signal="pressed" from="Hunt" to="." method="_on_Hunt_pressed"]
 [connection signal="request_decrease" from="SpinBox" to="." method="_on_SpinBox_request_decrease"]
+[connection signal="request_decrease_one" from="SpinBox" to="." method="_on_SpinBox_request_decrease_one"]
 [connection signal="request_increase" from="SpinBox" to="." method="_on_SpinBox_request_increase"]
+[connection signal="request_increase_one" from="SpinBox" to="." method="_on_SpinBox_request_increase_one"]
 [connection signal="date_selected" from="CalendarUI" to="." method="_on_CalendarUI_date_selected"]

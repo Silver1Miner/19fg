@@ -1,0 +1,121 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/menu/HuntDisplay.gd" type="Script" id=2]
+
+[node name="HuntDisplay" type="ColorRect"]
+margin_left = 20.0
+margin_top = 160.0
+margin_right = 260.0
+margin_bottom = 360.0
+theme = ExtResource( 1 )
+color = Color( 0, 0, 0, 0.235294 )
+script = ExtResource( 2 )
+
+[node name="DateDisplay" type="Label" parent="."]
+margin_right = 240.0
+margin_bottom = 40.0
+text = "2022/01/12"
+align = 1
+valign = 1
+
+[node name="GridContainer" type="GridContainer" parent="."]
+margin_top = 40.0
+margin_right = 240.0
+margin_bottom = 200.0
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+columns = 2
+
+[node name="Time" type="Label" parent="GridContainer"]
+margin_right = 120.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 120, 30 )
+text = "Time"
+align = 1
+valign = 1
+
+[node name="TimeValue" type="Label" parent="GridContainer"]
+margin_left = 120.0
+margin_right = 240.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 120, 30 )
+text = "1:00"
+align = 1
+valign = 1
+
+[node name="Shots" type="Label" parent="GridContainer"]
+margin_top = 30.0
+margin_right = 120.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 120, 30 )
+text = "Shots"
+align = 1
+valign = 1
+
+[node name="ShotsValue" type="Label" parent="GridContainer"]
+margin_left = 120.0
+margin_top = 30.0
+margin_right = 240.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 120, 30 )
+text = "10"
+align = 1
+valign = 1
+
+[node name="Hits" type="Label" parent="GridContainer"]
+margin_top = 60.0
+margin_right = 120.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 120, 30 )
+text = "Hits"
+align = 1
+valign = 1
+
+[node name="HitsValue" type="Label" parent="GridContainer"]
+margin_left = 120.0
+margin_top = 60.0
+margin_right = 240.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 120, 30 )
+text = "10"
+align = 1
+valign = 1
+
+[node name="Accuracy" type="Label" parent="GridContainer"]
+margin_top = 90.0
+margin_right = 120.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 120, 30 )
+text = "Accuracy"
+align = 1
+valign = 1
+
+[node name="AccuracyValue" type="Label" parent="GridContainer"]
+margin_left = 120.0
+margin_top = 90.0
+margin_right = 240.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 120, 30 )
+text = "100%"
+align = 1
+valign = 1
+
+[node name="Score" type="Label" parent="GridContainer"]
+margin_top = 120.0
+margin_right = 120.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 120, 30 )
+text = "Score"
+align = 1
+valign = 1
+
+[node name="ScoreValue" type="Label" parent="GridContainer"]
+margin_left = 120.0
+margin_top = 120.0
+margin_right = 240.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 120, 30 )
+text = "999999"
+align = 1
+valign = 1

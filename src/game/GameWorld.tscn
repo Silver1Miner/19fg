@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/game/GameWorld.gd" type="Script" id=1]
 [ext_resource path="res://src/game/archer/Archer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=3]
 [ext_resource path="res://assets/gui/Roboto-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://src/menu/HuntDisplay.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 12
@@ -21,7 +22,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 0
+frame = 4
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -47,8 +48,8 @@ width = 2.0
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" type="Control" parent="CanvasLayer"]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 theme = ExtResource( 3 )
 
 [node name="Back" type="Button" parent="CanvasLayer/HUD"]
@@ -223,20 +224,54 @@ rect_min_size = Vector2( 20, 0 )
 text = "99"
 align = 1
 
-[node name="GameOver" type="ColorRect" parent="CanvasLayer/HUD"]
+[node name="Pause" type="ColorRect" parent="CanvasLayer/HUD"]
+pause_mode = 2
 visible = false
-margin_right = 640.0
-margin_bottom = 360.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.470588 )
 
-[node name="Home" type="Button" parent="CanvasLayer/HUD/GameOver"]
+[node name="Resume" type="Button" parent="CanvasLayer/HUD/Pause"]
+margin_left = 240.0
+margin_top = 200.0
+margin_right = 400.0
+margin_bottom = 240.0
+text = "Resume"
+
+[node name="Home" type="Button" parent="CanvasLayer/HUD/Pause"]
 margin_left = 240.0
 margin_top = 280.0
 margin_right = 400.0
 margin_bottom = 320.0
 text = "Home"
 
+[node name="GameOver" type="ColorRect" parent="CanvasLayer/HUD"]
+margin_right = 640.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 0.470588 )
+
+[node name="HuntDisplay" parent="CanvasLayer/HUD/GameOver" instance=ExtResource( 5 )]
+margin_left = 200.0
+margin_top = 60.0
+margin_right = 440.0
+margin_bottom = 260.0
+
+[node name="GameOver" type="Button" parent="CanvasLayer/HUD/GameOver"]
+margin_left = 240.0
+margin_top = 280.0
+margin_right = 400.0
+margin_bottom = 320.0
+text = "Home"
+
+[node name="TargetsOnField" type="Label" parent="CanvasLayer/HUD"]
+visible = false
+margin_top = 220.0
+margin_right = 40.0
+margin_bottom = 244.0
+text = "99"
+
 [node name="Instructions" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
@@ -283,7 +318,9 @@ autowrap = true
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
 [connection signal="pressed" from="CanvasLayer/HUD/Back" to="." method="_on_Back_pressed"]
-[connection signal="pressed" from="CanvasLayer/HUD/GameOver/Home" to="." method="_on_Home_pressed"]
+[connection signal="pressed" from="CanvasLayer/HUD/Pause/Resume" to="." method="_on_Resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/HUD/Pause/Home" to="." method="_on_Home_pressed"]
+[connection signal="pressed" from="CanvasLayer/HUD/GameOver/GameOver" to="." method="_on_GameOver_pressed"]
 [connection signal="pressed" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_pressed"]
 
 [editable path="Archer2"]

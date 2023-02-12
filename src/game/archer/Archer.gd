@@ -132,7 +132,7 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 		fct.show_value(str(area.score_value), Vector2(0,-8), 1, PI/2, false)
 		emit_signal("increase_score", area.score_value)
 		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")
-		area.queue_free()
+		area.picked_up()
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "fire":
