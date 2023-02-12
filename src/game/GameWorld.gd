@@ -179,17 +179,17 @@ func _on_Tick_timeout() -> void:
 		second_display = str(int(seconds))
 	clock_display.text = minute_display + ":" + second_display
 
-func _on_Home_button_up() -> void:
+func _on_Home_pressed() -> void:
 	# save game result
 	end_game()
 
 func end_game() -> void:
 	game_started = false
+	archer1.state = 0
+	archer2.state = 0
 	for obj in game_objects.get_children():
 		game_objects.remove_child(obj)
 		obj.queue_free()
-	archer1.state = 0
-	archer2.state = 0
 	spawn_timer.stop()
 	tick.stop()
 	hud.visible = false

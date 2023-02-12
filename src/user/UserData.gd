@@ -3,7 +3,7 @@ extends Node
 const privacy_policy_link = "https://itch.io/t/2578167/privacy-policy"
 var current_game_mode = 0
 # SETTINGS
-var jukebox_index = 0
+var jukebox_index = 3
 var mute_music = false
 var mute_sound = false
 var tutorial_on = true
@@ -17,8 +17,10 @@ var owned_arrows = 45
 var gems = 0
 
 var tracks = [
-	["A Cozy Day", preload("res://assets/audio/music/a-cozy-day-114852.mp3")],
-	["Dreamy", preload("res://assets/audio/music/dreamy-114855.mp3")],
+	["peaceful", preload("res://assets/audio/music/a-peaceful-morning-traditional-chinese-style-folk-music-129024.mp3")],
+	["steppe", preload("res://assets/audio/music/Alexander_Borodin_-_In_The_Steppes_Of_Central_Asia.ogg")],
+	["steppe", preload("res://assets/audio/music/chinese-peaceful-heartwarming-harp-asian-emotional-traditional-music-21041.mp3")],
+	["tibet", preload("res://assets/audio/music/tibet-13636.mp3")],
 ]
 
 func _ready() -> void:

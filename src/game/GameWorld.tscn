@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/game/GameWorld.gd" type="Script" id=1]
 [ext_resource path="res://src/game/archer/Archer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=3]
+[ext_resource path="res://assets/gui/Roboto-Regular.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 12
+font_data = ExtResource( 4 )
 
 [node name="GameWorld" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,7 +21,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 8
+frame = 0
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -37,6 +42,7 @@ position = Vector2( -40, 40 )
 position = Vector2( -40, 80 )
 
 [node name="Line2D" type="Line2D" parent="."]
+width = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -243,16 +249,32 @@ margin_right = 360.0
 margin_bottom = 340.0
 text = "Start"
 
-[node name="Label" type="Label" parent="CanvasLayer/Instructions"]
-margin_left = 160.0
-margin_top = 120.0
-margin_right = 480.0
+[node name="Tutorial" type="Label" parent="CanvasLayer/Instructions"]
+margin_left = 120.0
+margin_top = 60.0
+margin_right = 520.0
 margin_bottom = 240.0
 text = "touch to notch arrow
 drag to pull back arrow
-release to fire arrow"
+release to fire arrow
+
+Different Bows and Arrows have different effects
+Experiment!"
 align = 1
 valign = 1
+autowrap = true
+
+[node name="Toggle" type="Label" parent="CanvasLayer/Instructions"]
+self_modulate = Color( 1, 1, 1, 0.470588 )
+margin_left = 240.0
+margin_top = 240.0
+margin_right = 400.0
+margin_bottom = 283.0
+custom_fonts/font = SubResource( 1 )
+text = "Tutorial screen can be disabled in Settings"
+align = 1
+valign = 1
+autowrap = true
 
 [connection signal="arrow_fired" from="Archer" to="." method="_on_Archer_arrow_fired"]
 [connection signal="increase_score" from="Archer" to="." method="_on_Archer_increase_score"]
@@ -261,7 +283,7 @@ valign = 1
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
 [connection signal="pressed" from="CanvasLayer/HUD/Back" to="." method="_on_Back_pressed"]
-[connection signal="button_up" from="CanvasLayer/HUD/GameOver/Home" to="." method="_on_Home_button_up"]
+[connection signal="pressed" from="CanvasLayer/HUD/GameOver/Home" to="." method="_on_Home_pressed"]
 [connection signal="pressed" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_pressed"]
 
 [editable path="Archer2"]

@@ -81,6 +81,7 @@ func load_projectile():
 func bow_grab(touch_position: Vector2) -> void:
 	if state == States.IDLE:
 		return
+	Audio.play_sound("res://assets/audio/sounds/arrows/536067__eminyildirim__bow-loading.wav")
 	load_projectile()
 	draw_start = touch_position
 	draw_end = touch_position
@@ -98,6 +99,7 @@ func bow_release(touch_position: Vector2) -> void:
 	print("fire! at ", touch_position)
 	draw_end = touch_position
 	if arrow_instance:
+		Audio.play_sound("res://assets/audio/sounds/arrows/536068__eminyildirim__bow-release-hit.wav")
 		arrow_instance.visible = true
 		arrow_instance.gravity = gravity * 10
 		arrow_instance.fired = true

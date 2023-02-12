@@ -27,12 +27,14 @@ func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
 	new_parent.add_child(self)
 	global_position = new_parent.global_position - (hit_pos*0.2)
 	global_rotation = velocity.angle()
+	Audio.play_sound("res://assets/audio/sounds/arrows/368606__samsterbirdies__thump.wav")
 	deactivate()
 
 func _physics_process(delta: float) -> void:
 	if fired:
 		if head.global_position.y > 340:
 			deactivate()
+			Audio.play_sound("res://assets/audio/sounds/arrows/559233__bl31gt0__breath_kick.wav")
 			on_ground = true
 			return
 		velocity.y += gravity * mass * delta
