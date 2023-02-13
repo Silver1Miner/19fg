@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/menu/Shop.gd" type="Script" id=1]
 [ext_resource path="res://src/menu/LoadoutMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=3]
 [ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://src/menu/Inventory.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -191,6 +192,10 @@ valign = 1
 
 [node name="LoadoutMenu" parent="." instance=ExtResource( 2 )]
 
+[node name="Inventory" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_right = 540.0
+
 [node name="Back" type="Button" parent="."]
 margin_left = 560.0
 margin_right = 640.0
@@ -202,27 +207,6 @@ margin_right = 300.0
 margin_bottom = 40.0
 custom_fonts/font = SubResource( 1 )
 text = "SHOP"
-align = 1
-valign = 1
-
-[node name="InventoryDisplay" type="HBoxContainer" parent="."]
-margin_left = 320.0
-margin_right = 364.0
-margin_bottom = 40.0
-custom_constants/separation = 0
-
-[node name="TextureRect" type="TextureRect" parent="InventoryDisplay"]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 40, 40 )
-expand = true
-
-[node name="Label" type="Label" parent="InventoryDisplay"]
-margin_left = 40.0
-margin_right = 160.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 120, 40 )
-text = "999999"
 align = 1
 valign = 1
 
