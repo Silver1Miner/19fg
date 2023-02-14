@@ -7,6 +7,7 @@ onready var head = $CollisionShape2D
 var fired = false
 var on_ground = false
 export var mass = 10.0
+export var ground_speed = 200
 export var velocity = Vector2.ZERO
 
 func _ready() -> void:
@@ -41,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		global_position += velocity * delta
 		global_rotation = velocity.angle()
 	elif on_ground:
-		global_position += Vector2.LEFT * 50 * delta
+		global_position += Vector2.LEFT * ground_speed * delta
 	if global_position.x < -80:
 		emit_signal("landed")
 		print("arrow out of range")

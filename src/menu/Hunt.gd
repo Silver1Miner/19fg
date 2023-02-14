@@ -39,7 +39,7 @@ func check_today() -> void:
 	calendar_ui.refresh_data()
 	_on_CalendarUI_date_selected(calendar_ui.date)
 	todays_hunt_completed = str(calendar_ui.date.get_day()) in UserData.current_loaded
-	hunt_button.disabled = todays_hunt_completed
+	#hunt_button.disabled = todays_hunt_completed
 	check_spin_buttons()
 
 func _on_Hunt_pressed() -> void:

@@ -142,12 +142,14 @@ script = ExtResource( 2 )
 [node name="Aiming" type="Node2D" parent="."]
 
 [node name="Arrow" type="Sprite" parent="Aiming"]
+self_modulate = Color( 0, 0, 0, 1 )
 rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 18 )
 hframes = 6
 
 [node name="Bow" type="Sprite" parent="Aiming"]
+self_modulate = Color( 0, 0, 0, 1 )
 rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 17 )
@@ -165,7 +167,7 @@ texture = ExtResource( 4 )
 [node name="Horse" type="AnimatedSprite" parent="."]
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
-frame = 4
+frame = 8
 playing = true
 flip_h = true
 

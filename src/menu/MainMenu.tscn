@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/menu/Hunt.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://src/menu/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://src/menu/Settings.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/backgrounds/icon-transparent.png" type="Texture" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 size = 36
@@ -36,13 +37,21 @@ margin_bottom = 360.0
 rect_min_size = Vector2( 640, 360 )
 
 [node name="Title" type="Label" parent="Panels/Menu"]
-margin_right = 640.0
+margin_right = 620.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 0, 60 )
 custom_fonts/font = SubResource( 1 )
 text = "HORSE ARCHER"
 align = 1
 valign = 1
+
+[node name="TextureRect" type="TextureRect" parent="Panels/Menu/Title"]
+margin_left = 450.0
+margin_top = 20.0
+margin_right = 490.0
+margin_bottom = 60.0
+texture = ExtResource( 7 )
+expand = true
 
 [node name="MenuOptions" type="Control" parent="Panels/Menu"]
 anchor_right = 1.0

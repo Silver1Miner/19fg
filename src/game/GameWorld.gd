@@ -5,7 +5,10 @@ enum GameModes {HUNT, DUEL, PRACTICE}
 enum DuelStates {P1TURN, P2TURN, END}
 export var duel_state = DuelStates.END
 export var game_mode = GameModes.HUNT
-export var targets = preload("res://src/game/targets/Target.tscn")
+var target_small = preload("res://src/game/targets/TargetSmall.tscn")
+var target_med = preload("res://src/game/targets/TargetMedium.tscn")
+var target_big = preload("res://src/game/targets/TargetBig.tscn")
+
 var target_practice_low = preload("res://src/game/targets/TargetPracticeLow.tscn")
 var target_practice_mid = preload("res://src/game/targets/TargetPracticeMid.tscn")
 var target_practice_high = preload("res://src/game/targets/TargetPracticeHigh.tscn")
@@ -14,21 +17,22 @@ onready var pause_screen = $CanvasLayer/HUD/Pause
 onready var game_over_screen = $CanvasLayer/HUD/GameOver
 onready var hunting_result = $CanvasLayer/HUD/GameOver/HuntDisplay
 onready var game_objects = $GameObjects
-onready var status_display = $CanvasLayer/HUD/Status
-onready var score_display = $CanvasLayer/HUD/Status/Score/ScoreValue
-onready var angle_display = $CanvasLayer/HUD/Aim/Angle/AngleValue
+onready var status_display = $CanvasLayer/HUD/TopBar/Status
+onready var score_display = $CanvasLayer/HUD/TopBar/Status/Score/ScoreValue
+onready var angle_display = $CanvasLayer/HUD/TopBar/Aim/Angle/AngleValue
 onready var spawn_timer = $SpawnTimer
 onready var tick = $Tick
 onready var archer1 = $Archer
 onready var archer2 = $Archer2
 onready var hud = $CanvasLayer/HUD
+onready var topbar = $CanvasLayer/HUD/TopBar
 onready var instructions = $CanvasLayer/Instructions
-onready var clock_display = $CanvasLayer/HUD/Status/Clock
-onready var shots_display = $CanvasLayer/HUD/Accuracy/Shots/ShotsValue
-onready var hits_display = $CanvasLayer/HUD/Accuracy/Hits/HitsValue
-onready var inventory_display = $CanvasLayer/HUD/Inventory
-onready var bagged_display = $CanvasLayer/HUD/Inventory/Bagged/BaggedValue
-onready var arrow_display = $CanvasLayer/HUD/Inventory/Arrows/ArrowValue
+onready var clock_display = $CanvasLayer/HUD/TopBar/Status/Clock
+onready var shots_display = $CanvasLayer/HUD/TopBar/Accuracy/Shots/ShotsValue
+onready var hits_display = $CanvasLayer/HUD/TopBar/Accuracy/Hits/HitsValue
+onready var inventory_display = $CanvasLayer/HUD/TopBar/Inventory
+onready var bagged_display = $CanvasLayer/HUD/TopBar/Inventory/Bagged/BaggedValue
+onready var arrow_display = $CanvasLayer/HUD/TopBar/Inventory/Arrows/ArrowValue
 onready var targets_active_display = $CanvasLayer/HUD/TargetsOnField
 var current_seed = 1
 var score = 0 setget _set_score
@@ -53,6 +57,8 @@ func _ready() -> void:
 	archer2.active_toggle(false)
 	line_draw.add_point(Vector2.ZERO)
 	line_draw.add_point(Vector2.ZERO)
+	tick.stop()
+	spawn_timer.stop()
 
 func set_game_mode(new_mode: int) -> void:
 	game_started = false
@@ -80,14 +86,34 @@ func _on_Start_pressed() -> void:
 	instructions.visible = false
 	start_game()
 
+func set_daily_seed() -> void:
+	var time = OS.get_datetime()
+	var day = time["day"]
+	var month = time["month"]
+	var year = time["year"]
+	var day_string = ""
+	var month_string = ""
+	if day < 10:
+		day_string = "0" + str(day)
+	else:
+		day_string = str(day)
+	if month < 10:
+		month_string = "0" + str(month)
+	else:
+		month_string = str(month)
+	var daily_seed = int(str(year)+month_string+day_string)
+	seed(daily_seed)
+
 func start_game() -> void:
 	game_started = true
 	hud.visible = true
+	topbar.visible = true
 	get_tree().paused = false
 	pause_screen.visible = false
 	game_over_screen.visible = false
 	match game_mode:
 		0: # HUNT
+			set_daily_seed()
 			status_display.visible = true
 			inventory_display.visible = true
 			seconds = 0
@@ -124,8 +150,8 @@ func start_game() -> void:
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
-			spawn_timer.wait_time = 5.0
 			spawn_timer.start()
+			spawn_timer.wait_time = 5.0
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -191,13 +217,23 @@ func _on_SpawnTimer_timeout() -> void:
 			spawn_practice_target()
 
 func spawn_bird() -> void:
-	var target_instance = targets.instance()
+	var choice = rand_range(0, 10)
+	var target_instance = null
+	if choice < 3:
+		return
+	elif choice < 4:
+		target_instance = target_small.instance()
+	elif choice < 7:
+		target_instance = target_med.instance()
+	else:
+		target_instance = target_big.instance()
 	game_objects.add_child(target_instance)
 	if target_instance.connect("shot", self, "_on_target_hit") != OK:
 		push_error("fail to connect target shot signal")
 	if target_instance.connect("out_of_range", self, "_on_target_out_of_range") != OK:
 		push_error("fail to connect target out of range signal")
-	target_instance.global_position = $Spawner/Bird1.global_position
+	var offset = rand_range(-60, 60)
+	target_instance.global_position = $Spawner/Bird1.global_position + Vector2(0, offset)
 	target_instance.direction = Vector2.RIGHT
 
 func spawn_practice_target() -> void:
@@ -307,6 +343,7 @@ func check_hunt_end() -> void:
 	if targets_to_pickup == 0 and arrows <= 0 and not arrow_in_flight:
 		tick.stop()
 		save_hunting_results()
+		topbar.visible = false
 		game_over_screen.visible = true
 
 func save_hunting_results() -> void:
