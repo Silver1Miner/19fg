@@ -3,6 +3,7 @@ extends Node2D
 signal update_draw(draw_start, draw_end)
 signal arrow_fired()
 signal increase_score(score_increase)
+signal picked_up()
 export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
@@ -131,6 +132,7 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 		fct.rect_position = global_position
 		fct.show_value(str(area.score_value), Vector2(0,-8), 1, PI/2, false)
 		emit_signal("increase_score", area.score_value)
+		emit_signal("picked_up")
 		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")
 		area.picked_up()
 

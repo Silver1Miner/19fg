@@ -37,10 +37,10 @@ rect_min_size = Vector2( 640, 360 )
 
 [node name="Title" type="Label" parent="Panels/Menu"]
 margin_right = 640.0
-margin_bottom = 40.0
+margin_bottom = 80.0
 rect_min_size = Vector2( 0, 60 )
 custom_fonts/font = SubResource( 1 )
-text = "FLYING GENERAL"
+text = "HORSE ARCHER"
 align = 1
 valign = 1
 
@@ -71,13 +71,14 @@ text = "VS Human"
 [node name="Shop" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_right = 120.0
 margin_bottom = 40.0
+disabled = true
 text = "Shop"
 
 [node name="Hunt" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_left = 520.0
 margin_right = 640.0
 margin_bottom = 40.0
-text = "Hunt"
+text = "Daily Hunt"
 
 [node name="Range" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_left = 520.0
@@ -90,19 +91,21 @@ text = "Practice"
 margin_top = 260.0
 margin_right = 120.0
 margin_bottom = 300.0
+disabled = true
 toggle_mode = true
 text = "Duel"
 
 [node name="Quit" type="Button" parent="Panels/Menu/MenuOptions"]
+margin_left = 160.0
 margin_top = 320.0
-margin_right = 120.0
+margin_right = 280.0
 margin_bottom = 360.0
 text = "Quit"
 
 [node name="Settings" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 520.0
+margin_left = 360.0
 margin_top = 320.0
-margin_right = 640.0
+margin_right = 480.0
 margin_bottom = 360.0
 text = "Settings"
 

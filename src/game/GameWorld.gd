@@ -6,6 +6,9 @@ enum DuelStates {P1TURN, P2TURN, END}
 export var duel_state = DuelStates.END
 export var game_mode = GameModes.HUNT
 export var targets = preload("res://src/game/targets/Target.tscn")
+var target_practice_low = preload("res://src/game/targets/TargetPracticeLow.tscn")
+var target_practice_mid = preload("res://src/game/targets/TargetPracticeMid.tscn")
+var target_practice_high = preload("res://src/game/targets/TargetPracticeHigh.tscn")
 onready var line_draw = $Line2D
 onready var pause_screen = $CanvasLayer/HUD/Pause
 onready var game_over_screen = $CanvasLayer/HUD/GameOver
@@ -23,6 +26,8 @@ onready var instructions = $CanvasLayer/Instructions
 onready var clock_display = $CanvasLayer/HUD/Status/Clock
 onready var shots_display = $CanvasLayer/HUD/Accuracy/Shots/ShotsValue
 onready var hits_display = $CanvasLayer/HUD/Accuracy/Hits/HitsValue
+onready var inventory_display = $CanvasLayer/HUD/Inventory
+onready var bagged_display = $CanvasLayer/HUD/Inventory/Bagged/BaggedValue
 onready var arrow_display = $CanvasLayer/HUD/Inventory/Arrows/ArrowValue
 onready var targets_active_display = $CanvasLayer/HUD/TargetsOnField
 var current_seed = 1
@@ -32,6 +37,7 @@ var minutes = 0
 var arrows = 10 setget set_arrows
 var shots = 0 setget _set_shots
 var hits = 0 setget _set_hits
+var bagged = 0 setget _set_bagged
 var game_started = false
 var targets_to_pickup = 0 setget _set_targets_onfield
 var arrow_in_flight = false
@@ -83,20 +89,24 @@ func start_game() -> void:
 	match game_mode:
 		0: # HUNT
 			status_display.visible = true
+			inventory_display.visible = true
 			seconds = 0
 			minutes = 0
 			_set_score(0)
 			_set_shots(0)
 			_set_hits(0)
+			_set_bagged(0)
 			clock_display.text = "00:00"
 			tick.start(1.0)
 			archer1.hunting_mode = true
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
+			spawn_timer.wait_time = 1.0
 			spawn_timer.start()
 		1: # DUEL
 			status_display.visible = false
+			inventory_display.visible = false
 			tick.stop()
 			duel_state = DuelStates.P1TURN
 			archer1.hunting_mode = false
@@ -106,12 +116,16 @@ func start_game() -> void:
 			spawn_timer.stop()
 		2: # PRACTICE
 			status_display.visible = false
+			inventory_display.visible = false
 			tick.stop()
+			_set_shots(0)
+			_set_hits(0)
 			archer1.hunting_mode = true
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
-			spawn_timer.stop()
+			spawn_timer.wait_time = 5.0
+			spawn_timer.start()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -145,11 +159,12 @@ func _on_Resume_pressed() -> void:
 	get_tree().paused = false
 
 func _on_Home_pressed() -> void:
+	instructions.visible = false
 	get_tree().paused = false
 	end_game()
 
 func _on_GameOver_pressed() -> void:
-	pass # save game result
+	get_tree().paused = false
 	end_game()
 
 func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
@@ -167,19 +182,54 @@ func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
 	print(angle)
 
 func _on_SpawnTimer_timeout() -> void:
+	match game_mode:
+		0: # HUNT
+			spawn_bird()
+		1: # DUEL
+			push_error("spawn timer should be off in duel mode")
+		2: # PRACTICE
+			spawn_practice_target()
+
+func spawn_bird() -> void:
 	var target_instance = targets.instance()
 	game_objects.add_child(target_instance)
 	if target_instance.connect("shot", self, "_on_target_hit") != OK:
 		push_error("fail to connect target shot signal")
 	if target_instance.connect("out_of_range", self, "_on_target_out_of_range") != OK:
 		push_error("fail to connect target out of range signal")
-	target_instance.global_position = $Spawner/Position2D4.global_position
+	target_instance.global_position = $Spawner/Bird1.global_position
 	target_instance.direction = Vector2.RIGHT
+
+func spawn_practice_target() -> void:
+	randomize()
+	var choice = rand_range(0, 5)
+	var target_instance = null
+	var spawn_pos = Vector2.ZERO
+	if choice < 1:
+		print("spawn low")
+		target_instance = target_practice_low.instance()
+		spawn_pos = $Spawner/PracticeLow.global_position
+	elif choice < 2:
+		print("spawn mid")
+		target_instance = target_practice_mid.instance()
+		spawn_pos = $Spawner/PracticeMid.global_position
+	else:
+		print("spawn high")
+		target_instance = target_practice_high.instance()
+		spawn_pos = $Spawner/PracticeHigh.global_position
+	if target_instance.connect("shot", self, "_on_target_hit") != OK:
+		push_error("fail to connect target shot signal")
+	if target_instance.connect("out_of_range", self, "_on_target_out_of_range") != OK:
+		push_error("fail to connect target out of range signal")
+	game_objects.add_child(target_instance)
+	target_instance.global_position = spawn_pos
+	target_instance.direction = Vector2.LEFT
 
 func _on_Archer_arrow_fired() -> void:
 	arrow_in_flight = true
 	_set_shots(shots + 1)
-	set_arrows(arrows - 1)
+	if game_mode == 0:
+		set_arrows(arrows - 1)
 
 func _on_target_hit() -> void:
 	_set_targets_onfield(targets_to_pickup + 1)
@@ -187,6 +237,9 @@ func _on_target_hit() -> void:
 
 func _on_Archer_increase_score(score_increase: int) -> void:
 	_set_score(score + score_increase)
+
+func _on_Archer_picked_up() -> void:
+	_set_bagged(bagged + 1)
 
 func _on_Tick_timeout() -> void:
 	seconds += 1
@@ -222,6 +275,10 @@ func end_game() -> void:
 func _set_score(new_value: int) -> void:
 	score = new_value
 	score_display.text = str(score)
+
+func _set_bagged(new_value: int) -> void:
+	bagged = new_value
+	bagged_display.text = str(new_value)
 
 func set_arrows(new_value: int) -> void:
 	arrows = new_value

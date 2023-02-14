@@ -33,6 +33,4 @@ func play_sound(sound_path: String) -> void:
 	queue.append(sound_path)
 
 func play_slide() -> void:
-	randomize()
-	var slide = int(rand_range(1,6))
-	play_sound("res://assets/audio/sounds/slides/cardSlide" + str(slide) + ".ogg")
+	play_sound("res://assets/audio/sounds/arrows/536068__eminyildirim__bow-release-hit.wav")

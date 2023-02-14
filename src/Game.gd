@@ -18,6 +18,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			main_menu.visible = true
 			if main_menu.current_panel == 2:
 				anim.play("to_log")
+				main_menu.hunt_pane.check_today()
 
 func _on_MainMenu_start_practice() -> void:
 	main_menu.visible = false

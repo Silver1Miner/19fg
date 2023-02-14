@@ -38,7 +38,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Flying General"
+config/name="Horse Archer"
 run/main_scene="res://src/Game.tscn"
 boot_splash/image="res://assets/launcher/launcher-2436-1125.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )

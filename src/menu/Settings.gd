@@ -16,7 +16,7 @@ func _on_Back_button_up() -> void:
 
 func _on_TutorialToggle_toggled(button_pressed: bool) -> void:
 	if ready:
-		Audio.play_sound("res://assets/audio/sounds/switch_004.ogg")
+		Audio.play_sound("res://assets/audio/sounds/arrows/559233__bl31gt0__breath_kick.wav")
 	UserData.tutorial_on = button_pressed
 
 func _on_About_toggled(button_pressed: bool) -> void:

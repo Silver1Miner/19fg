@@ -22,7 +22,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 4
+frame = 0
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -30,17 +30,17 @@ frame = 4
 
 [node name="Spawner" type="Node2D" parent="."]
 
-[node name="Position2D" type="Position2D" parent="Spawner"]
-position = Vector2( 680, 40 )
-
-[node name="Position2D2" type="Position2D" parent="Spawner"]
+[node name="PracticeHigh" type="Position2D" parent="Spawner"]
 position = Vector2( 680, 80 )
 
-[node name="Position2D3" type="Position2D" parent="Spawner"]
-position = Vector2( -40, 40 )
+[node name="PracticeMid" type="Position2D" parent="Spawner"]
+position = Vector2( 680, 200 )
 
-[node name="Position2D4" type="Position2D" parent="Spawner"]
-position = Vector2( -40, 80 )
+[node name="PracticeLow" type="Position2D" parent="Spawner"]
+position = Vector2( 680, 320 )
+
+[node name="Bird1" type="Position2D" parent="Spawner"]
+position = Vector2( -40, 100 )
 
 [node name="Line2D" type="Line2D" parent="."]
 width = 2.0
@@ -216,7 +216,7 @@ rect_min_size = Vector2( 60, 0 )
 text = "Bagged:"
 align = 2
 
-[node name="BaggedValeu" type="Label" parent="CanvasLayer/HUD/Inventory/Bagged"]
+[node name="BaggedValue" type="Label" parent="CanvasLayer/HUD/Inventory/Bagged"]
 margin_left = 64.0
 margin_right = 84.0
 margin_bottom = 24.0
@@ -311,8 +311,14 @@ align = 1
 valign = 1
 autowrap = true
 
+[node name="Home" type="Button" parent="CanvasLayer/Instructions"]
+margin_right = 80.0
+margin_bottom = 40.0
+text = "Back"
+
 [connection signal="arrow_fired" from="Archer" to="." method="_on_Archer_arrow_fired"]
 [connection signal="increase_score" from="Archer" to="." method="_on_Archer_increase_score"]
+[connection signal="picked_up" from="Archer" to="." method="_on_Archer_picked_up"]
 [connection signal="update_draw" from="Archer" to="." method="_on_Archer_update_draw"]
 [connection signal="update_draw" from="Archer2" to="." method="_on_Archer_update_draw"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
@@ -322,5 +328,6 @@ autowrap = true
 [connection signal="pressed" from="CanvasLayer/HUD/Pause/Home" to="." method="_on_Home_pressed"]
 [connection signal="pressed" from="CanvasLayer/HUD/GameOver/GameOver" to="." method="_on_GameOver_pressed"]
 [connection signal="pressed" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="CanvasLayer/Instructions/Home" to="." method="_on_Home_pressed"]
 
 [editable path="Archer2"]

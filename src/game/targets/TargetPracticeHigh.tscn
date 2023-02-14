@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/game/targets/Target.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/game/targets/wood-target-high.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 26, 10 )
+
+[node name="TargetPracticeHigh" instance=ExtResource( 1 )]
+gravity = 0.0
+pickup = false
+takes_impulse = false
+animation_name = "RESET"
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2( 0, 128 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+texture = ExtResource( 2 )
+hframes = 1
+vframes = 1
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2( 3.00001, 1 )
+shape = SubResource( 1 )
