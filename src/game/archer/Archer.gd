@@ -3,7 +3,7 @@ extends Node2D
 signal update_draw(draw_start, draw_end)
 signal arrow_fired()
 signal increase_score(score_increase)
-signal picked_up()
+signal picked_up(coin_value)
 export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
@@ -39,6 +39,8 @@ func active_toggle(disable: bool) -> void:
 	pickupbox.monitoring = disable
 
 func _input(event):
+	if get_parent() and not get_parent().game_started:
+		return
 	if state == States.READY:
 		if event is InputEventScreenTouch:
 			if event.position.y > 40 and event.is_pressed():
@@ -74,6 +76,7 @@ func load_projectile():
 		arrow_instance = Arrow.instance()
 		game_objects.add_child(arrow_instance)
 		arrow_instance.connect("landed", get_parent(), "_on_arrow_landed")
+		arrow_instance.connect("arrow_accounted_for", get_parent(), "_on_arrow_accounted_for")
 		arrow_instance.add_to_group(player_group)
 		arrow_instance.position = position
 		arrow_instance.visible = false
@@ -132,7 +135,7 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 		fct.rect_position = global_position
 		fct.show_value(str(area.score_value), Vector2(0,-8), 1, PI/2, false)
 		emit_signal("increase_score", area.score_value)
-		emit_signal("picked_up")
+		emit_signal("picked_up", area.coin_value)
 		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")
 		area.picked_up()
 

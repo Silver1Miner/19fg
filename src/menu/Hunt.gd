@@ -10,16 +10,18 @@ onready var spinbox_up = $SpinBox/Buttons/Up
 onready var spinbox_down = $SpinBox/Buttons/Down
 onready var spinbox_up_one = $SpinBox/Buttons/UpOne
 onready var spinbox_down_one = $SpinBox/Buttons/DownOne
-onready var arrow_display = $Inventory/ArrowCount
+onready var inventory_display = $Inventory
 onready var hunt_display = $HuntDisplay
-var arrows = 120 setget set_arrows
+var arrows = 0 setget set_arrows
+var coins = 0 setget set_coins
 const max_arrows = 999999
 var todays_hunt_completed = false
 
 func _ready() -> void:
 	todays_hunt_completed = false
 	hunt_display.default_display()
-	set_arrows(UserData.owned_arrows)
+	set_arrows(UserData.arrows)
+	set_coins(UserData.gems)
 	check_spin_buttons()
 
 func _on_Back_button_up() -> void:
@@ -39,7 +41,11 @@ func check_today() -> void:
 	calendar_ui.refresh_data()
 	_on_CalendarUI_date_selected(calendar_ui.date)
 	todays_hunt_completed = str(calendar_ui.date.get_day()) in UserData.current_loaded
+	
 	#hunt_button.disabled = todays_hunt_completed
+	
+	set_arrows(UserData.arrows)
+	set_coins(UserData.gems)
 	check_spin_buttons()
 
 func _on_Hunt_pressed() -> void:
@@ -47,7 +53,11 @@ func _on_Hunt_pressed() -> void:
 
 func set_arrows(new_value: int) -> void:
 	arrows = new_value
-	arrow_display.text = str(arrows)
+	inventory_display.update_arrow_display(arrows)
+
+func set_coins(new_value: int) -> void:
+	coins = new_value
+	inventory_display.update_coins_display(coins)
 
 func _on_SpinBox_request_decrease() -> void:
 	spinbox_try_decrease(spinbox.step)

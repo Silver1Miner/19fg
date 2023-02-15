@@ -20,6 +20,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 toggle_mode = true
+pressed = true
 
 [node name="Label" type="Label" parent="Sound"]
 margin_left = 40.0
@@ -46,6 +47,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 toggle_mode = true
+pressed = true
 
 [node name="Label" type="Label" parent="Music"]
 margin_left = 40.0

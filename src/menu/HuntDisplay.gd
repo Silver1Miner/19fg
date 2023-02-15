@@ -6,6 +6,7 @@ onready var shots_display = $GridContainer/ShotsValue
 onready var hits_display = $GridContainer/HitsValue
 onready var accuracy_display = $GridContainer/AccuracyValue
 onready var score_display = $GridContainer/ScoreValue
+onready var pay_display = $GridContainer/PayoutValue
 
 func default_display() -> void:
 	time_display.text = "--:--"
@@ -13,6 +14,7 @@ func default_display() -> void:
 	hits_display.text = "--"
 	accuracy_display.text = "--%"
 	score_display.text = "--"
+	pay_display.text = "--"
 
 func update_date_display(year: int, month: int, day: int) -> void:
 	date_display.text = str(year) + "/" + str(month) + "/" + str(day)
@@ -41,11 +43,26 @@ func update_accuracy_display(shots: int, hits: int) -> void:
 func update_score_display(score: int) -> void:
 	score_display.text = str(score)
 
+func update_pay_display(pay: int) -> void:
+	pay_display.text = str(pay)
+
 func attempt_update(data: Dictionary) -> void:
 	print(data)
 	if data.has("shots") and data.has("hits"):
 		update_accuracy_display(data.shots, data.hits)
+	else:
+		shots_display.text = "--"
+		hits_display.text = "--"
+		accuracy_display.text = "--"
 	if data.has("minutes") and data.has("seconds"):
 		update_time_display(data.minutes, data.seconds)
+	else:
+		time_display.text = "--:--"
 	if data.has("score"):
 		update_score_display(data.score)
+	else:
+		score_display.text = "--"
+	if data.has("pay"):
+		update_pay_display(data.pay)
+	else:
+		pay_display.text = "--"

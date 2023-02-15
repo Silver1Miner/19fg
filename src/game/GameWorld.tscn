@@ -22,7 +22,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 560, 280 )
 
 [node name="Horse" parent="Archer2" index="2"]
-frame = 6
+frame = 7
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -62,48 +62,52 @@ margin_bottom = 40.0
 text = "Back"
 
 [node name="Inventory" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
-margin_left = 400.0
-margin_right = 484.0
+margin_left = 360.0
+margin_right = 480.0
 margin_bottom = 48.0
 custom_constants/separation = 0
+alignment = 2
 
 [node name="Arrows" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Inventory"]
-margin_right = 84.0
+margin_right = 125.0
 margin_bottom = 24.0
+alignment = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Arrows"]
-margin_right = 60.0
+margin_left = 21.0
+margin_right = 81.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 60, 0 )
 text = "Arrows:"
 align = 2
 
 [node name="ArrowValue" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Arrows"]
-margin_left = 64.0
-margin_right = 84.0
+margin_left = 85.0
+margin_right = 125.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 20, 0 )
+rect_min_size = Vector2( 40, 0 )
 text = "99"
 align = 1
 
 [node name="Bagged" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Inventory"]
 margin_top = 24.0
-margin_right = 84.0
+margin_right = 125.0
 margin_bottom = 48.0
+alignment = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Bagged"]
-margin_right = 60.0
+margin_right = 81.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 60, 0 )
-text = "Bagged:"
+text = "Gains Value:"
 align = 2
 
 [node name="BaggedValue" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Bagged"]
-margin_left = 64.0
-margin_right = 84.0
+margin_left = 85.0
+margin_right = 125.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 20, 0 )
-text = "99"
+rect_min_size = Vector2( 40, 0 )
+text = "9999"
 align = 1
 
 [node name="Aim" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
@@ -184,13 +188,13 @@ rect_min_size = Vector2( 60, 0 )
 text = "999999"
 
 [node name="Accuracy" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
-margin_left = 500.0
-margin_right = 565.0
+margin_left = 520.0
+margin_right = 600.0
 margin_bottom = 48.0
 custom_constants/separation = 0
 
 [node name="Shots" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Accuracy"]
-margin_right = 65.0
+margin_right = 80.0
 margin_bottom = 24.0
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Accuracy/Shots"]
@@ -202,15 +206,15 @@ align = 2
 
 [node name="ShotsValue" type="Label" parent="CanvasLayer/HUD/TopBar/Accuracy/Shots"]
 margin_left = 45.0
-margin_right = 65.0
+margin_right = 75.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 20, 20 )
+rect_min_size = Vector2( 30, 20 )
 text = "99"
 align = 1
 
 [node name="Hits" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Accuracy"]
 margin_top = 24.0
-margin_right = 65.0
+margin_right = 80.0
 margin_bottom = 48.0
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Accuracy/Hits"]
@@ -222,9 +226,9 @@ align = 2
 
 [node name="HitsValue" type="Label" parent="CanvasLayer/HUD/TopBar/Accuracy/Hits"]
 margin_left = 44.0
-margin_right = 64.0
+margin_right = 74.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 20, 20 )
+rect_min_size = Vector2( 30, 20 )
 text = "99"
 align = 1
 
@@ -275,16 +279,15 @@ margin_bottom = 244.0
 text = "99"
 
 [node name="Instructions" type="ColorRect" parent="CanvasLayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
 color = Color( 0, 0, 0, 0.392157 )
 
 [node name="Start" type="Button" parent="CanvasLayer/Instructions"]
-margin_left = 280.0
-margin_top = 300.0
-margin_right = 360.0
+margin_left = 240.0
+margin_top = 280.0
+margin_right = 400.0
 margin_bottom = 340.0
 text = "Start"
 
@@ -292,12 +295,21 @@ text = "Start"
 margin_left = 120.0
 margin_top = 60.0
 margin_right = 520.0
-margin_bottom = 240.0
-text = "touch to notch arrow
+margin_bottom = 180.0
+text = "touch/click to notch arrow
 drag to pull back arrow
-release to fire arrow
+release to fire arrow"
+align = 1
+valign = 1
+autowrap = true
 
-Different Bows and Arrows have different effects
+[node name="Tutorial2" type="Label" parent="CanvasLayer/Instructions"]
+visible = false
+margin_left = 120.0
+margin_top = 160.0
+margin_right = 520.0
+margin_bottom = 280.0
+text = "Different Bows and Arrows have different effects
 Experiment!"
 align = 1
 valign = 1

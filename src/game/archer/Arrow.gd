@@ -2,6 +2,7 @@ class_name Arrow
 extends Area2D
 
 signal landed()
+signal arrow_accounted_for()
 
 onready var head = $CollisionShape2D
 var fired = false
@@ -46,4 +47,5 @@ func _physics_process(delta: float) -> void:
 	if global_position.x < -80:
 		emit_signal("landed")
 		print("arrow out of range")
+		emit_signal("arrow_accounted_for")
 		queue_free()

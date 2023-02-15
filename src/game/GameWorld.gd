@@ -41,7 +41,7 @@ var minutes = 0
 var arrows = 10 setget set_arrows
 var shots = 0 setget _set_shots
 var hits = 0 setget _set_hits
-var bagged = 0 setget _set_bagged
+var payout = 0 setget _set_bagged_value
 var game_started = false
 var targets_to_pickup = 0 setget _set_targets_onfield
 var arrow_in_flight = false
@@ -121,7 +121,7 @@ func start_game() -> void:
 			_set_score(0)
 			_set_shots(0)
 			_set_hits(0)
-			_set_bagged(0)
+			_set_bagged_value(0)
 			clock_display.text = "00:00"
 			tick.start(1.0)
 			archer1.hunting_mode = true
@@ -165,6 +165,11 @@ func _on_arrow_landed() -> void:
 	check_hunt_end()
 	if game_mode == GameModes.DUEL:
 		next_turn()
+
+func _on_arrow_accounted_for() -> void:
+	print("arrow gone")
+	if arrows <= 0:
+		check_hunt_end()
 
 func next_turn() -> void:
 	if duel_state == DuelStates.P1TURN:
@@ -242,15 +247,12 @@ func spawn_practice_target() -> void:
 	var target_instance = null
 	var spawn_pos = Vector2.ZERO
 	if choice < 1:
-		print("spawn low")
 		target_instance = target_practice_low.instance()
 		spawn_pos = $Spawner/PracticeLow.global_position
 	elif choice < 2:
-		print("spawn mid")
 		target_instance = target_practice_mid.instance()
 		spawn_pos = $Spawner/PracticeMid.global_position
 	else:
-		print("spawn high")
 		target_instance = target_practice_high.instance()
 		spawn_pos = $Spawner/PracticeHigh.global_position
 	if target_instance.connect("shot", self, "_on_target_hit") != OK:
@@ -274,8 +276,8 @@ func _on_target_hit() -> void:
 func _on_Archer_increase_score(score_increase: int) -> void:
 	_set_score(score + score_increase)
 
-func _on_Archer_picked_up() -> void:
-	_set_bagged(bagged + 1)
+func _on_Archer_picked_up(coin_value: int) -> void:
+	_set_bagged_value(payout + coin_value)
 
 func _on_Tick_timeout() -> void:
 	seconds += 1
@@ -312,9 +314,9 @@ func _set_score(new_value: int) -> void:
 	score = new_value
 	score_display.text = str(score)
 
-func _set_bagged(new_value: int) -> void:
-	bagged = new_value
-	bagged_display.text = str(new_value)
+func _set_bagged_value(new_value: int) -> void:
+	payout = new_value
+	bagged_display.text = str(payout)
 
 func set_arrows(new_value: int) -> void:
 	arrows = new_value
@@ -337,7 +339,8 @@ func _on_target_out_of_range() -> void:
 func _set_targets_onfield(new_value: int) -> void:
 	targets_to_pickup = new_value
 	targets_active_display.text = str(new_value)
-	check_hunt_end()
+	if targets_to_pickup <= 0:
+		check_hunt_end()
 
 func check_hunt_end() -> void:
 	if targets_to_pickup == 0 and arrows <= 0 and not arrow_in_flight:
@@ -352,4 +355,5 @@ func save_hunting_results() -> void:
 	hunting_result.update_time_display(minutes, seconds)
 	hunting_result.update_accuracy_display(shots, hits)
 	hunting_result.update_score_display(score)
-	UserData.save_today(minutes, seconds, shots, hits, score)
+	hunting_result.update_pay_display(payout)
+	UserData.save_today(minutes, seconds, shots, hits, score, payout)

@@ -25,7 +25,7 @@ script = ExtResource( 2 )
 
 [node name="Back" type="Button" parent="."]
 margin_right = 80.0
-margin_bottom = 40.0
+margin_bottom = 60.0
 text = "Back"
 
 [node name="Hunt" type="Button" parent="."]
@@ -81,12 +81,12 @@ align = 1
 valign = 1
 
 [node name="Instructions2" type="Label" parent="."]
-margin_left = 120.0
+margin_left = 100.0
 margin_top = 140.0
-margin_right = 260.0
+margin_right = 280.0
 margin_bottom = 160.0
 custom_fonts/font = SubResource( 2 )
-text = "10 Free Every Day"
+text = "10 Free Arrows Every Day"
 align = 1
 valign = 1
 

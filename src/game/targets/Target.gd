@@ -8,6 +8,7 @@ export var pickup = true
 export var takes_impulse = true
 onready var body = $CollisionShape2D
 onready var anim = $AnimationPlayer
+export var coin_value = 10
 export var mass = 0.1
 export var speed = 200
 export var ground_speed = 200
@@ -38,6 +39,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_Target_area_entered(area: Area2D) -> void:
 	if area.is_in_group("arrow") and area.fired:
+		emit_signal("shot")
 		area.remove_from_group("arrow")
 		anim.stop()
 		speed = ground_speed
@@ -46,7 +48,6 @@ func _on_Target_area_entered(area: Area2D) -> void:
 			direction += Vector2(impulse.x, impulse.y)
 		area.stick_to(self)
 		is_shot = true
-		emit_signal("shot")
 
 func picked_up() -> void:
 	emit_signal("out_of_range")

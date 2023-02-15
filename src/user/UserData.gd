@@ -1,6 +1,8 @@
 extends Node
 
-const privacy_policy_link = "https://itch.io/t/2578167/privacy-policy"
+const privacy_policy_link = "https://itch.io/t/2660829/privacy-policy"
+const copyright_text = """v 0.1.0.14 -- February 14, 2023
+Copyright © 2023 Jack Anderson"""
 var current_game_mode = 0
 # SETTINGS
 var jukebox_index = 3
@@ -13,8 +15,11 @@ var current_month_loaded = 0
 var current_loaded = {}
 # INVENTORY
 var owned_tracks = 1
-var owned_arrows = 45
-var gems = 0
+var arrows = 10 setget set_arrows
+var gems = 0 setget set_gems
+const max_gems = 999999
+const max_arrows = 999999
+var inventory = {}
 
 var tracks = [
 	["peaceful", preload("res://assets/audio/music/a-peaceful-morning-traditional-chinese-style-folk-music-129024.mp3")],
@@ -25,6 +30,7 @@ var tracks = [
 
 func _ready() -> void:
 	load_settings()
+	load_inventory()
 
 func save_settings() -> void:
 	print("attempting to save settings")
@@ -33,6 +39,7 @@ func save_settings() -> void:
 	var settings_dict = {
 		"mute_music": mute_music,
 		"mute_sound": mute_sound,
+		"tutorial_on": tutorial_on,
 	}
 	print(settings_dict)
 	settings.store_line(to_json(settings_dict))
@@ -51,6 +58,8 @@ func load_settings() -> void:
 			mute_music = bool(sd.mute_music)
 		if sd.has("mute_sound"):
 			mute_sound = bool(sd.mute_sound)
+		if sd.has("tutorial_on"):
+			tutorial_on = bool(sd.tutorial_on)
 	settings.close()
 
 func change_records_loaded(new_year: int, new_month: int) -> void:
@@ -96,7 +105,7 @@ func has_record(year: int, month: int, day: int) -> bool:
 	change_records_loaded(year, month)
 	return str(day) in current_loaded
 
-func save_today(minutes: int, seconds: int, shots: int, hits: int, score: int) -> void:
+func save_today(minutes: int, seconds: int, shots: int, hits: int, score: int, pay: int) -> void:
 	change_records_loaded(OS.get_date()["year"], OS.get_date()["month"])
 	var day = OS.get_date()["day"]
 	if current_loaded.has(day):
@@ -106,7 +115,54 @@ func save_today(minutes: int, seconds: int, shots: int, hits: int, score: int) -
 		"hits": hits,
 		"score": score,
 		"minutes": minutes,
-		"seconds": seconds
+		"seconds": seconds,
+		"pay": pay
 	}
+	set_arrows(arrows + 10 - shots)
+	set_gems(gems + pay)
 	change_records_loaded(OS.get_date()["year"], OS.get_date()["month"])
 
+func set_gems(new_value: int) -> void:
+	gems = int(clamp(new_value, 0, max_gems))
+	save_inventory()
+
+func set_arrows(new_value: int) -> void:
+	arrows = int(clamp(new_value, 0, max_arrows))
+	save_inventory()
+
+func save_inventory() -> void:
+	var save = File.new()
+	var dir = Directory.new()
+	dir.open("user://")
+	if not dir.dir_exists("user://records/"):
+		dir.make_dir("user://records/")
+	save.open("user://records/inventory.save", File.WRITE)
+	var inv_dict = {
+		"owned_tracks": owned_tracks,
+		"arrows": arrows,
+		"gems": gems,
+		"inventory": inventory.duplicate(true),
+	}
+	save.store_line(to_json(inv_dict))
+	save.close()
+
+func load_inventory() -> void:
+	print("attempting to load iventory")
+	var save_dir = "user://records/inventory.save"
+	var save = File.new()
+	if not save.file_exists(save_dir):
+		print("no inventory save found")
+		return
+	save.open(save_dir, File.READ)
+	var invd = parse_json(save.get_line())
+	print(invd)
+	if typeof(invd) == TYPE_DICTIONARY:
+		if invd.has("owned_tracks"):
+			owned_tracks = int(invd.owned_tracks)
+		if invd.has("arrows"):
+			arrows = int(invd.arrows)
+		if invd.has("gems"):
+			gems = int(invd.gems)
+		if invd.has("inventory"):
+			inventory = invd.inventory.duplicate(true)
+	save.close()

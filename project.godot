@@ -47,8 +47,8 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
-Audio="*res://src/audio/Audio.tscn"
 UserData="*res://src/user/UserData.tscn"
+Audio="*res://src/audio/Audio.tscn"
 Billing="*res://src/iap/Billing.tscn"
 
 [display]
