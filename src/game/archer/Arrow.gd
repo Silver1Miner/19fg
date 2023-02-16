@@ -10,9 +10,13 @@ var on_ground = false
 export var mass = 10.0
 export var ground_speed = 200
 export var velocity = Vector2.ZERO
+var itemdata = preload("res://data/itemdata.tres")
 
 func _ready() -> void:
 	add_to_group("arrow")
+
+func set_type(new_type: int) -> void:
+	$Sprite.self_modulate = itemdata.colors[new_type]
 
 func deactivate() -> void:
 	monitoring = false

@@ -3,9 +3,6 @@ extends Control
 signal back()
 onready var anim = $AnimationPlayer
 
-func _ready() -> void:
-	pass # Replace with function body.
-
 func _on_Back_button_up() -> void:
 	emit_signal("back")
 
@@ -34,3 +31,9 @@ func attempt_cash_purchase(index: int) -> void:
 		print("no shop connected")
 		if not OS.get_name() in ["Android", "iOS"]:
 			Billing.non_mobile_testing(index)
+
+func _on_BuyBonusArrows1_pressed() -> void:
+	pass # Replace with function body.
+
+func _on_BuyBonusArrows2_pressed() -> void:
+	pass # Replace with function body.

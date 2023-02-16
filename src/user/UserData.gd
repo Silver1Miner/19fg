@@ -5,7 +5,7 @@ const copyright_text = """v 0.1.0.14 -- February 14, 2023
 Copyright © 2023 Jack Anderson"""
 var current_game_mode = 0
 # SETTINGS
-var jukebox_index = 3
+var jukebox_index = 2
 var mute_music = false
 var mute_sound = false
 var tutorial_on = true
@@ -20,6 +20,12 @@ var gems = 0 setget set_gems
 const max_gems = 999999
 const max_arrows = 999999
 var inventory = {}
+var loadout = {
+	"arrow": 1,
+	"bow": 1,
+	"banner": -1,
+	"helm": -1,
+}
 
 var tracks = [
 	["peaceful", preload("res://assets/audio/music/a-peaceful-morning-traditional-chinese-style-folk-music-129024.mp3")],
@@ -142,6 +148,7 @@ func save_inventory() -> void:
 		"arrows": arrows,
 		"gems": gems,
 		"inventory": inventory.duplicate(true),
+		"loadout": loadout.duplicate(true)
 	}
 	save.store_line(to_json(inv_dict))
 	save.close()
@@ -165,4 +172,6 @@ func load_inventory() -> void:
 			gems = int(invd.gems)
 		if invd.has("inventory"):
 			inventory = invd.inventory.duplicate(true)
+		if invd.has("loadout"):
+			loadout = invd.loadout.duplicate(true)
 	save.close()

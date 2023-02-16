@@ -10,6 +10,7 @@ export var hunting_mode = false
 export var bow_elastic_force = 1000.0
 export var gravity = 10.0
 onready var game_objects = get_node_or_null("../GameObjects")
+onready var bow_sprite = $Aiming/Bow
 onready var hitbox = $Hitbox
 onready var pickupbox = $PickupBox
 onready var reload_timer = $Timer
@@ -19,9 +20,12 @@ onready var anim = $AnimationPlayer
 onready var draw_start = Vector2.ZERO
 onready var draw_end = Vector2.ZERO
 var launch_impulse = Vector2.ZERO
+var bow_type = 0
+var arrow_type = 0
 var Arrow = preload("res://src/game/archer/Arrow.tscn")
 var FCT = preload("res://src/game/effects/FCT.tscn")
 var arrow_instance = null
+var itemdata = preload("res://data/itemdata.tres")
 
 enum States {
 	IDLE,
@@ -31,7 +35,19 @@ enum States {
 var state = States.READY
 
 func _ready() -> void:
-	pass
+	update_loadout(UserData.loadout)
+
+func update_loadout(loadout_data: Dictionary) -> void:
+	if loadout_data.has("arrow"):
+		arrow_type = loadout_data.arrow
+	if loadout_data.has("bow"):
+		bow_type = loadout_data.bow
+		trajectory_draw.color = itemdata.colors[bow_type]
+		bow_sprite.self_modulate = itemdata.colors[bow_type]
+	if loadout_data.has("banner"):
+		print(loadout_data.banner)
+	if loadout_data.has("helm"):
+		print(loadout_data.helm)
 
 func active_toggle(disable: bool) -> void:
 	visible = disable
@@ -74,6 +90,7 @@ func load_projectile():
 	state = States.AIMING
 	if game_objects:
 		arrow_instance = Arrow.instance()
+		arrow_instance.set_type(arrow_type)
 		game_objects.add_child(arrow_instance)
 		arrow_instance.connect("landed", get_parent(), "_on_arrow_landed")
 		arrow_instance.connect("arrow_accounted_for", get_parent(), "_on_arrow_accounted_for")

@@ -25,7 +25,7 @@ script = ExtResource( 2 )
 
 [node name="Back" type="Button" parent="."]
 margin_right = 80.0
-margin_bottom = 60.0
+margin_bottom = 40.0
 text = "Back"
 
 [node name="Hunt" type="Button" parent="."]
@@ -54,6 +54,8 @@ margin_right = 258.0
 margin_bottom = 140.0
 
 [node name="Inventory" parent="." instance=ExtResource( 7 )]
+margin_top = 0.0
+margin_bottom = 40.0
 
 [node name="CalendarUI" parent="." instance=ExtResource( 1 )]
 margin_left = 280.0

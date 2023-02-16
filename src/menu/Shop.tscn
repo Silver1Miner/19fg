@@ -1,14 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/menu/Shop.gd" type="Script" id=1]
-[ext_resource path="res://src/menu/LoadoutMenu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/menu/LoadoutOptions.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=3]
-[ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://src/menu/Inventory.tscn" type="PackedScene" id=5]
-
-[sub_resource type="DynamicFont" id=1]
-size = 30
-font_data = ExtResource( 4 )
 
 [node name="Shop" type="Control"]
 margin_right = 640.0
@@ -21,50 +16,59 @@ script = ExtResource( 1 )
 margin_right = 320.0
 margin_bottom = 360.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="ShopPanel"]
+[node name="TabContainer" type="TabContainer" parent="ShopPanel"]
 margin_left = 10.0
-margin_top = 40.0
+margin_top = 10.0
 margin_right = 310.0
-margin_bottom = 360.0
+margin_bottom = 350.0
+
+[node name="Equipment" type="ScrollContainer" parent="ShopPanel/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 42.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="LoadoutOptions" parent="ShopPanel/TabContainer/Equipment" instance=ExtResource( 2 )]
+margin_bottom = 806.0
+
+[node name="Arrows" type="ScrollContainer" parent="ShopPanel/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 42.0
+margin_right = -8.0
+margin_bottom = -4.0
+scroll_horizontal_enabled = false
+
+[node name="ToolOptions" type="VBoxContainer" parent="ShopPanel/TabContainer/Arrows"]
+margin_right = 300.0
+margin_bottom = 148.0
 rect_min_size = Vector2( 300, 0 )
 
-[node name="ShopOptions" type="VBoxContainer" parent="ShopPanel/ScrollContainer"]
+[node name="Label" type="Label" parent="ShopPanel/TabContainer/Arrows/ToolOptions"]
 margin_right = 300.0
-margin_bottom = 840.0
-custom_constants/separation = 20
-
-[node name="Tools" type="Panel" parent="ShopPanel/ScrollContainer/ShopOptions"]
-margin_right = 300.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 0, 180 )
-
-[node name="ToolOptions" type="VBoxContainer" parent="ShopPanel/ScrollContainer/ShopOptions/Tools"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 280.0
-margin_bottom = 100.0
-
-[node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions"]
-margin_right = 260.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 0, 20 )
 text = "Buy Bonus Arrows"
 align = 1
 valign = 1
 
-[node name="ArrowOptions" type="HBoxContainer" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions"]
+[node name="ArrowOptions" type="HBoxContainer" parent="ShopPanel/TabContainer/Arrows/ToolOptions"]
 margin_top = 28.0
-margin_right = 260.0
+margin_right = 300.0
 margin_bottom = 148.0
 custom_constants/separation = 20
 alignment = 1
 
-[node name="BuyBonusArrows1" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions"]
-margin_right = 120.0
+[node name="BuyBonusArrows1" type="Button" parent="ShopPanel/TabContainer/Arrows/ToolOptions/ArrowOptions"]
+margin_left = 20.0
+margin_right = 140.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 120, 120 )
 
-[node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions/BuyBonusArrows1"]
+[node name="Label" type="Label" parent="ShopPanel/TabContainer/Arrows/ToolOptions/ArrowOptions/BuyBonusArrows1"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "10 Arrows
@@ -73,13 +77,13 @@ for
 align = 1
 valign = 1
 
-[node name="BuyBonusArrows2" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions"]
-margin_left = 140.0
-margin_right = 260.0
+[node name="BuyBonusArrows2" type="Button" parent="ShopPanel/TabContainer/Arrows/ToolOptions/ArrowOptions"]
+margin_left = 160.0
+margin_right = 280.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 120, 120 )
 
-[node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Tools/ToolOptions/ArrowOptions/BuyBonusArrows2"]
+[node name="Label" type="Label" parent="ShopPanel/TabContainer/Arrows/ToolOptions/ArrowOptions/BuyBonusArrows2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "100 Arrows
@@ -88,28 +92,23 @@ for
 align = 1
 valign = 1
 
-[node name="Unlocks" type="Panel" parent="ShopPanel/ScrollContainer/ShopOptions"]
-margin_top = 200.0
-margin_right = 300.0
-margin_bottom = 500.0
-rect_min_size = Vector2( 300, 300 )
+[node name="Coins" type="ScrollContainer" parent="ShopPanel/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 42.0
+margin_right = -3.0
+margin_bottom = -4.0
 
-[node name="Support" type="Panel" parent="ShopPanel/ScrollContainer/ShopOptions"]
-margin_top = 520.0
-margin_right = 300.0
-margin_bottom = 840.0
-rect_min_size = Vector2( 300, 320 )
-
-[node name="SupportOptions" type="VBoxContainer" parent="ShopPanel/ScrollContainer/ShopOptions/Support"]
-margin_left = 20.0
-margin_top = 10.0
+[node name="SupportOptions" type="VBoxContainer" parent="ShopPanel/TabContainer/Coins"]
 margin_right = 280.0
-margin_bottom = 307.0
-rect_min_size = Vector2( 260, 0 )
+margin_bottom = 280.0
+rect_min_size = Vector2( 280, 0 )
 custom_constants/separation = 0
 
-[node name="Tips" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions"]
-margin_right = 260.0
+[node name="Tips" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions"]
+margin_right = 280.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 120, 60 )
 text = "Tip Jar
@@ -118,37 +117,37 @@ align = 1
 valign = 2
 autowrap = true
 
-[node name="BuyTip" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions"]
+[node name="BuyTip" type="Button" parent="ShopPanel/TabContainer/Coins/SupportOptions"]
 margin_top = 60.0
-margin_right = 260.0
+margin_right = 280.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 40 )
 text = "$0.99"
 
-[node name="Gems" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions"]
+[node name="Gems" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions"]
 margin_top = 100.0
-margin_right = 260.0
-margin_bottom = 160.0
-rect_min_size = Vector2( 120, 60 )
-text = "
-Buy Coins"
+margin_right = 280.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 120, 40 )
+text = "Buy Coins"
 align = 1
 valign = 2
 autowrap = true
 
-[node name="GemOptions" type="HBoxContainer" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions"]
-margin_top = 160.0
-margin_right = 260.0
-margin_bottom = 300.0
+[node name="GemOptions" type="HBoxContainer" parent="ShopPanel/TabContainer/Coins/SupportOptions"]
+margin_top = 140.0
+margin_right = 280.0
+margin_bottom = 280.0
 custom_constants/separation = 10
 alignment = 1
 
-[node name="BuyGems1" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions"]
-margin_right = 80.0
+[node name="BuyGems1" type="Button" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions"]
+margin_left = 10.0
+margin_right = 90.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 80, 140 )
 
-[node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems1"]
+[node name="Label" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems1"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "300
@@ -158,13 +157,13 @@ $4.99"
 align = 1
 valign = 1
 
-[node name="BuyGems2" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions"]
-margin_left = 90.0
-margin_right = 170.0
+[node name="BuyGems2" type="Button" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions"]
+margin_left = 100.0
+margin_right = 180.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 80, 140 )
 
-[node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems2"]
+[node name="Label" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "600
@@ -174,13 +173,13 @@ $9.99"
 align = 1
 valign = 1
 
-[node name="BuyGems3" type="Button" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions"]
-margin_left = 180.0
-margin_right = 260.0
+[node name="BuyGems3" type="Button" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions"]
+margin_left = 190.0
+margin_right = 270.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 80, 140 )
 
-[node name="Label" type="Label" parent="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems3"]
+[node name="Label" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "1500
@@ -190,30 +189,66 @@ $19.99"
 align = 1
 valign = 1
 
-[node name="LoadoutMenu" parent="." instance=ExtResource( 2 )]
-
 [node name="Inventory" parent="." instance=ExtResource( 5 )]
 margin_left = 380.0
+margin_top = 0.0
 margin_right = 540.0
+margin_bottom = 40.0
 
 [node name="Back" type="Button" parent="."]
 margin_left = 560.0
 margin_right = 640.0
-margin_bottom = 60.0
-text = "Back"
-
-[node name="ShopLabel" type="Label" parent="."]
-margin_right = 300.0
 margin_bottom = 40.0
-custom_fonts/font = SubResource( 1 )
-text = "SHOP"
-align = 1
-valign = 1
+text = "Back"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
-[connection signal="button_up" from="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/BuyTip" to="." method="_on_BuyTip_button_up"]
-[connection signal="button_up" from="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems1" to="." method="_on_BuyGems1_button_up"]
-[connection signal="button_up" from="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems2" to="." method="_on_BuyGems2_button_up"]
-[connection signal="button_up" from="ShopPanel/ScrollContainer/ShopOptions/Support/SupportOptions/GemOptions/BuyGems3" to="." method="_on_BuyGems3_button_up"]
+[node name="ConfirmPanel" type="Panel" parent="."]
+margin_left = -320.0
+margin_bottom = 360.0
+rect_min_size = Vector2( 320, 360 )
+
+[node name="Preview" type="TextureRect" parent="ConfirmPanel"]
+margin_left = 140.0
+margin_top = 20.0
+margin_right = 180.0
+margin_bottom = 60.0
+expand = true
+
+[node name="Description" type="Label" parent="ConfirmPanel"]
+margin_left = 20.0
+margin_top = 80.0
+margin_right = 300.0
+margin_bottom = 280.0
+text = "Red Arrows
+Cost: 1000
+Weight: 1"
+align = 1
+
+[node name="Options" type="HBoxContainer" parent="ConfirmPanel"]
+margin_left = 40.0
+margin_top = 300.0
+margin_right = 280.0
+margin_bottom = 340.0
+custom_constants/separation = 40
+
+[node name="Confirm" type="Button" parent="ConfirmPanel/Options"]
+margin_right = 100.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="ConfirmPanel/Options"]
+margin_left = 140.0
+margin_right = 240.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+text = "Cancel"
+
+[connection signal="pressed" from="ShopPanel/TabContainer/Arrows/ToolOptions/ArrowOptions/BuyBonusArrows1" to="." method="_on_BuyBonusArrows1_pressed"]
+[connection signal="pressed" from="ShopPanel/TabContainer/Arrows/ToolOptions/ArrowOptions/BuyBonusArrows2" to="." method="_on_BuyBonusArrows2_pressed"]
+[connection signal="button_up" from="ShopPanel/TabContainer/Coins/SupportOptions/BuyTip" to="." method="_on_BuyTip_button_up"]
+[connection signal="button_up" from="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems1" to="." method="_on_BuyGems1_button_up"]
+[connection signal="button_up" from="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems2" to="." method="_on_BuyGems2_button_up"]
+[connection signal="button_up" from="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems3" to="." method="_on_BuyGems3_button_up"]
 [connection signal="button_up" from="Back" to="." method="_on_Back_button_up"]

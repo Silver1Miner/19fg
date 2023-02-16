@@ -3,6 +3,7 @@ extends Node2D
 var initial_velocity = Vector2()
 var drawing = false
 var gravity = 98
+var color = Color(1, 0 ,0)
 var points = {
 	"gap": 10,
 	"radius": 2,
@@ -25,7 +26,7 @@ func clear():
 func _draw() -> void:
 	if initial_velocity.length() <= 0:
 		return
-	var col = points.color
+	var col = color #points.color
 	if drawing:
 		var angle = -initial_velocity.angle()
 		#for i in range (20):

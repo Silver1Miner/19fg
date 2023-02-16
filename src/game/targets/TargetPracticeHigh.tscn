@@ -22,4 +22,5 @@ vframes = 1
 
 [node name="CollisionShape2D" parent="." index="2"]
 position = Vector2( 3.00001, 1 )
+rotation = 1.5708
 shape = SubResource( 1 )

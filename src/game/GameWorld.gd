@@ -278,6 +278,8 @@ func _on_Archer_increase_score(score_increase: int) -> void:
 
 func _on_Archer_picked_up(coin_value: int) -> void:
 	_set_bagged_value(payout + coin_value)
+	if arrows <= 0:
+		check_hunt_end()
 
 func _on_Tick_timeout() -> void:
 	seconds += 1
@@ -343,7 +345,7 @@ func _set_targets_onfield(new_value: int) -> void:
 		check_hunt_end()
 
 func check_hunt_end() -> void:
-	if targets_to_pickup == 0 and arrows <= 0 and not arrow_in_flight:
+	if targets_to_pickup <= 0 and arrows <= 0 and not arrow_in_flight:
 		tick.stop()
 		save_hunting_results()
 		topbar.visible = false

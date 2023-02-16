@@ -164,10 +164,14 @@ hframes = 6
 scale = Vector2( -1, 1 )
 texture = ExtResource( 4 )
 
+[node name="Hat" type="Sprite" parent="ArcherBody"]
+
+[node name="Banner" type="Sprite" parent="ArcherBody"]
+
 [node name="Horse" type="AnimatedSprite" parent="."]
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
-frame = 8
+frame = 1
 playing = true
 flip_h = true
 

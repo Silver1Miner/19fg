@@ -1,0 +1,315 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
+
+[node name="LoadoutOptions" type="VBoxContainer"]
+margin_right = 280.0
+margin_bottom = 196.0
+theme = ExtResource( 1 )
+
+[node name="BowLabel" type="Label" parent="."]
+margin_right = 280.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 0, 20 )
+text = "Bow Types"
+align = 1
+valign = 1
+
+[node name="BowUnlocks" type="GridContainer" parent="."]
+margin_top = 28.0
+margin_right = 280.0
+margin_bottom = 168.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 2
+
+[node name="BuyBow1" type="Button" parent="BowUnlocks"]
+margin_right = 130.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BowUnlocks/BuyBow1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "White Bow
+Buy for 800"
+align = 1
+valign = 1
+
+[node name="BuyBow2" type="Button" parent="BowUnlocks"]
+margin_left = 150.0
+margin_right = 280.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BowUnlocks/BuyBow2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Blue Bow
+Buy for1000"
+align = 1
+valign = 1
+
+[node name="BuyBow3" type="Button" parent="BowUnlocks"]
+margin_top = 80.0
+margin_right = 130.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BowUnlocks/BuyBow3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Yellow Bow
+Buy for 2000"
+align = 1
+valign = 1
+
+[node name="BuyBow4" type="Button" parent="BowUnlocks"]
+margin_left = 150.0
+margin_top = 80.0
+margin_right = 280.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BowUnlocks/BuyBow4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "RED BOW
+Buy for 4000"
+align = 1
+valign = 1
+
+[node name="ArrowLabel" type="Label" parent="."]
+margin_top = 172.0
+margin_right = 280.0
+margin_bottom = 223.0
+rect_min_size = Vector2( 280, 20 )
+text = "
+Arrow Types"
+align = 1
+valign = 1
+
+[node name="ArrowUnlocks" type="GridContainer" parent="."]
+margin_top = 227.0
+margin_right = 280.0
+margin_bottom = 367.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 2
+
+[node name="BuyArrow1" type="Button" parent="ArrowUnlocks"]
+margin_right = 130.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "White Arrows
+Buy for 800"
+align = 1
+valign = 1
+
+[node name="BuyArrow2" type="Button" parent="ArrowUnlocks"]
+margin_left = 150.0
+margin_right = 280.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Blue Arrows
+Buy for1000"
+align = 1
+valign = 1
+
+[node name="BuyArrow3" type="Button" parent="ArrowUnlocks"]
+margin_top = 80.0
+margin_right = 130.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Yellow Arrows
+Buy for 2000"
+align = 1
+valign = 1
+
+[node name="BuyArrow4" type="Button" parent="ArrowUnlocks"]
+margin_left = 150.0
+margin_top = 80.0
+margin_right = 280.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "RED Arrows
+Buy for 4000"
+align = 1
+valign = 1
+
+[node name="BannerLabel" type="Label" parent="."]
+margin_top = 371.0
+margin_right = 280.0
+margin_bottom = 422.0
+rect_min_size = Vector2( 0, 20 )
+text = "
+Banners and Hats"
+align = 1
+valign = 1
+
+[node name="BannerTypes" type="GridContainer" parent="."]
+margin_top = 426.0
+margin_right = 280.0
+margin_bottom = 806.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 2
+
+[node name="Banner0" type="Button" parent="BannerTypes"]
+margin_right = 130.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Banner0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Black Banner
+Buy for 800"
+align = 1
+valign = 1
+
+[node name="Helm0" type="Button" parent="BannerTypes"]
+margin_left = 150.0
+margin_right = 280.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Helm0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Black Hat
+Buy for 800"
+align = 1
+valign = 1
+
+[node name="Banner1" type="Button" parent="BannerTypes"]
+margin_top = 80.0
+margin_right = 130.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Banner1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "White Banner
+Buy for 800"
+align = 1
+valign = 1
+
+[node name="Helm1" type="Button" parent="BannerTypes"]
+margin_left = 150.0
+margin_top = 80.0
+margin_right = 280.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Helm1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "White Hat
+Buy for 800"
+align = 1
+valign = 1
+
+[node name="Banner2" type="Button" parent="BannerTypes"]
+margin_top = 160.0
+margin_right = 130.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Banner2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Blue Banner
+Buy for1000"
+align = 1
+valign = 1
+
+[node name="Helm2" type="Button" parent="BannerTypes"]
+margin_left = 150.0
+margin_top = 160.0
+margin_right = 280.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Helm2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Blue Hat
+Buy for1000"
+align = 1
+valign = 1
+
+[node name="Banner3" type="Button" parent="BannerTypes"]
+margin_top = 240.0
+margin_right = 130.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Banner3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Yellow Banner
+Buy for 2000"
+align = 1
+valign = 1
+
+[node name="Helm3" type="Button" parent="BannerTypes"]
+margin_left = 150.0
+margin_top = 240.0
+margin_right = 280.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Helm3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Yellow Hat
+Buy for 2000"
+align = 1
+valign = 1
+
+[node name="Banner4" type="Button" parent="BannerTypes"]
+margin_top = 320.0
+margin_right = 130.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Banner4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "RED Banner
+Buy for 4000"
+align = 1
+valign = 1
+
+[node name="Helm4" type="Button" parent="BannerTypes"]
+margin_left = 150.0
+margin_top = 320.0
+margin_right = 280.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/Helm4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Red Hat
+Buy for 4000"
+align = 1
+valign = 1
