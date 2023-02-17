@@ -23,10 +23,11 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if body.global_position.x < -160 or body.global_position.x > 640 + 1280:
-		print("target out of range")
 		if is_shot:
-			emit_signal("out_of_range")
-		queue_free()
+			#emit_signal("out_of_range")
+			return
+		else:
+			queue_free()
 	if body.global_position.y > 330:
 		gravity = 0
 		direction = Vector2.LEFT

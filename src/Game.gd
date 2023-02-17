@@ -48,3 +48,6 @@ func _on_MainMenu_shop_to_main() -> void:
 
 func _on_MainMenu_log_to_main() -> void:
 	anim.play_backwards("to_log")
+
+func _on_MainMenu_loadout_changed() -> void:
+	gameworld.update_archer()

@@ -162,7 +162,8 @@ func _input(event: InputEvent) -> void:
 func _on_arrow_landed() -> void:
 	print("arrow landed")
 	arrow_in_flight = false
-	check_hunt_end()
+	if arrows <= 0 and targets_to_pickup <= 0:
+		check_hunt_end()
 	if game_mode == GameModes.DUEL:
 		next_turn()
 
@@ -341,10 +342,13 @@ func _on_target_out_of_range() -> void:
 func _set_targets_onfield(new_value: int) -> void:
 	targets_to_pickup = new_value
 	targets_active_display.text = str(new_value)
-	if targets_to_pickup <= 0:
+	if targets_to_pickup <= 0 and arrows <= 0:
 		check_hunt_end()
 
 func check_hunt_end() -> void:
+	print("targets to pickup: ", targets_to_pickup)
+	print("arrows: ", arrows)
+	print("is arrow in flight?", arrow_in_flight)
 	if targets_to_pickup <= 0 and arrows <= 0 and not arrow_in_flight:
 		tick.stop()
 		save_hunting_results()
@@ -359,3 +363,6 @@ func save_hunting_results() -> void:
 	hunting_result.update_score_display(score)
 	hunting_result.update_pay_display(payout)
 	UserData.save_today(minutes, seconds, shots, hits, score, payout)
+
+func update_archer() -> void:
+	archer1.update_loadout(UserData.loadout)

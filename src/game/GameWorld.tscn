@@ -21,6 +21,9 @@ position = Vector2( 80, 280 )
 [node name="Archer2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 560, 280 )
 
+[node name="Horse" parent="Archer2" index="2"]
+frame = 10
+
 [node name="SpawnTimer" type="Timer" parent="."]
 
 [node name="Tick" type="Timer" parent="."]

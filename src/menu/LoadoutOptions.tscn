@@ -1,34 +1,36 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/menu/LoadoutOptions.gd" type="Script" id=2]
 
 [node name="LoadoutOptions" type="VBoxContainer"]
 margin_right = 280.0
 margin_bottom = 196.0
 theme = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="BowLabel" type="Label" parent="."]
 margin_right = 280.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 0, 20 )
-text = "Bow Types"
+text = "Bow and Arrows"
 align = 1
 valign = 1
 
 [node name="BowUnlocks" type="GridContainer" parent="."]
 margin_top = 28.0
 margin_right = 280.0
-margin_bottom = 168.0
+margin_bottom = 408.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 20
 columns = 2
 
-[node name="BuyBow1" type="Button" parent="BowUnlocks"]
+[node name="Bow0" type="Button" parent="BowUnlocks"]
 margin_right = 130.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 130, 60 )
 
-[node name="Label" type="Label" parent="BowUnlocks/BuyBow1"]
+[node name="Label" type="Label" parent="BowUnlocks/Bow0"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "White Bow
@@ -36,73 +38,42 @@ Buy for 800"
 align = 1
 valign = 1
 
-[node name="BuyBow2" type="Button" parent="BowUnlocks"]
+[node name="Arrow0" type="Button" parent="BowUnlocks"]
 margin_left = 150.0
 margin_right = 280.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 130, 60 )
 
-[node name="Label" type="Label" parent="BowUnlocks/BuyBow2"]
+[node name="Label" type="Label" parent="BowUnlocks/Arrow0"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "Blue Bow
-Buy for1000"
+text = "Black Arrows
+Equip"
 align = 1
 valign = 1
 
-[node name="BuyBow3" type="Button" parent="BowUnlocks"]
+[node name="Bow1" type="Button" parent="BowUnlocks"]
 margin_top = 80.0
 margin_right = 130.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 130, 60 )
 
-[node name="Label" type="Label" parent="BowUnlocks/BuyBow3"]
+[node name="Label" type="Label" parent="BowUnlocks/Bow1"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "Yellow Bow
-Buy for 2000"
+text = "White Bow
+Buy for 800"
 align = 1
 valign = 1
 
-[node name="BuyBow4" type="Button" parent="BowUnlocks"]
+[node name="Arrow1" type="Button" parent="BowUnlocks"]
 margin_left = 150.0
 margin_top = 80.0
 margin_right = 280.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 130, 60 )
 
-[node name="Label" type="Label" parent="BowUnlocks/BuyBow4"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "RED BOW
-Buy for 4000"
-align = 1
-valign = 1
-
-[node name="ArrowLabel" type="Label" parent="."]
-margin_top = 172.0
-margin_right = 280.0
-margin_bottom = 223.0
-rect_min_size = Vector2( 280, 20 )
-text = "
-Arrow Types"
-align = 1
-valign = 1
-
-[node name="ArrowUnlocks" type="GridContainer" parent="."]
-margin_top = 227.0
-margin_right = 280.0
-margin_bottom = 367.0
-custom_constants/vseparation = 20
-custom_constants/hseparation = 20
-columns = 2
-
-[node name="BuyArrow1" type="Button" parent="ArrowUnlocks"]
-margin_right = 130.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 130, 60 )
-
-[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow1"]
+[node name="Label" type="Label" parent="BowUnlocks/Arrow1"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "White Arrows
@@ -110,13 +81,28 @@ Buy for 800"
 align = 1
 valign = 1
 
-[node name="BuyArrow2" type="Button" parent="ArrowUnlocks"]
-margin_left = 150.0
-margin_right = 280.0
-margin_bottom = 60.0
+[node name="Bow2" type="Button" parent="BowUnlocks"]
+margin_top = 160.0
+margin_right = 130.0
+margin_bottom = 220.0
 rect_min_size = Vector2( 130, 60 )
 
-[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow2"]
+[node name="Label" type="Label" parent="BowUnlocks/Bow2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Blue Bow
+Buy for1000"
+align = 1
+valign = 1
+
+[node name="Arrow2" type="Button" parent="BowUnlocks"]
+margin_left = 150.0
+margin_top = 160.0
+margin_right = 280.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BowUnlocks/Arrow2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Blue Arrows
@@ -124,13 +110,28 @@ Buy for1000"
 align = 1
 valign = 1
 
-[node name="BuyArrow3" type="Button" parent="ArrowUnlocks"]
-margin_top = 80.0
+[node name="Bow3" type="Button" parent="BowUnlocks"]
+margin_top = 240.0
 margin_right = 130.0
-margin_bottom = 140.0
+margin_bottom = 300.0
 rect_min_size = Vector2( 130, 60 )
 
-[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow3"]
+[node name="Label" type="Label" parent="BowUnlocks/Bow3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Yellow Bow
+Buy for 2000"
+align = 1
+valign = 1
+
+[node name="Arrow3" type="Button" parent="BowUnlocks"]
+margin_left = 150.0
+margin_top = 240.0
+margin_right = 280.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BowUnlocks/Arrow3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Yellow Arrows
@@ -138,14 +139,13 @@ Buy for 2000"
 align = 1
 valign = 1
 
-[node name="BuyArrow4" type="Button" parent="ArrowUnlocks"]
-margin_left = 150.0
-margin_top = 80.0
-margin_right = 280.0
-margin_bottom = 140.0
+[node name="Arrow4" type="Button" parent="BowUnlocks"]
+margin_top = 320.0
+margin_right = 130.0
+margin_bottom = 380.0
 rect_min_size = Vector2( 130, 60 )
 
-[node name="Label" type="Label" parent="ArrowUnlocks/BuyArrow4"]
+[node name="Label" type="Label" parent="BowUnlocks/Arrow4"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "RED Arrows
@@ -153,10 +153,25 @@ Buy for 4000"
 align = 1
 valign = 1
 
-[node name="BannerLabel" type="Label" parent="."]
-margin_top = 371.0
+[node name="Bow4" type="Button" parent="BowUnlocks"]
+margin_left = 150.0
+margin_top = 320.0
 margin_right = 280.0
-margin_bottom = 422.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BowUnlocks/Bow4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "RED BOW
+Buy for 4000"
+align = 1
+valign = 1
+
+[node name="BannerLabel" type="Label" parent="."]
+margin_top = 412.0
+margin_right = 280.0
+margin_bottom = 463.0
 rect_min_size = Vector2( 0, 20 )
 text = "
 Banners and Hats"
@@ -164,9 +179,9 @@ align = 1
 valign = 1
 
 [node name="BannerTypes" type="GridContainer" parent="."]
-margin_top = 426.0
+margin_top = 467.0
 margin_right = 280.0
-margin_bottom = 806.0
+margin_bottom = 927.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 20
 columns = 2
@@ -313,3 +328,53 @@ text = "Red Hat
 Buy for 4000"
 align = 1
 valign = 1
+
+[node name="BannerNo" type="Button" parent="BannerTypes"]
+margin_top = 400.0
+margin_right = 130.0
+margin_bottom = 460.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/BannerNo"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "No Banner"
+align = 1
+valign = 1
+
+[node name="HelmNo" type="Button" parent="BannerTypes"]
+margin_left = 150.0
+margin_top = 400.0
+margin_right = 280.0
+margin_bottom = 460.0
+rect_min_size = Vector2( 130, 60 )
+
+[node name="Label" type="Label" parent="BannerTypes/HelmNo"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "No HAT"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="BowUnlocks/Bow0" to="." method="_on_Bow0_pressed"]
+[connection signal="pressed" from="BowUnlocks/Arrow0" to="." method="_on_Arrow0_pressed"]
+[connection signal="pressed" from="BowUnlocks/Bow1" to="." method="_on_Bow1_pressed"]
+[connection signal="pressed" from="BowUnlocks/Arrow1" to="." method="_on_Arrow1_pressed"]
+[connection signal="pressed" from="BowUnlocks/Bow2" to="." method="_on_Bow2_pressed"]
+[connection signal="pressed" from="BowUnlocks/Arrow2" to="." method="_on_Arrow2_pressed"]
+[connection signal="pressed" from="BowUnlocks/Bow3" to="." method="_on_Bow3_pressed"]
+[connection signal="pressed" from="BowUnlocks/Arrow3" to="." method="_on_Arrow3_pressed"]
+[connection signal="pressed" from="BowUnlocks/Arrow4" to="." method="_on_Arrow4_pressed"]
+[connection signal="pressed" from="BowUnlocks/Bow4" to="." method="_on_Bow4_pressed"]
+[connection signal="pressed" from="BannerTypes/Banner0" to="." method="_on_Banner0_pressed"]
+[connection signal="pressed" from="BannerTypes/Helm0" to="." method="_on_Helm0_pressed"]
+[connection signal="pressed" from="BannerTypes/Banner1" to="." method="_on_Banner1_pressed"]
+[connection signal="pressed" from="BannerTypes/Helm1" to="." method="_on_Helm1_pressed"]
+[connection signal="pressed" from="BannerTypes/Banner2" to="." method="_on_Banner2_pressed"]
+[connection signal="pressed" from="BannerTypes/Helm2" to="." method="_on_Helm2_pressed"]
+[connection signal="pressed" from="BannerTypes/Banner3" to="." method="_on_Banner3_pressed"]
+[connection signal="pressed" from="BannerTypes/Helm3" to="." method="_on_Helm3_pressed"]
+[connection signal="pressed" from="BannerTypes/Banner4" to="." method="_on_Banner4_pressed"]
+[connection signal="pressed" from="BannerTypes/Helm4" to="." method="_on_Helm4_pressed"]
+[connection signal="pressed" from="BannerTypes/BannerNo" to="." method="_on_BannerNo_pressed"]
+[connection signal="pressed" from="BannerTypes/HelmNo" to="." method="_on_HelmNo_pressed"]

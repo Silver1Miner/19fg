@@ -19,10 +19,21 @@ var arrows = 10 setget set_arrows
 var gems = 0 setget set_gems
 const max_gems = 999999
 const max_arrows = 999999
-var inventory = {}
+var inventory = {
+	"arrow": [1, 0, 0, 0, 0],
+	"bow": [1, 0, 0, 0, 0],
+	"banner": [0, 0, 0, 0, 0],
+	"helm": [0, 0, 0, 0, 0],
+}
 var loadout = {
-	"arrow": 1,
-	"bow": 1,
+	"arrow": 2,
+	"bow": 2,
+	"banner": -1,
+	"helm": -1,
+}
+var p2_loadout = {
+	"arrow": 4,
+	"bow": 4,
 	"banner": -1,
 	"helm": -1,
 }

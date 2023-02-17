@@ -118,6 +118,7 @@ anims/to_log = SubResource( 4 )
 anims/to_store = SubResource( 3 )
 
 [connection signal="end_game" from="GameWorld" to="." method="_on_GameWorld_end_game"]
+[connection signal="loadout_changed" from="MainMenu" to="." method="_on_MainMenu_loadout_changed"]
 [connection signal="log_to_main" from="MainMenu" to="." method="_on_MainMenu_log_to_main"]
 [connection signal="shop_to_main" from="MainMenu" to="." method="_on_MainMenu_shop_to_main"]
 [connection signal="start_hunt" from="MainMenu" to="." method="_on_MainMenu_start_hunt"]

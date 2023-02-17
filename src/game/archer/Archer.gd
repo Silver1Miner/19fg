@@ -45,9 +45,9 @@ func update_loadout(loadout_data: Dictionary) -> void:
 		trajectory_draw.color = itemdata.colors[bow_type]
 		bow_sprite.self_modulate = itemdata.colors[bow_type]
 	if loadout_data.has("banner"):
-		print(loadout_data.banner)
+		print("banner choice: ", loadout_data.banner)
 	if loadout_data.has("helm"):
-		print(loadout_data.helm)
+		print("helmet choice: ", loadout_data.helm)
 
 func active_toggle(disable: bool) -> void:
 	visible = disable

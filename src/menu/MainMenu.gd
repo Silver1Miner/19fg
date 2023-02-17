@@ -6,6 +6,7 @@ signal log_to_main()
 signal to_log()
 signal start_practice()
 signal start_hunt(loaded_arrows)
+signal loadout_changed()
 var current_panel = 1
 onready var tween = $Tween
 onready var panes = $Panels
@@ -62,3 +63,6 @@ func _on_Hunt_start_hunt(loaded_arrows: int) -> void:
 
 func _on_Settings_pressed() -> void:
 	settings_menu.visible = true
+
+func _on_Shop_loadout_changed() -> void:
+	emit_signal("loadout_changed")
