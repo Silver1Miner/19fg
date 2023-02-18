@@ -21,6 +21,9 @@ position = Vector2( 80, 280 )
 [node name="Archer2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 560, 280 )
 
+[node name="Banner" parent="Archer2/ArcherBody" index="1"]
+frame = 2
+
 [node name="Horse" parent="Archer2" index="2"]
 frame = 10
 
@@ -259,9 +262,9 @@ margin_bottom = 360.0
 color = Color( 0, 0, 0, 0.470588 )
 
 [node name="HuntDisplay" parent="CanvasLayer/HUD/GameOver" instance=ExtResource( 5 )]
-margin_left = 200.0
+margin_left = 180.0
 margin_top = 60.0
-margin_right = 440.0
+margin_right = 460.0
 margin_bottom = 260.0
 
 [node name="GameOver" type="Button" parent="CanvasLayer/HUD/GameOver"]

@@ -17,15 +17,16 @@ text = "Back"
 
 [node name="Players" type="HBoxContainer" parent="."]
 margin_left = 60.0
-margin_top = 60.0
+margin_top = 80.0
 margin_right = 580.0
-margin_bottom = 100.0
+margin_bottom = 280.0
 custom_constants/separation = 40
+alignment = 1
 
 [node name="Player1" type="VBoxContainer" parent="Players"]
 margin_right = 240.0
-margin_bottom = 224.0
-custom_constants/separation = 20
+margin_bottom = 200.0
+custom_constants/separation = 10
 
 [node name="HeadLabel" type="Label" parent="Players/Player1"]
 margin_right = 240.0
@@ -35,39 +36,39 @@ text = "Player 1"
 align = 1
 valign = 1
 
-[node name="BowOption" type="OptionButton" parent="Players/Player1"]
-margin_top = 44.0
+[node name="Bow1" type="OptionButton" parent="Players/Player1"]
+margin_top = 34.0
 margin_right = 240.0
-margin_bottom = 74.0
+margin_bottom = 66.0
 text = "Bow"
 align = 1
 
-[node name="ArrowOption" type="OptionButton" parent="Players/Player1"]
-margin_top = 94.0
+[node name="Arrow1" type="OptionButton" parent="Players/Player1"]
+margin_top = 76.0
 margin_right = 240.0
-margin_bottom = 124.0
+margin_bottom = 108.0
 text = "Arrow"
 align = 1
 
-[node name="BannerOption" type="OptionButton" parent="Players/Player1"]
-margin_top = 144.0
+[node name="Banner1" type="OptionButton" parent="Players/Player1"]
+margin_top = 118.0
 margin_right = 240.0
-margin_bottom = 174.0
+margin_bottom = 150.0
 text = "Banner"
 align = 1
 
-[node name="HatOption" type="OptionButton" parent="Players/Player1"]
-margin_top = 194.0
+[node name="Hat1" type="OptionButton" parent="Players/Player1"]
+margin_top = 160.0
 margin_right = 240.0
-margin_bottom = 224.0
+margin_bottom = 192.0
 text = "Helmet"
 align = 1
 
 [node name="Player2" type="VBoxContainer" parent="Players"]
 margin_left = 280.0
 margin_right = 520.0
-margin_bottom = 224.0
-custom_constants/separation = 20
+margin_bottom = 200.0
+custom_constants/separation = 10
 
 [node name="HeadLabel" type="Label" parent="Players/Player2"]
 margin_right = 240.0
@@ -77,31 +78,31 @@ text = "Player 2"
 align = 1
 valign = 1
 
-[node name="BowOption" type="OptionButton" parent="Players/Player2"]
-margin_top = 44.0
+[node name="Bow2" type="OptionButton" parent="Players/Player2"]
+margin_top = 34.0
 margin_right = 240.0
-margin_bottom = 74.0
+margin_bottom = 66.0
 text = "Bow"
 align = 1
 
-[node name="ArrowOption" type="OptionButton" parent="Players/Player2"]
-margin_top = 94.0
+[node name="Arrow2" type="OptionButton" parent="Players/Player2"]
+margin_top = 76.0
 margin_right = 240.0
-margin_bottom = 124.0
+margin_bottom = 108.0
 text = "Arrow"
 align = 1
 
-[node name="BannerOption" type="OptionButton" parent="Players/Player2"]
-margin_top = 144.0
+[node name="Banner2" type="OptionButton" parent="Players/Player2"]
+margin_top = 118.0
 margin_right = 240.0
-margin_bottom = 174.0
+margin_bottom = 150.0
 text = "Banner"
 align = 1
 
-[node name="HatOption" type="OptionButton" parent="Players/Player2"]
-margin_top = 194.0
+[node name="Hat2" type="OptionButton" parent="Players/Player2"]
+margin_top = 160.0
 margin_right = 240.0
-margin_bottom = 224.0
+margin_bottom = 192.0
 text = "Helmet"
 align = 1
 
@@ -119,21 +120,32 @@ margin_right = 120.0
 margin_bottom = 120.0
 
 [node name="DuelType" type="HBoxContainer" parent="."]
-margin_left = 400.0
-margin_right = 540.0
-margin_bottom = 40.0
+visible = false
+margin_left = 460.0
+margin_top = 280.0
+margin_right = 576.0
+margin_bottom = 320.0
 
 [node name="Label" type="Label" parent="DuelType"]
-margin_right = 60.0
+margin_right = 40.0
 margin_bottom = 40.0
-rect_min_size = Vector2( 60, 40 )
-text = "Vs BOT"
+rect_min_size = Vector2( 40, 40 )
+text = "BOT"
 align = 1
 valign = 1
 
 [node name="CheckButton" type="CheckButton" parent="DuelType"]
-margin_left = 64.0
-margin_right = 140.0
+margin_left = 44.0
+margin_right = 116.0
 margin_bottom = 40.0
 
 [connection signal="pressed" from="DuelCancel" to="." method="_on_DuelCancel_pressed"]
+[connection signal="item_selected" from="Players/Player1/Bow1" to="." method="_on_Bow1_item_selected"]
+[connection signal="item_selected" from="Players/Player1/Arrow1" to="." method="_on_Arrow1_item_selected"]
+[connection signal="item_selected" from="Players/Player1/Banner1" to="." method="_on_Banner1_item_selected"]
+[connection signal="item_selected" from="Players/Player1/Hat1" to="." method="_on_Hat1_item_selected"]
+[connection signal="item_selected" from="Players/Player2/Bow2" to="." method="_on_Bow2_item_selected"]
+[connection signal="item_selected" from="Players/Player2/Arrow2" to="." method="_on_Arrow2_item_selected"]
+[connection signal="item_selected" from="Players/Player2/Banner2" to="." method="_on_Banner2_item_selected"]
+[connection signal="item_selected" from="Players/Player2/Hat2" to="." method="_on_Hat2_item_selected"]
+[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]

@@ -8,7 +8,6 @@ export var game_mode = GameModes.HUNT
 var target_small = preload("res://src/game/targets/TargetSmall.tscn")
 var target_med = preload("res://src/game/targets/TargetMedium.tscn")
 var target_big = preload("res://src/game/targets/TargetBig.tscn")
-
 var target_practice_low = preload("res://src/game/targets/TargetPracticeLow.tscn")
 var target_practice_mid = preload("res://src/game/targets/TargetPracticeMid.tscn")
 var target_practice_high = preload("res://src/game/targets/TargetPracticeHigh.tscn")
@@ -20,6 +19,7 @@ onready var game_objects = $GameObjects
 onready var status_display = $CanvasLayer/HUD/TopBar/Status
 onready var score_display = $CanvasLayer/HUD/TopBar/Status/Score/ScoreValue
 onready var angle_display = $CanvasLayer/HUD/TopBar/Aim/Angle/AngleValue
+onready var power_display = $CanvasLayer/HUD/TopBar/Aim/Power/PowerValue
 onready var spawn_timer = $SpawnTimer
 onready var tick = $Tick
 onready var archer1 = $Archer
@@ -199,7 +199,7 @@ func _on_GameOver_pressed() -> void:
 	get_tree().paused = false
 	end_game()
 
-func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
+func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2, force: float) -> void:
 	line_draw.points[0] = draw_start
 	line_draw.points[1] = draw_end
 	var angle = rad2deg((draw_end - draw_start).angle())
@@ -211,6 +211,7 @@ func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2) -> void:
 	else:
 		angle_displayed = 0.0
 	angle_display.text = str(stepify(angle_displayed, 0.01))
+	power_display.text = str(force * 0.1)
 	print(angle)
 
 func _on_SpawnTimer_timeout() -> void:
@@ -236,21 +237,21 @@ func spawn_bird() -> void:
 	game_objects.add_child(target_instance)
 	if target_instance.connect("shot", self, "_on_target_hit") != OK:
 		push_error("fail to connect target shot signal")
-	if target_instance.connect("out_of_range", self, "_on_target_out_of_range") != OK:
-		push_error("fail to connect target out of range signal")
+	if target_instance.connect("shot", self, "_on_target_to_pickup") != OK:
+		push_error("fail to connect target shot signal")
 	var offset = rand_range(-60, 60)
 	target_instance.global_position = $Spawner/Bird1.global_position + Vector2(0, offset)
 	target_instance.direction = Vector2.RIGHT
 
 func spawn_practice_target() -> void:
 	randomize()
-	var choice = rand_range(0, 5)
+	var choice = rand_range(0, 6)
 	var target_instance = null
 	var spawn_pos = Vector2.ZERO
-	if choice < 1:
+	if choice < 2:
 		target_instance = target_practice_low.instance()
 		spawn_pos = $Spawner/PracticeLow.global_position
-	elif choice < 2:
+	elif choice < 4:
 		target_instance = target_practice_mid.instance()
 		spawn_pos = $Spawner/PracticeMid.global_position
 	else:
@@ -258,8 +259,6 @@ func spawn_practice_target() -> void:
 		spawn_pos = $Spawner/PracticeHigh.global_position
 	if target_instance.connect("shot", self, "_on_target_hit") != OK:
 		push_error("fail to connect target shot signal")
-	if target_instance.connect("out_of_range", self, "_on_target_out_of_range") != OK:
-		push_error("fail to connect target out of range signal")
 	game_objects.add_child(target_instance)
 	target_instance.global_position = spawn_pos
 	target_instance.direction = Vector2.LEFT
@@ -271,14 +270,17 @@ func _on_Archer_arrow_fired() -> void:
 		set_arrows(arrows - 1)
 
 func _on_target_hit() -> void:
-	_set_targets_onfield(targets_to_pickup + 1)
 	_set_hits(hits + 1)
+
+func _on_target_to_pickup() -> void:
+	_set_targets_onfield(targets_to_pickup + 1)
 
 func _on_Archer_increase_score(score_increase: int) -> void:
 	_set_score(score + score_increase)
 
 func _on_Archer_picked_up(coin_value: int) -> void:
 	_set_bagged_value(payout + coin_value)
+	_set_targets_onfield(targets_to_pickup - 1)
 	if arrows <= 0:
 		check_hunt_end()
 
@@ -335,9 +337,6 @@ func _set_shots(new_value: int) -> void:
 func _set_hits(new_value: int) -> void:
 	hits = new_value
 	hits_display.text = str(hits)
-
-func _on_target_out_of_range() -> void:
-	_set_targets_onfield(targets_to_pickup - 1)
 
 func _set_targets_onfield(new_value: int) -> void:
 	targets_to_pickup = new_value

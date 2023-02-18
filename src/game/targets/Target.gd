@@ -2,7 +2,6 @@ extends Area2D
 class_name Target
 
 signal shot()
-signal out_of_range()
 var is_shot = false
 export var pickup = true
 export var takes_impulse = true
@@ -51,5 +50,4 @@ func _on_Target_area_entered(area: Area2D) -> void:
 		is_shot = true
 
 func picked_up() -> void:
-	emit_signal("out_of_range")
 	queue_free()

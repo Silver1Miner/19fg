@@ -10,12 +10,15 @@ signal loadout_changed()
 var current_panel = 1
 onready var tween = $Tween
 onready var panes = $Panels
-onready var duel_options = $Panels/Menu/MenuOptions/DuelOptions
+onready var menu_options = $Panels/Menu/MenuOptions
+onready var duel_options = $Panels/Menu/DuelOptions
 onready var settings_menu = $Panels/Menu/Settings
 onready var shop_pane = $Panels/Shop
 onready var hunt_pane = $Panels/Hunt
 
 func _ready() -> void:
+	menu_options.visible = true
+	duel_options.visible = false
 	if OS.get_name() in ["HTML5", "iOS", "Android"]:
 		$Panels/Menu/MenuOptions/Quit.visible = false
 
@@ -57,9 +60,6 @@ func _on_Quit_button_up() -> void:
 func _on_Range_pressed() -> void:
 	emit_signal("start_practice")
 
-func _on_Duel_toggled(button_pressed: bool) -> void:
-	duel_options.visible = button_pressed
-
 func _on_Hunt_start_hunt(loaded_arrows: int) -> void:
 	emit_signal("start_hunt", loaded_arrows)
 
@@ -68,3 +68,13 @@ func _on_Settings_pressed() -> void:
 
 func _on_Shop_loadout_changed() -> void:
 	emit_signal("loadout_changed")
+
+func _on_DuelOptions_closed_duel() -> void:
+	emit_signal("loadout_changed")
+	menu_options.visible = true
+	duel_options.visible = false
+
+func _on_Duel_pressed() -> void:
+	duel_options.update_option_buttons()
+	duel_options.visible = true
+	menu_options.visible = false

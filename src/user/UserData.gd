@@ -32,8 +32,8 @@ var loadout = {
 	"helm": -1,
 }
 var p2_loadout = {
-	"arrow": 4,
-	"bow": 4,
+	"arrow": 0,
+	"bow": 0,
 	"banner": -1,
 	"helm": -1,
 }
@@ -159,7 +159,8 @@ func save_inventory() -> void:
 		"arrows": arrows,
 		"gems": gems,
 		"inventory": inventory.duplicate(true),
-		"loadout": loadout.duplicate(true)
+		"loadout": loadout.duplicate(true),
+		"p2_loadout": p2_loadout.duplicate(true)
 	}
 	save.store_line(to_json(inv_dict))
 	save.close()
@@ -185,4 +186,6 @@ func load_inventory() -> void:
 			inventory = invd.inventory.duplicate(true)
 		if invd.has("loadout"):
 			loadout = invd.loadout.duplicate(true)
+		if invd.has("p2_loadout"):
+			p2_loadout = invd.p2_loadout.duplicate(true)
 	save.close()

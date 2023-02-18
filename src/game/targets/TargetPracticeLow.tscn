@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/game/targets/wood-target-low.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 26, 10 )
+extents = Vector2( 14, 28 )
 
 [node name="TargetPracticeLow" instance=ExtResource( 1 )]
 gravity = 0.0
@@ -20,6 +20,6 @@ hframes = 1
 vframes = 1
 
 [node name="CollisionShape2D" parent="." index="2"]
-position = Vector2( 3.00001, 1 )
-rotation = 1.5708
+position = Vector2( 0, 0 )
+rotation = 0.0
 shape = SubResource( 1 )

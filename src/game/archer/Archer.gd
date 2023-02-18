@@ -1,17 +1,17 @@
 extends Node2D
 
-signal update_draw(draw_start, draw_end)
+signal update_draw(draw_start, draw_end, force)
 signal arrow_fired()
 signal increase_score(score_increase)
 signal picked_up(coin_value)
 export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
-export var bow_elastic_force = 1000.0
+export var bow_elastic_force = 500.0
 export var bow_reload_time = 1.0
 export var arrow_mass = 10.0
 export var arrow_damage = 10
-export var gravity = 10.0
+export var gravity = 5.0
 onready var game_objects = get_node_or_null("../GameObjects")
 onready var bow_sprite = $Aiming/Bow
 onready var arrow_sprite = $Aiming/Arrow
@@ -32,7 +32,6 @@ var Arrow = preload("res://src/game/archer/Arrow.tscn")
 var FCT = preload("res://src/game/effects/FCT.tscn")
 var arrow_instance = null
 var itemdata = preload("res://data/itemdata.tres")
-
 enum States {
 	IDLE,
 	READY,
@@ -106,19 +105,21 @@ func _physics_process(_delta):
 				)
 
 func update_impulse() -> Vector2:
-	return bow_elastic_force * (draw_start - draw_end).normalized()
+	return clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force) * (draw_start - draw_end).normalized()
 
 func load_projectile():
 	state = States.AIMING
 	if game_objects:
 		arrow_instance = Arrow.instance()
+		game_objects.add_child(arrow_instance)
+		arrow_instance.sprite.modulate = itemdata.colors[arrow_type]
 		arrow_instance.mass = arrow_mass
 		arrow_instance.damage = arrow_damage
-		game_objects.add_child(arrow_instance)
 		arrow_instance.connect("landed", get_parent(), "_on_arrow_landed")
 		arrow_instance.connect("arrow_accounted_for", get_parent(), "_on_arrow_accounted_for")
 		arrow_instance.add_to_group(player_group)
 		arrow_instance.position = position
+		#arrow_instance.reset_physics_interpolation()
 		arrow_instance.visible = false
 		anim.play("start_aiming")
 
@@ -129,15 +130,18 @@ func bow_grab(touch_position: Vector2) -> void:
 	load_projectile()
 	draw_start = touch_position
 	draw_end = touch_position
+	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
 	print("start aiming at ", touch_position)
-	emit_signal("update_draw", draw_start, draw_end)
+	trajectory_draw.visible = true
+	emit_signal("update_draw", draw_start, draw_end, force)
 
 func bow_move(touch_position: Vector2) -> void:
 	if state == States.IDLE:
 		return
 	draw_end = touch_position
 	state = States.AIMING
-	emit_signal("update_draw", draw_start, draw_end)
+	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
+	emit_signal("update_draw", draw_start, draw_end, force)
 
 func bow_release(touch_position: Vector2) -> void:
 	print("fire! at ", touch_position)
@@ -153,7 +157,9 @@ func bow_release(touch_position: Vector2) -> void:
 		anim.play("fire")
 	draw_start = Vector2.ZERO
 	draw_end = Vector2.ZERO
-	emit_signal("update_draw", draw_start, draw_end)
+	var force = 0
+	trajectory_draw.visible = false
+	emit_signal("update_draw", draw_start, draw_end, force)
 	state = States.IDLE
 	if hunting_mode:
 		reload_timer.start()
@@ -173,7 +179,8 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 		var fct = FCT.instance()
 		get_parent().add_child(fct)
 		fct.rect_position = global_position
-		fct.show_value(str(area.score_value), Vector2(0,-8), 1, PI/2, false)
+		#fct.reset_physics_interpolation()
+		fct.show_value(str(area.coin_value), Vector2(0,-8), 1, PI/2, false)
 		emit_signal("increase_score", area.score_value)
 		emit_signal("picked_up", area.coin_value)
 		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")

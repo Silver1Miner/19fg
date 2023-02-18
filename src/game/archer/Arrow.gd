@@ -4,6 +4,7 @@ extends Area2D
 signal landed()
 signal arrow_accounted_for()
 
+onready var sprite = $Sprite
 onready var head = $CollisionShape2D
 var fired = false
 var on_ground = false
@@ -30,6 +31,7 @@ func _reparent(new_parent: Node, hit_pos: Vector2) -> void:
 	new_parent.add_child(self)
 	global_position = new_parent.global_position - (hit_pos)
 	global_rotation = velocity.angle()
+	#reset_physics_interpolation()
 	Audio.play_sound("res://assets/audio/sounds/arrows/368606__samsterbirdies__thump.wav")
 	deactivate()
 
