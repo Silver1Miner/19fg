@@ -6,6 +6,7 @@ signal log_to_main()
 signal to_log()
 signal start_practice()
 signal start_hunt(loaded_arrows)
+signal start_duel()
 signal loadout_changed()
 var current_panel = 1
 onready var tween = $Tween
@@ -78,3 +79,6 @@ func _on_Duel_pressed() -> void:
 	duel_options.update_option_buttons()
 	duel_options.visible = true
 	menu_options.visible = false
+
+func _on_DuelOptions_duel_start() -> void:
+	emit_signal("start_duel")

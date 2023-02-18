@@ -15,6 +15,7 @@ export var velocity = Vector2.ZERO
 
 func _ready() -> void:
 	add_to_group("arrow")
+	add_to_group("to_remove")
 
 func deactivate() -> void:
 	monitoring = false
@@ -47,8 +48,7 @@ func _physics_process(delta: float) -> void:
 		global_rotation = velocity.angle()
 	elif on_ground:
 		global_position += Vector2.LEFT * ground_speed * delta
-	if global_position.x < -80:
-		emit_signal("landed")
+	if on_ground and global_position.x < -1280:
 		print("arrow out of range")
 		emit_signal("arrow_accounted_for")
 		queue_free()

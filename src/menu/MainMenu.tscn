@@ -128,5 +128,6 @@ color = Color( 0, 0, 0, 1 )
 [connection signal="button_up" from="Panels/Menu/MenuOptions/Quit" to="." method="_on_Quit_button_up"]
 [connection signal="pressed" from="Panels/Menu/MenuOptions/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="closed_duel" from="Panels/Menu/DuelOptions" to="." method="_on_DuelOptions_closed_duel"]
+[connection signal="duel_start" from="Panels/Menu/DuelOptions" to="." method="_on_DuelOptions_duel_start"]
 [connection signal="back" from="Panels/Hunt" to="." method="_on_Hunt_back"]
 [connection signal="start_hunt" from="Panels/Hunt" to="." method="_on_Hunt_start_hunt"]

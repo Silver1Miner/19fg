@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/game/GameWorld.gd" type="Script" id=1]
 [ext_resource path="res://src/game/archer/Archer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=3]
 [ext_resource path="res://assets/gui/Roboto-Regular.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://src/menu/HuntDisplay.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/game/Camera2D.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 12
@@ -19,13 +20,11 @@ script = ExtResource( 1 )
 position = Vector2( 80, 280 )
 
 [node name="Archer2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 560, 280 )
+position = Vector2( 1220, 280 )
+player_group = "P2"
+enemy_group = "P1"
 
-[node name="Banner" parent="Archer2/ArcherBody" index="1"]
-frame = 2
-
-[node name="Horse" parent="Archer2" index="2"]
-frame = 10
+[node name="GameCamera" parent="." instance=ExtResource( 6 )]
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
@@ -158,6 +157,52 @@ rect_min_size = Vector2( 30, 0 )
 text = "0"
 align = 1
 
+[node name="Aim2" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
+visible = false
+margin_left = 340.0
+margin_right = 424.0
+margin_bottom = 48.0
+custom_constants/separation = 0
+
+[node name="Angle" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim2"]
+margin_right = 84.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Angle"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Angle:"
+align = 2
+
+[node name="AngleValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Angle"]
+margin_left = 54.0
+margin_right = 84.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 30, 0 )
+text = "0"
+align = 1
+
+[node name="Power" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim2"]
+margin_top = 24.0
+margin_right = 84.0
+margin_bottom = 48.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Power"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Power:"
+align = 2
+
+[node name="PowerValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Power"]
+margin_left = 54.0
+margin_right = 84.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 30, 0 )
+text = "0"
+align = 1
+
 [node name="Status" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
 margin_left = 100.0
 margin_right = 214.0
@@ -257,6 +302,7 @@ margin_bottom = 320.0
 text = "Home"
 
 [node name="GameOver" type="ColorRect" parent="CanvasLayer/HUD"]
+visible = false
 margin_right = 640.0
 margin_bottom = 360.0
 color = Color( 0, 0, 0, 0.470588 )
@@ -282,6 +328,7 @@ margin_bottom = 244.0
 text = "99"
 
 [node name="Instructions" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
@@ -331,6 +378,7 @@ valign = 1
 autowrap = true
 
 [node name="Home" type="Button" parent="CanvasLayer/Instructions"]
+visible = false
 margin_right = 80.0
 margin_bottom = 40.0
 text = "Back"
@@ -340,6 +388,7 @@ text = "Back"
 [connection signal="picked_up" from="Archer" to="." method="_on_Archer_picked_up"]
 [connection signal="update_draw" from="Archer" to="." method="_on_Archer_update_draw"]
 [connection signal="update_draw" from="Archer2" to="." method="_on_Archer_update_draw"]
+[connection signal="camera_ready" from="GameCamera" to="." method="_on_GameCamera_camera_ready"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
 [connection signal="pressed" from="CanvasLayer/HUD/TopBar/Back" to="." method="_on_Back_pressed"]
@@ -348,5 +397,3 @@ text = "Back"
 [connection signal="pressed" from="CanvasLayer/HUD/GameOver/GameOver" to="." method="_on_GameOver_pressed"]
 [connection signal="pressed" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="CanvasLayer/Instructions/Home" to="." method="_on_Home_pressed"]
-
-[editable path="Archer2"]

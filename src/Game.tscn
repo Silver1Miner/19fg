@@ -104,6 +104,8 @@ script = ExtResource( 4 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -360.0
+margin_right = 1120.0
 color = Color( 1, 0.698039, 0, 1 )
 
 [node name="GameWorld" parent="." instance=ExtResource( 1 )]
@@ -117,10 +119,15 @@ anims/move_game = SubResource( 2 )
 anims/to_log = SubResource( 4 )
 anims/to_store = SubResource( 3 )
 
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[connection signal="end_camera" from="GameWorld" to="." method="_on_GameWorld_end_camera"]
 [connection signal="end_game" from="GameWorld" to="." method="_on_GameWorld_end_game"]
 [connection signal="loadout_changed" from="MainMenu" to="." method="_on_MainMenu_loadout_changed"]
 [connection signal="log_to_main" from="MainMenu" to="." method="_on_MainMenu_log_to_main"]
 [connection signal="shop_to_main" from="MainMenu" to="." method="_on_MainMenu_shop_to_main"]
+[connection signal="start_duel" from="MainMenu" to="." method="_on_MainMenu_start_duel"]
 [connection signal="start_hunt" from="MainMenu" to="." method="_on_MainMenu_start_hunt"]
 [connection signal="start_practice" from="MainMenu" to="." method="_on_MainMenu_start_practice"]
 [connection signal="to_log" from="MainMenu" to="." method="_on_MainMenu_to_log"]

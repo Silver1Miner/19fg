@@ -41,7 +41,7 @@ func update_option_buttons() -> void:
 			p2bow.select(j)
 	j = -1
 	p1arrow.clear()
-	p1arrow.clear()
+	p2arrow.clear()
 	arrow_indices.clear()
 	for i in len(UserData.inventory.arrow):
 		if UserData.inventory.arrow[i] > 0:
@@ -55,7 +55,7 @@ func update_option_buttons() -> void:
 			p2arrow.select(j)
 	j = -1
 	p1banner.clear()
-	p1banner.clear()
+	p2banner.clear()
 	banner_indices.clear()
 	for i in len(UserData.inventory.banner):
 		if UserData.inventory.banner[i] > 0:
@@ -77,7 +77,7 @@ func update_option_buttons() -> void:
 		p2banner.select(j)
 	j = -1
 	p1hat.clear()
-	p1hat.clear()
+	p2hat.clear()
 	hat_indices.clear()
 	for i in len(UserData.inventory.helm):
 		if UserData.inventory.helm[i] > 0:
@@ -98,37 +98,41 @@ func update_option_buttons() -> void:
 		p2hat.select(j)
 
 func _on_Bow1_item_selected(index: int) -> void:
-	UserData.loadout.bow = bow_indices[index]
+	if index < len(bow_indices):
+		UserData.loadout.bow = bow_indices[index]
 
 func _on_Arrow1_item_selected(index: int) -> void:
-	UserData.loadout.arrow = arrow_indices[index]
+	if index < len(arrow_indices):
+		UserData.loadout.arrow = arrow_indices[index]
 
 func _on_Banner1_item_selected(index: int) -> void:
-	if index < 5:
+	if index < 5 and index < len(banner_indices):
 		UserData.loadout.banner = banner_indices[index]
 	else:
 		UserData.loadout.banner = -1
 
 func _on_Hat1_item_selected(index: int) -> void:
-	if index < 5:
+	if index < 5 and index < len(hat_indices):
 		UserData.loadout.helm = hat_indices[index]
 	else:
 		UserData.loadout.helm = -1
 
 func _on_Bow2_item_selected(index: int) -> void:
-	UserData.p2_loadout.bow = bow_indices[index]
+	if index < len(bow_indices):
+		UserData.p2_loadout.bow = bow_indices[index]
 
 func _on_Arrow2_item_selected(index: int) -> void:
-	UserData.p2_loadout.arrow = arrow_indices[index]
+	if index < len(arrow_indices):
+		UserData.p2_loadout.arrow = arrow_indices[index]
 
 func _on_Banner2_item_selected(index: int) -> void:
-	if index < 5:
+	if index < 5 and index < len(banner_indices):
 		UserData.p2_loadout.banner = banner_indices[index]
 	else:
 		UserData.p2_loadout.banner = -1
 
 func _on_Hat2_item_selected(index: int) -> void:
-	if index < 5:
+	if index < 5 and index < len(hat_indices):
 		UserData.p2_loadout.helm = hat_indices[index]
 	else:
 		UserData.p2_loadout.helm = -1

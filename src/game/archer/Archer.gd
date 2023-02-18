@@ -4,6 +4,8 @@ signal update_draw(draw_start, draw_end, force)
 signal arrow_fired()
 signal increase_score(score_increase)
 signal picked_up(coin_value)
+signal cooldown_update(time_left)
+signal hp_changed(hp)
 export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
@@ -38,11 +40,16 @@ enum States {
 	AIMING,
 }
 var state = States.READY
+export var hp = 100 setget _set_hp
 
 func _ready() -> void:
-	update_loadout(UserData.loadout)
+	if player_group == "P1":
+		update_loadout(UserData.loadout)
+	else:
+		update_loadout(UserData.p2_loadout)
 
 func update_loadout(loadout_data: Dictionary) -> void:
+	print(loadout_data)
 	if loadout_data.has("arrow"):
 		arrow_type = loadout_data.arrow
 		arrow_sprite.self_modulate = itemdata.colors[arrow_type]
@@ -55,15 +62,14 @@ func update_loadout(loadout_data: Dictionary) -> void:
 		bow_elastic_force = itemdata.bow_stats[bow_type].force
 		bow_reload_time = itemdata.bow_stats[bow_type].cooldown
 		reload_timer.wait_time = bow_reload_time
+		$ProgressBar.max_value = bow_reload_time
 	if loadout_data.has("banner"):
 		if loadout_data.banner < 0:
 			banner_sprite.visible = false
 		else:
 			banner_sprite.self_modulate = itemdata.colors[loadout_data.banner]
 			banner_sprite.visible = true
-		print("banner choice: ", loadout_data.banner)
 	if loadout_data.has("helm"):
-		print("helmet choice: ", loadout_data.helm)
 		if loadout_data.helm < 0:
 			hat_sprite.visible = false
 		else:
@@ -75,12 +81,16 @@ func active_toggle(disable: bool) -> void:
 	hitbox.monitoring = disable
 	pickupbox.monitoring = disable
 
+func _set_hp(new_value: int) -> void:
+	hp = new_value
+	emit_signal("hp_changed", hp)
+
 func _input(event):
 	if get_parent() and not get_parent().game_started:
 		return
 	if state == States.READY:
 		if event is InputEventScreenTouch:
-			if event.position.y > 40 and event.is_pressed():
+			if event.is_pressed():
 				trajectory_draw.visible = true
 				bow_grab(event.position)
 	elif state == States.AIMING:
@@ -93,6 +103,9 @@ func _input(event):
 		trajectory_draw.visible = false
 
 func _physics_process(_delta):
+	if reload_timer.time_left > 0:
+		emit_signal("cooldown_update", reload_timer.time_left)
+		$ProgressBar.value = reload_timer.time_left
 	match state:
 		States.AIMING:
 			if arrow_instance:
@@ -142,8 +155,26 @@ func bow_move(touch_position: Vector2) -> void:
 	state = States.AIMING
 	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
 	emit_signal("update_draw", draw_start, draw_end, force)
+	trajectory_draw.visible = force >= 200
+
+func remove_arrows() -> void:
+	for node in hitbox.get_children():
+		if node.is_in_group("to_remove"):
+			hitbox.remove_child(node)
+			node.queue_free()
 
 func bow_release(touch_position: Vector2) -> void:
+	if (draw_start-draw_end).length() < 20:
+		arrow_instance = null
+		state = States.READY
+		draw_start = Vector2.ZERO
+		draw_end = Vector2.ZERO
+		var force = 0
+		trajectory_draw.visible = false
+		aiming_sprite.rotation_degrees = 0
+		anim.play_backwards("start_aiming")
+		emit_signal("update_draw", draw_start, draw_end, force)
+		return
 	print("fire! at ", touch_position)
 	draw_end = touch_position
 	if arrow_instance:

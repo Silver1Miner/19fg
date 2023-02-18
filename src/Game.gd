@@ -51,3 +51,12 @@ func _on_MainMenu_log_to_main() -> void:
 
 func _on_MainMenu_loadout_changed() -> void:
 	gameworld.update_archer()
+
+func _on_MainMenu_start_duel() -> void:
+	main_menu.visible = false
+	current_game_mode = 1
+	start = true
+	anim.play("move_game")
+
+func _on_GameWorld_end_camera() -> void:
+	$Camera2D.make_current()

@@ -1,10 +1,11 @@
 extends Node2D
 
 signal end_game()
+signal end_camera()
 enum GameModes {HUNT, DUEL, PRACTICE}
 enum DuelStates {P1TURN, P2TURN, END}
 export var duel_state = DuelStates.END
-export var game_mode = GameModes.HUNT
+export var game_mode = GameModes.DUEL
 var target_small = preload("res://src/game/targets/TargetSmall.tscn")
 var target_med = preload("res://src/game/targets/TargetMedium.tscn")
 var target_big = preload("res://src/game/targets/TargetBig.tscn")
@@ -12,11 +13,13 @@ var target_practice_low = preload("res://src/game/targets/TargetPracticeLow.tscn
 var target_practice_mid = preload("res://src/game/targets/TargetPracticeMid.tscn")
 var target_practice_high = preload("res://src/game/targets/TargetPracticeHigh.tscn")
 onready var line_draw = $Line2D
+onready var camera = $GameCamera
 onready var pause_screen = $CanvasLayer/HUD/Pause
 onready var game_over_screen = $CanvasLayer/HUD/GameOver
 onready var hunting_result = $CanvasLayer/HUD/GameOver/HuntDisplay
 onready var game_objects = $GameObjects
 onready var status_display = $CanvasLayer/HUD/TopBar/Status
+onready var accuracy_display = $CanvasLayer/HUD/TopBar/Accuracy
 onready var score_display = $CanvasLayer/HUD/TopBar/Status/Score/ScoreValue
 onready var angle_display = $CanvasLayer/HUD/TopBar/Aim/Angle/AngleValue
 onready var power_display = $CanvasLayer/HUD/TopBar/Aim/Power/PowerValue
@@ -70,13 +73,6 @@ func set_game_mode(new_mode: int) -> void:
 	hud.visible = false
 	pause_screen.visible = false
 	game_mode = new_mode
-	match game_mode:
-		0: # HUNT
-			pass
-		1: # DUEL
-			pass
-		2: # PRACTICE
-			pass
 	if UserData.tutorial_on:
 		instructions.visible = true
 	else:
@@ -105,7 +101,6 @@ func set_daily_seed() -> void:
 	seed(daily_seed)
 
 func start_game() -> void:
-	game_started = true
 	hud.visible = true
 	topbar.visible = true
 	get_tree().paused = false
@@ -113,9 +108,11 @@ func start_game() -> void:
 	game_over_screen.visible = false
 	match game_mode:
 		0: # HUNT
+			game_started = true
 			set_daily_seed()
 			status_display.visible = true
 			inventory_display.visible = true
+			accuracy_display.visible = true
 			seconds = 0
 			minutes = 0
 			_set_score(0)
@@ -131,18 +128,21 @@ func start_game() -> void:
 			spawn_timer.wait_time = 1.0
 			spawn_timer.start()
 		1: # DUEL
+			camera.make_current()
 			status_display.visible = false
 			inventory_display.visible = false
+			accuracy_display.visible = false
 			tick.stop()
-			duel_state = DuelStates.P1TURN
+			spawn_timer.stop()
 			archer1.hunting_mode = false
 			archer2.active_toggle(true)
-			archer1.state = 1
-			archer2.state = 0
-			spawn_timer.stop()
+			archer2.update_loadout(UserData.p2_loadout)
+			camera.to_duel_view()
 		2: # PRACTICE
+			game_started = true
 			status_display.visible = false
 			inventory_display.visible = false
+			accuracy_display.visible = true
 			tick.stop()
 			_set_shots(0)
 			_set_hits(0)
@@ -152,6 +152,19 @@ func start_game() -> void:
 			archer2.active_toggle(false)
 			spawn_timer.start()
 			spawn_timer.wait_time = 5.0
+
+func _on_GameCamera_camera_ready() -> void:
+	if game_started:
+		emit_signal("end_camera")
+		end_game()
+	else:
+		start_duel()
+
+func start_duel() -> void:
+	game_started = true
+	duel_state = DuelStates.P1TURN
+	archer1.state = 1
+	archer2.state = 0
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -183,6 +196,7 @@ func next_turn() -> void:
 		archer2.state = 0
 
 func _on_Back_pressed() -> void:
+	get_tree().set_input_as_handled()
 	get_tree().paused = true
 	pause_screen.visible = true
 
@@ -193,15 +207,27 @@ func _on_Resume_pressed() -> void:
 func _on_Home_pressed() -> void:
 	instructions.visible = false
 	get_tree().paused = false
-	end_game()
+	archer1.state = 0
+	archer2.state = 0
+	hud.visible = false
+	if game_mode == GameModes.DUEL:
+		camera.to_normal_view()
+	else:
+		end_game()
 
 func _on_GameOver_pressed() -> void:
 	get_tree().paused = false
-	end_game()
+	archer1.state = 0
+	archer2.state = 0
+	hud.visible = false
+	if game_mode == GameModes.DUEL:
+		camera.to_normal_view()
+	else:
+		end_game()
 
 func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2, force: float) -> void:
-	line_draw.points[0] = draw_start
-	line_draw.points[1] = draw_end
+	line_draw.points[0] = draw_start * camera.zoom.x + camera.global_position
+	line_draw.points[1] = draw_end * camera.zoom.y + camera.global_position
 	var angle = rad2deg((draw_end - draw_start).angle())
 	var angle_displayed = 0
 	if angle < 0.0:
@@ -212,7 +238,6 @@ func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2, force: float
 		angle_displayed = 0.0
 	angle_display.text = str(stepify(angle_displayed, 0.01))
 	power_display.text = str(force * 0.1)
-	print(angle)
 
 func _on_SpawnTimer_timeout() -> void:
 	match game_mode:
@@ -307,6 +332,8 @@ func end_game() -> void:
 	game_started = false
 	archer1.state = 0
 	archer2.state = 0
+	archer1.remove_arrows()
+	archer2.remove_arrows()
 	for obj in game_objects.get_children():
 		game_objects.remove_child(obj)
 		obj.queue_free()

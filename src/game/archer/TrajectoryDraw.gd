@@ -29,6 +29,8 @@ func _draw() -> void:
 		var angle = -initial_velocity.angle()
 		for i in range (dot_range):
 			var x = i * gap
+			if angle > PI/2 or angle < -PI/2:
+				x = -x
 			var pos = Vector2(x, trajectory_equation(
 				x,
 				angle,
