@@ -87,25 +87,25 @@ func update_banners_display() -> void:
 	else:
 		banner4.text = "Red Banner\nBuy for %s" % itemdata.banner_stats[4].cost
 	if UserData.inventory.helm[0] > 0:
-		helm0.text = "Black Helm\nEquip"
+		helm0.text = "Black Cap\nEquip"
 	else:
-		helm0.text = "Black Helm\nBuy for %s" % itemdata.helm_stats[1].cost
+		helm0.text = "Black Cap\nBuy for %s" % itemdata.helm_stats[1].cost
 	if UserData.inventory.helm[1] > 0:
-		helm1.text = "White Helmet\nEquip"
+		helm1.text = "White Cap\nEquip"
 	else:
-		helm1.text = "White Helmet\nBuy for %s" % itemdata.helm_stats[1].cost
+		helm1.text = "White Cap\nBuy for %s" % itemdata.helm_stats[1].cost
 	if UserData.inventory.helm[2] > 0:
-		helm2.text = "Blue Helmet\nEquip"
+		helm2.text = "Blue Cap\nEquip"
 	else:
-		helm2.text = "Blue Helmet\nBuy for %s" % itemdata.helm_stats[2].cost
+		helm2.text = "Blue Cap\nBuy for %s" % itemdata.helm_stats[2].cost
 	if UserData.inventory.helm[3] > 0:
-		helm3.text = "Yellow Helmet\nEquip"
+		helm3.text = "Yellow Cap\nEquip"
 	else:
-		helm3.text = "Yellow Helmet\nBuy for %s" % itemdata.helm_stats[3].cost
+		helm3.text = "Yellow Cap\nBuy for %s" % itemdata.helm_stats[3].cost
 	if UserData.inventory.helm[4] > 0:
-		helm4.text = "Red Helmet\nEquip"
+		helm4.text = "Red Cap\nEquip"
 	else:
-		helm4.text = "Red Helmet\nBuy for %s" % itemdata.helm_stats[4].cost
+		helm4.text = "Red Cap\nBuy for %s" % itemdata.helm_stats[4].cost
 
 func handle_bow(index: int) -> void:
 	if UserData.inventory.bow[index] > 0:

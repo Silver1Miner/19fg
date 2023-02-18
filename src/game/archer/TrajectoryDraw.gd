@@ -2,7 +2,7 @@ extends Node2D
 
 var initial_velocity = Vector2()
 var drawing = false
-var gravity = 98
+var gravity = 100
 var color = Color(1, 0 ,0)
 var points = {
 	"gap": 10,
@@ -10,7 +10,7 @@ var points = {
 	"color": Color(1, 0, 0)
 }
 
-func draw_trajectory(init_vel: Vector2, from: Vector2, new_gravity = 98):
+func draw_trajectory(init_vel: Vector2, from: Vector2, new_gravity = 100):
 	initial_velocity = init_vel
 	global_position = from
 	drawing = true

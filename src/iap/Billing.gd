@@ -180,8 +180,16 @@ func handle_purchase(product_id) -> void:
 	elif product_id == "gems_1650_1999":
 		emit_signal("purchase_consumed", 1650)
 
-func non_mobile_testing(gems: int) -> void:
-	emit_signal("purchase_consumed", gems)
+func non_mobile_testing(gem_index: int) -> void:
+	match gem_index:
+		0:
+			emit_signal("purchase_consumed", 60)
+		1:
+			emit_signal("purchase_consumed", 315)
+		2:
+			emit_signal("purchase_consumed", 630)
+		3:
+			emit_signal("purchase_consumed", 1650)
 
 func get_ios_iap_details() -> void:
 	var event = ios_iap.request_product_info(

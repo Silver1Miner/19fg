@@ -8,6 +8,7 @@ onready var confirm_preview = $ConfirmPanel/Preview
 onready var confirm_descrption = $ConfirmPanel/Description
 onready var confirm_purchase = $ConfirmPanel/Options/Purchase
 onready var confirm_equip = $ConfirmPanel/Options/Equip
+onready var loadout_options = $ShopPanel/TabContainer/Equipment/LoadoutOptions
 var itemdata = preload("res://data/itemdata.tres")
 var current_item_type = 0
 var current_item_index = 0
@@ -15,11 +16,22 @@ var arrows = 0
 var coins = 0
 
 func _ready() -> void:
+	check_status()
+	#if not OS.get_name() in ["Android", "iOS"]:
+	#	$ShopPanel/TabContainer/Coins.queue_free()
+	if Billing.connect("purchase_consumed", self, "_on_purchase_consumed") != OK:
+		push_error("fail to connect signal")
+
+func check_status() -> void:
 	confirm_panel.visible = false
 	set_arrows(UserData.arrows)
 	set_coins(UserData.gems)
-	if not OS.get_name() in ["Android", "iOS"]:
-		$ShopPanel/TabContainer/Coins.queue_free()
+
+func _on_purchase_consumed(gem_gain: int) -> void:
+	print("gems bought: ", gem_gain)
+	UserData.set_gems(UserData.gems + gem_gain)
+	UserData.save_inventory()
+	check_status()
 
 func set_arrows(new_value: int) -> void:
 	arrows = new_value
@@ -62,8 +74,9 @@ func _on_BuyBonusArrows1_pressed() -> void:
 	confirm_preview.texture = preload("res://assets/gui/icons/arrows.png")
 	confirm_equip.visible = false
 	confirm_purchase.visible = true
-	confirm_descrption.text = ""
-	confirm_purchase.disabled = coins < 160
+	confirm_descrption.text = itemdata.extra_arrows[0].description
+	confirm_purchase.disabled = coins < itemdata.extra_arrows[0].cost
+	confirm_panel.visible = true
 
 func _on_BuyBonusArrows2_pressed() -> void:
 	current_item_type = 4
@@ -71,8 +84,9 @@ func _on_BuyBonusArrows2_pressed() -> void:
 	confirm_preview.texture = preload("res://assets/gui/icons/arrows.png")
 	confirm_equip.visible = false
 	confirm_purchase.visible = true
-	confirm_descrption.text = ""
-	confirm_purchase.disabled = coins < 1600
+	confirm_descrption.text = itemdata.extra_arrows[1].description
+	confirm_purchase.disabled = coins < itemdata.extra_arrows[1].cost
+	confirm_panel.visible = true
 
 func _on_LoadoutOptions_request_purchase(item_type: int, item_index: int) -> void:
 	print(item_type, " item index: ", item_index)
@@ -132,15 +146,32 @@ func _on_Cancel_pressed() -> void:
 func _on_Equip_pressed() -> void:
 	if current_item_type >= 0 and current_item_type < 4:
 		change_loadout(current_item_type, current_item_index)
-	confirm_panel.visible = false
+	UserData.save_inventory()
+	check_status()
 
 func _on_Purchase_pressed() -> void:
+	var cost = 0
+	var value = 0
 	if current_item_type == 4:
-		match current_item_index:
-			1:
-				pass
-			2:
-				pass
-	else:
-		pass
-	confirm_panel.visible = false
+		cost = itemdata.extra_arrows[current_item_index - 1].cost
+		value = itemdata.extra_arrows[current_item_index - 1].value
+		UserData.set_arrows(UserData.arrows + value)
+	elif current_item_type == 0:
+		cost = itemdata.bow_stats[current_item_index].cost
+		UserData.inventory.bow[current_item_index] = 1
+	elif current_item_type == 1:
+		cost = itemdata.arrow_stats[current_item_index].cost
+		UserData.inventory.arrow[current_item_index] = 1
+	elif current_item_type == 2:
+		cost = itemdata.banner_stats[current_item_index].cost
+		UserData.inventory.banner[current_item_index] = 1
+	elif current_item_type == 3:
+		cost = itemdata.helm_stats[current_item_index].cost
+		UserData.inventory.helm[current_item_index] = 1
+	UserData.set_gems(UserData.gems - cost)
+	print("cost: ", cost)
+	print("value: ", value)
+	print(UserData.inventory)
+	loadout_options.update_bows_display()
+	loadout_options.update_banners_display()
+	_on_Equip_pressed()

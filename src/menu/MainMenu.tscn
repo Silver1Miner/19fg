@@ -101,6 +101,7 @@ text = "Practice"
 margin_top = 240.0
 margin_right = 120.0
 margin_bottom = 300.0
+disabled = true
 toggle_mode = true
 text = "Duel"
 

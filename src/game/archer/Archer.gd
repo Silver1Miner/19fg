@@ -8,9 +8,15 @@ export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
 export var bow_elastic_force = 1000.0
+export var bow_reload_time = 1.0
+export var arrow_mass = 10.0
+export var arrow_damage = 10
 export var gravity = 10.0
 onready var game_objects = get_node_or_null("../GameObjects")
 onready var bow_sprite = $Aiming/Bow
+onready var arrow_sprite = $Aiming/Arrow
+onready var banner_sprite = $ArcherBody/Banner
+onready var hat_sprite = $ArcherBody/Hat
 onready var hitbox = $Hitbox
 onready var pickupbox = $PickupBox
 onready var reload_timer = $Timer
@@ -40,14 +46,30 @@ func _ready() -> void:
 func update_loadout(loadout_data: Dictionary) -> void:
 	if loadout_data.has("arrow"):
 		arrow_type = loadout_data.arrow
+		arrow_sprite.self_modulate = itemdata.colors[arrow_type]
+		arrow_mass = itemdata.arrow_stats[arrow_type].mass
+		arrow_damage = itemdata.arrow_stats[arrow_type].damage
 	if loadout_data.has("bow"):
 		bow_type = loadout_data.bow
 		trajectory_draw.color = itemdata.colors[bow_type]
 		bow_sprite.self_modulate = itemdata.colors[bow_type]
+		bow_elastic_force = itemdata.bow_stats[bow_type].force
+		bow_reload_time = itemdata.bow_stats[bow_type].cooldown
+		reload_timer.wait_time = bow_reload_time
 	if loadout_data.has("banner"):
+		if loadout_data.banner < 0:
+			banner_sprite.visible = false
+		else:
+			banner_sprite.self_modulate = itemdata.colors[loadout_data.banner]
+			banner_sprite.visible = true
 		print("banner choice: ", loadout_data.banner)
 	if loadout_data.has("helm"):
 		print("helmet choice: ", loadout_data.helm)
+		if loadout_data.helm < 0:
+			hat_sprite.visible = false
+		else:
+			hat_sprite.self_modulate = itemdata.colors[loadout_data.helm]
+			hat_sprite.visible = true
 
 func active_toggle(disable: bool) -> void:
 	visible = disable
@@ -78,8 +100,8 @@ func _physics_process(_delta):
 				launch_impulse = update_impulse()
 				aiming_sprite.rotation = (draw_start - draw_end).angle()
 				trajectory_draw.draw_trajectory(
-					launch_impulse / arrow_instance.mass,
-					arrow_instance.global_position,
+					launch_impulse / arrow_mass,
+					arrow_instance.head.global_position,
 					gravity
 				)
 
@@ -90,7 +112,8 @@ func load_projectile():
 	state = States.AIMING
 	if game_objects:
 		arrow_instance = Arrow.instance()
-		arrow_instance.set_type(arrow_type)
+		arrow_instance.mass = arrow_mass
+		arrow_instance.damage = arrow_damage
 		game_objects.add_child(arrow_instance)
 		arrow_instance.connect("landed", get_parent(), "_on_arrow_landed")
 		arrow_instance.connect("arrow_accounted_for", get_parent(), "_on_arrow_accounted_for")
@@ -122,7 +145,7 @@ func bow_release(touch_position: Vector2) -> void:
 	if arrow_instance:
 		Audio.play_sound("res://assets/audio/sounds/arrows/536068__eminyildirim__bow-release-hit.wav")
 		arrow_instance.visible = true
-		arrow_instance.gravity = gravity * 10
+		arrow_instance.gravity = gravity * arrow_mass
 		arrow_instance.fired = true
 		arrow_instance.velocity = launch_impulse
 		arrow_instance = null

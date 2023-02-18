@@ -1,6 +1,6 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=36 format=2]
 
-[ext_resource path="res://assets/audio/sounds/horse/single-horse-galopp-6152.mp3" type="AudioStream" id=1]
+[ext_resource path="res://assets/audio/sounds/horse/029398_maxheadroom39s-galloping-horse-39-sec-loop-73481.mp3" type="AudioStream" id=1]
 [ext_resource path="res://src/game/archer/Archer.gd" type="Script" id=2]
 [ext_resource path="res://src/game/archer/TrajectoryDraw.gd" type="Script" id=3]
 [ext_resource path="res://assets/game/archer/archer-body.png" type="Texture" id=4]
@@ -18,13 +18,66 @@
 [ext_resource path="res://assets/game/archer/archer-arms.png" type="Texture" id=16]
 [ext_resource path="res://assets/game/archer/archer-bow-only.png" type="Texture" id=17]
 [ext_resource path="res://assets/game/archer/archer-arrow-only.png" type="Texture" id=18]
+[ext_resource path="res://assets/game/archer/cap.png" type="Texture" id=19]
+[ext_resource path="res://assets/game/archer/banner-Sheet.png" type="Texture" id=20]
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 19 )
+region = Rect2( 0, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 19 )
+region = Rect2( 96, 0, 96, 96 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 20.0
+} ]
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 20 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "default",
+"speed": 20.0
+} ]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 8 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 12 ), ExtResource( 13 ) ],
 "loop": true,
 "name": "default",
-"speed": 20.0
+"speed": 24.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -164,14 +217,21 @@ hframes = 6
 scale = Vector2( -1, 1 )
 texture = ExtResource( 4 )
 
-[node name="Hat" type="Sprite" parent="ArcherBody"]
+[node name="Hat" type="AnimatedSprite" parent="ArcherBody"]
+frames = SubResource( 7 )
+frame = 1
+playing = true
 
-[node name="Banner" type="Sprite" parent="ArcherBody"]
+[node name="Banner" type="AnimatedSprite" parent="ArcherBody"]
+position = Vector2( 43, -1 )
+frames = SubResource( 8 )
+frame = 2
+playing = true
 
 [node name="Horse" type="AnimatedSprite" parent="."]
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
-frame = 9
+frame = 2
 playing = true
 flip_h = true
 
@@ -200,7 +260,8 @@ anims/start_aiming = SubResource( 5 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 1 )
-volume_db = -30.0
+volume_db = -10.0
+pitch_scale = 0.95
 autoplay = true
 bus = "Sound"
 
