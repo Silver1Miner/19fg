@@ -64,28 +64,28 @@ margin_bottom = 40.0
 text = "Back"
 
 [node name="Inventory" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
-margin_left = 360.0
-margin_right = 480.0
+visible = false
+margin_left = 340.0
+margin_right = 484.0
 margin_bottom = 48.0
 custom_constants/separation = 0
 alignment = 2
 
 [node name="Arrows" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Inventory"]
-margin_right = 125.0
+margin_right = 144.0
 margin_bottom = 24.0
 alignment = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Arrows"]
-margin_left = 21.0
-margin_right = 81.0
+margin_right = 100.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 60, 0 )
+rect_min_size = Vector2( 100, 0 )
 text = "Arrows:"
 align = 2
 
 [node name="ArrowValue" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Arrows"]
-margin_left = 85.0
-margin_right = 125.0
+margin_left = 104.0
+margin_right = 144.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 40, 0 )
 text = "99"
@@ -93,34 +93,35 @@ align = 1
 
 [node name="Bagged" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Inventory"]
 margin_top = 24.0
-margin_right = 125.0
+margin_right = 144.0
 margin_bottom = 48.0
 alignment = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Bagged"]
-margin_right = 81.0
+margin_right = 100.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 60, 0 )
-text = "Gains Value:"
+rect_min_size = Vector2( 100, 0 )
+text = "Coins Gained:"
 align = 2
 
 [node name="BaggedValue" type="Label" parent="CanvasLayer/HUD/TopBar/Inventory/Bagged"]
-margin_left = 85.0
-margin_right = 125.0
+margin_left = 104.0
+margin_right = 144.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 40, 0 )
 text = "9999"
 align = 1
 
 [node name="Aim" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
-margin_left = 240.0
-margin_right = 324.0
-margin_bottom = 48.0
+margin_left = 100.0
+margin_right = 204.0
+margin_bottom = 96.0
 custom_constants/separation = 0
 
 [node name="Angle" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim"]
-margin_right = 84.0
+margin_right = 104.0
 margin_bottom = 24.0
+custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Angle"]
 margin_right = 50.0
@@ -130,17 +131,18 @@ text = "Angle:"
 align = 2
 
 [node name="AngleValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Angle"]
-margin_left = 54.0
-margin_right = 84.0
+margin_left = 60.0
+margin_right = 100.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 30, 0 )
+rect_min_size = Vector2( 40, 0 )
 text = "0"
 align = 1
 
 [node name="Power" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim"]
 margin_top = 24.0
-margin_right = 84.0
+margin_right = 104.0
 margin_bottom = 48.0
+custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Power"]
 margin_right = 50.0
@@ -150,23 +152,65 @@ text = "Power:"
 align = 2
 
 [node name="PowerValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Power"]
-margin_left = 54.0
-margin_right = 84.0
+margin_left = 60.0
+margin_right = 100.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 30, 0 )
+rect_min_size = Vector2( 40, 0 )
 text = "0"
 align = 1
 
+[node name="Reload" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim"]
+margin_top = 48.0
+margin_right = 104.0
+margin_bottom = 72.0
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Reload"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Reload:"
+align = 2
+
+[node name="ReloadValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Reload"]
+margin_left = 60.0
+margin_right = 100.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 40, 0 )
+text = "Ready"
+align = 1
+
+[node name="Health" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim"]
+margin_top = 72.0
+margin_right = 104.0
+margin_bottom = 96.0
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Health"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Health:"
+align = 2
+
+[node name="HealthValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim/Health"]
+margin_left = 60.0
+margin_right = 100.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 40, 0 )
+text = "100"
+align = 1
+
 [node name="Aim2" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
-visible = false
-margin_left = 340.0
-margin_right = 424.0
-margin_bottom = 48.0
+margin_left = 440.0
+margin_right = 544.0
+margin_bottom = 72.0
 custom_constants/separation = 0
 
 [node name="Angle" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim2"]
-margin_right = 84.0
+margin_right = 104.0
 margin_bottom = 24.0
+custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Angle"]
 margin_right = 50.0
@@ -176,17 +220,18 @@ text = "Angle:"
 align = 2
 
 [node name="AngleValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Angle"]
-margin_left = 54.0
-margin_right = 84.0
+margin_left = 60.0
+margin_right = 100.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 30, 0 )
+rect_min_size = Vector2( 40, 0 )
 text = "0"
 align = 1
 
 [node name="Power" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim2"]
 margin_top = 24.0
-margin_right = 84.0
+margin_right = 104.0
 margin_bottom = 48.0
+custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Power"]
 margin_right = 50.0
@@ -196,16 +241,38 @@ text = "Power:"
 align = 2
 
 [node name="PowerValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Power"]
-margin_left = 54.0
-margin_right = 84.0
+margin_left = 60.0
+margin_right = 100.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 30, 0 )
+rect_min_size = Vector2( 40, 0 )
 text = "0"
 align = 1
 
+[node name="Health" type="HBoxContainer" parent="CanvasLayer/HUD/TopBar/Aim2"]
+margin_top = 48.0
+margin_right = 104.0
+margin_bottom = 72.0
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Health"]
+margin_right = 50.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 50, 0 )
+text = "Health:"
+align = 2
+
+[node name="HealthValue" type="Label" parent="CanvasLayer/HUD/TopBar/Aim2/Health"]
+margin_left = 60.0
+margin_right = 100.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 40, 0 )
+text = "100"
+align = 1
+
 [node name="Status" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
-margin_left = 100.0
-margin_right = 214.0
+visible = false
+margin_left = 220.0
+margin_right = 334.0
 margin_bottom = 48.0
 custom_constants/separation = 0
 
@@ -236,6 +303,7 @@ rect_min_size = Vector2( 60, 0 )
 text = "999999"
 
 [node name="Accuracy" type="VBoxContainer" parent="CanvasLayer/HUD/TopBar"]
+visible = false
 margin_left = 520.0
 margin_right = 600.0
 margin_bottom = 48.0
@@ -320,6 +388,28 @@ margin_right = 400.0
 margin_bottom = 320.0
 text = "Home"
 
+[node name="GameOverDuel" type="ColorRect" parent="CanvasLayer/HUD"]
+visible = false
+margin_right = 640.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 0.470588 )
+
+[node name="GameOver" type="Button" parent="CanvasLayer/HUD/GameOverDuel"]
+margin_left = 240.0
+margin_top = 280.0
+margin_right = 400.0
+margin_bottom = 320.0
+text = "Home"
+
+[node name="Result" type="Label" parent="CanvasLayer/HUD/GameOverDuel"]
+margin_left = 240.0
+margin_top = 140.0
+margin_right = 400.0
+margin_bottom = 180.0
+text = "Player 1 Wins"
+align = 1
+valign = 1
+
 [node name="TargetsOnField" type="Label" parent="CanvasLayer/HUD"]
 visible = false
 margin_top = 220.0
@@ -384,10 +474,13 @@ margin_bottom = 40.0
 text = "Back"
 
 [connection signal="arrow_fired" from="Archer" to="." method="_on_Archer_arrow_fired"]
+[connection signal="cooldown_update" from="Archer" to="." method="_on_Archer_cooldown_update"]
+[connection signal="hp_changed" from="Archer" to="." method="_on_Archer_hp_changed"]
 [connection signal="increase_score" from="Archer" to="." method="_on_Archer_increase_score"]
 [connection signal="picked_up" from="Archer" to="." method="_on_Archer_picked_up"]
 [connection signal="update_draw" from="Archer" to="." method="_on_Archer_update_draw"]
-[connection signal="update_draw" from="Archer2" to="." method="_on_Archer_update_draw"]
+[connection signal="hp_changed" from="Archer2" to="." method="_on_Archer2_hp_changed"]
+[connection signal="update_draw" from="Archer2" to="." method="_on_Archer2_update_draw"]
 [connection signal="camera_ready" from="GameCamera" to="." method="_on_GameCamera_camera_ready"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
@@ -395,5 +488,6 @@ text = "Back"
 [connection signal="pressed" from="CanvasLayer/HUD/Pause/Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="CanvasLayer/HUD/Pause/Home" to="." method="_on_Home_pressed"]
 [connection signal="pressed" from="CanvasLayer/HUD/GameOver/GameOver" to="." method="_on_GameOver_pressed"]
+[connection signal="pressed" from="CanvasLayer/HUD/GameOverDuel/GameOver" to="." method="_on_GameOver_pressed"]
 [connection signal="pressed" from="CanvasLayer/Instructions/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="CanvasLayer/Instructions/Home" to="." method="_on_Home_pressed"]

@@ -16,14 +16,24 @@ onready var line_draw = $Line2D
 onready var camera = $GameCamera
 onready var pause_screen = $CanvasLayer/HUD/Pause
 onready var game_over_screen = $CanvasLayer/HUD/GameOver
+onready var game_over_duel = $CanvasLayer/HUD/GameOverDuel
 onready var hunting_result = $CanvasLayer/HUD/GameOver/HuntDisplay
 onready var game_objects = $GameObjects
 onready var status_display = $CanvasLayer/HUD/TopBar/Status
 onready var accuracy_display = $CanvasLayer/HUD/TopBar/Accuracy
 onready var score_display = $CanvasLayer/HUD/TopBar/Status/Score/ScoreValue
 onready var angle_display = $CanvasLayer/HUD/TopBar/Aim/Angle/AngleValue
+onready var angle2_display = $CanvasLayer/HUD/TopBar/Aim2/Angle/AngleValue
 onready var power_display = $CanvasLayer/HUD/TopBar/Aim/Power/PowerValue
+onready var power2_display = $CanvasLayer/HUD/TopBar/Aim2/Power/PowerValue
 onready var spawn_timer = $SpawnTimer
+onready var reload_display = $CanvasLayer/HUD/TopBar/Aim/Reload
+onready var reload_value = $CanvasLayer/HUD/TopBar/Aim/Reload/ReloadValue
+onready var hp1_display = $CanvasLayer/HUD/TopBar/Aim/Health
+onready var hp2_display = $CanvasLayer/HUD/TopBar/Aim2/Health
+onready var hp1_value = $CanvasLayer/HUD/TopBar/Aim/Health/HealthValue
+onready var hp2_value = $CanvasLayer/HUD/TopBar/Aim2/Health/HealthValue
+onready var aim2_display = $CanvasLayer/HUD/TopBar/Aim2
 onready var tick = $Tick
 onready var archer1 = $Archer
 onready var archer2 = $Archer2
@@ -48,12 +58,14 @@ var payout = 0 setget _set_bagged_value
 var game_started = false
 var targets_to_pickup = 0 setget _set_targets_onfield
 var arrow_in_flight = false
+var ready = false
 
 func _ready() -> void:
 	_set_targets_onfield(0)
 	hud.visible = false
 	pause_screen.visible = false
 	game_over_screen.visible = false
+	game_over_duel.visible = false
 	instructions.visible = false
 	archer1.state = 0
 	archer2.state = 0
@@ -62,6 +74,7 @@ func _ready() -> void:
 	line_draw.add_point(Vector2.ZERO)
 	tick.stop()
 	spawn_timer.stop()
+	ready = true
 
 func set_game_mode(new_mode: int) -> void:
 	game_started = false
@@ -106,6 +119,7 @@ func start_game() -> void:
 	get_tree().paused = false
 	pause_screen.visible = false
 	game_over_screen.visible = false
+	game_over_duel.visible = false
 	match game_mode:
 		0: # HUNT
 			game_started = true
@@ -113,6 +127,9 @@ func start_game() -> void:
 			status_display.visible = true
 			inventory_display.visible = true
 			accuracy_display.visible = true
+			reload_display.visible = true
+			hp1_display.visible = false
+			aim2_display.visible = false
 			seconds = 0
 			minutes = 0
 			_set_score(0)
@@ -132,6 +149,9 @@ func start_game() -> void:
 			status_display.visible = false
 			inventory_display.visible = false
 			accuracy_display.visible = false
+			reload_display.visible = false
+			hp1_display.visible = true
+			aim2_display.visible = true
 			tick.stop()
 			spawn_timer.stop()
 			archer1.hunting_mode = false
@@ -143,6 +163,9 @@ func start_game() -> void:
 			status_display.visible = false
 			inventory_display.visible = false
 			accuracy_display.visible = true
+			reload_display.visible = true
+			hp1_display.visible = false
+			aim2_display.visible = false
 			tick.stop()
 			_set_shots(0)
 			_set_hits(0)
@@ -237,7 +260,27 @@ func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2, force: float
 	else:
 		angle_displayed = 0.0
 	angle_display.text = str(stepify(angle_displayed, 0.01))
-	power_display.text = str(force * 0.1)
+	power_display.text = str(stepify(force * 0.1, 0.01))
+
+func _on_Archer2_update_draw(draw_start, draw_end, force) -> void:
+	line_draw.points[0] = draw_start * camera.zoom.x + camera.global_position
+	line_draw.points[1] = draw_end * camera.zoom.y + camera.global_position
+	var angle = rad2deg((draw_end - draw_start).angle())
+	var angle_displayed = 0
+	if angle < 0.0:
+		angle_displayed = -180.0 - angle
+	elif angle < 180.0 and angle > 0:
+		angle_displayed = 180.0 - angle
+	else:
+		angle_displayed = 0.0
+	angle2_display.text = str(stepify(angle_displayed, 0.01))
+	power2_display.text = str(stepify(force * 0.1, 0.01))
+
+func _on_Archer_cooldown_update(time_left) -> void:
+	if time_left < 0.1:
+		reload_value.text = "READY"
+	else:
+		reload_value.text = str(stepify(time_left, 0.1))
 
 func _on_SpawnTimer_timeout() -> void:
 	match game_mode:
@@ -291,7 +334,7 @@ func spawn_practice_target() -> void:
 func _on_Archer_arrow_fired() -> void:
 	arrow_in_flight = true
 	_set_shots(shots + 1)
-	if game_mode == 0:
+	if game_mode == GameModes.HUNT:
 		set_arrows(arrows - 1)
 
 func _on_target_hit() -> void:
@@ -375,7 +418,7 @@ func check_hunt_end() -> void:
 	print("targets to pickup: ", targets_to_pickup)
 	print("arrows: ", arrows)
 	print("is arrow in flight?", arrow_in_flight)
-	if targets_to_pickup <= 0 and arrows <= 0 and not arrow_in_flight:
+	if game_mode == GameModes.HUNT and targets_to_pickup <= 0 and arrows <= 0 and not arrow_in_flight:
 		tick.stop()
 		save_hunting_results()
 		topbar.visible = false
@@ -392,3 +435,19 @@ func save_hunting_results() -> void:
 
 func update_archer() -> void:
 	archer1.update_loadout(UserData.loadout)
+
+func _on_Archer_hp_changed(hp: int) -> void:
+	if not ready:
+		return
+	hp1_value.text = str(hp)
+	if hp <= 0:
+		game_over_duel.get_node("Result").text = "Player 2 Wins"
+		game_over_duel.visible = true
+
+func _on_Archer2_hp_changed(hp: int) -> void:
+	if not ready:
+		return
+	hp2_value.text = str(hp)
+	if hp <= 0:
+		game_over_duel.get_node("Result").text = "Player 1 Wins"
+		game_over_duel.visible = true

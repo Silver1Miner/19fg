@@ -92,6 +92,7 @@ func update_option_buttons() -> void:
 	hat_indices.append(-1)
 	p1hat.add_item("No Cap")
 	p2hat.add_item("No Cap")
+	j += 1
 	if UserData.loadout.helm == -1:
 		p1hat.select(j)
 	if UserData.p2_loadout.helm == -1:

@@ -75,6 +75,7 @@ func update_loadout(loadout_data: Dictionary) -> void:
 		else:
 			hat_sprite.self_modulate = itemdata.colors[loadout_data.helm]
 			hat_sprite.visible = true
+	_set_hp(100)
 
 func active_toggle(disable: bool) -> void:
 	visible = disable
@@ -82,7 +83,7 @@ func active_toggle(disable: bool) -> void:
 	pickupbox.monitoring = disable
 
 func _set_hp(new_value: int) -> void:
-	hp = new_value
+	hp = int(clamp(new_value, 0, 999))
 	emit_signal("hp_changed", hp)
 
 func _input(event):
@@ -203,6 +204,7 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group(enemy_group):
 		area.remove_from_group(enemy_group)
 		area.stick_to(hitbox)
+		_set_hp(hp - area.damage)
 
 func _on_PickupBox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("prize"):

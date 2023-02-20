@@ -23,6 +23,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 func _on_MainMenu_start_practice() -> void:
 	main_menu.visible = false
 	current_game_mode = 2
+	gameworld.set_arrows(10)
 	start = true
 	anim.play("move_game")
 
@@ -55,6 +56,7 @@ func _on_MainMenu_loadout_changed() -> void:
 func _on_MainMenu_start_duel() -> void:
 	main_menu.visible = false
 	current_game_mode = 1
+	gameworld.set_arrows(10)
 	start = true
 	anim.play("move_game")
 

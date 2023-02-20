@@ -12,21 +12,21 @@ script = ExtResource( 2 )
 
 [node name="DuelCancel" type="Button" parent="."]
 margin_right = 120.0
-margin_bottom = 60.0
+margin_bottom = 40.0
 text = "Back"
 
 [node name="Players" type="HBoxContainer" parent="."]
 margin_left = 60.0
-margin_top = 80.0
+margin_top = 60.0
 margin_right = 580.0
-margin_bottom = 280.0
+margin_bottom = 292.0
 custom_constants/separation = 40
 alignment = 1
 
 [node name="Player1" type="VBoxContainer" parent="Players"]
 margin_right = 240.0
-margin_bottom = 200.0
-custom_constants/separation = 10
+margin_bottom = 232.0
+custom_constants/separation = 20
 
 [node name="HeadLabel" type="Label" parent="Players/Player1"]
 margin_right = 240.0
@@ -37,38 +37,38 @@ align = 1
 valign = 1
 
 [node name="Bow1" type="OptionButton" parent="Players/Player1"]
-margin_top = 34.0
+margin_top = 44.0
 margin_right = 240.0
-margin_bottom = 66.0
+margin_bottom = 76.0
 text = "Bow"
 align = 1
 
 [node name="Arrow1" type="OptionButton" parent="Players/Player1"]
-margin_top = 76.0
+margin_top = 96.0
 margin_right = 240.0
-margin_bottom = 108.0
+margin_bottom = 128.0
 text = "Arrow"
 align = 1
 
 [node name="Banner1" type="OptionButton" parent="Players/Player1"]
-margin_top = 118.0
+margin_top = 148.0
 margin_right = 240.0
-margin_bottom = 150.0
+margin_bottom = 180.0
 text = "Banner"
 align = 1
 
 [node name="Hat1" type="OptionButton" parent="Players/Player1"]
-margin_top = 160.0
+margin_top = 200.0
 margin_right = 240.0
-margin_bottom = 192.0
+margin_bottom = 232.0
 text = "Helmet"
 align = 1
 
 [node name="Player2" type="VBoxContainer" parent="Players"]
 margin_left = 280.0
 margin_right = 520.0
-margin_bottom = 200.0
-custom_constants/separation = 10
+margin_bottom = 232.0
+custom_constants/separation = 20
 
 [node name="HeadLabel" type="Label" parent="Players/Player2"]
 margin_right = 240.0
@@ -79,36 +79,36 @@ align = 1
 valign = 1
 
 [node name="Bow2" type="OptionButton" parent="Players/Player2"]
-margin_top = 34.0
+margin_top = 44.0
 margin_right = 240.0
-margin_bottom = 66.0
+margin_bottom = 76.0
 text = "Bow"
 align = 1
 
 [node name="Arrow2" type="OptionButton" parent="Players/Player2"]
-margin_top = 76.0
+margin_top = 96.0
 margin_right = 240.0
-margin_bottom = 108.0
+margin_bottom = 128.0
 text = "Arrow"
 align = 1
 
 [node name="Banner2" type="OptionButton" parent="Players/Player2"]
-margin_top = 118.0
+margin_top = 148.0
 margin_right = 240.0
-margin_bottom = 150.0
+margin_bottom = 180.0
 text = "Banner"
 align = 1
 
 [node name="Hat2" type="OptionButton" parent="Players/Player2"]
-margin_top = 160.0
+margin_top = 200.0
 margin_right = 240.0
-margin_bottom = 192.0
+margin_bottom = 232.0
 text = "Helmet"
 align = 1
 
 [node name="Start" type="Button" parent="."]
 margin_left = 240.0
-margin_top = 300.0
+margin_top = 320.0
 margin_right = 400.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 120, 40 )
