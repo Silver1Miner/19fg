@@ -14,7 +14,11 @@ export var bow_reload_time = 1.0
 export var arrow_mass = 10.0
 export var arrow_damage = 10
 export var gravity = 5.0
+export var dodge_range = 300.0
+export var dodge_duration = 1.0
+export var dodge_direction = 1
 onready var game_objects = get_node_or_null("../GameObjects")
+onready var tween = $Tween
 onready var bow_sprite = $Aiming/Bow
 onready var arrow_sprite = $Aiming/Arrow
 onready var banner_sprite = $ArcherBody/Banner
@@ -38,6 +42,7 @@ enum States {
 	IDLE,
 	READY,
 	AIMING,
+	DODGE,
 }
 var state = States.READY
 export var hp = 100 setget _set_hp
@@ -88,6 +93,8 @@ func _set_hp(new_value: int) -> void:
 
 func _input(event):
 	if get_parent() and not get_parent().game_started:
+		return
+	if tween.is_active():
 		return
 	if state == States.READY:
 		if event is InputEventScreenTouch:
@@ -195,6 +202,8 @@ func bow_release(touch_position: Vector2) -> void:
 	state = States.IDLE
 	if hunting_mode:
 		reload_timer.start()
+	else:
+		state = States.DODGE
 
 func _on_Timer_timeout() -> void:
 	if hunting_mode and state == States.IDLE:
@@ -222,3 +231,16 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "fire":
 		aiming_sprite.rotation_degrees = 0
+
+func start_dodging() -> void:
+	tween.interpolate_property(self, "position:x",
+		position.x, position.x + dodge_range * dodge_direction,
+		dodge_duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, "position:x",
+		position.x + dodge_range * dodge_direction, position.x,
+		dodge_duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, dodge_duration)
+	tween.start()
+
+func _on_Tween_tween_all_completed() -> void:
+	if state == States.DODGE:
+		start_dodging()

@@ -23,6 +23,7 @@ position = Vector2( 80, 280 )
 position = Vector2( 1220, 280 )
 player_group = "P2"
 enemy_group = "P1"
+dodge_direction = -1
 
 [node name="GameCamera" parent="." instance=ExtResource( 6 )]
 

@@ -186,8 +186,9 @@ func _on_GameCamera_camera_ready() -> void:
 func start_duel() -> void:
 	game_started = true
 	duel_state = DuelStates.P1TURN
-	archer1.state = 1
-	archer2.state = 0
+	archer1.state = 1 # ready
+	archer2.state = 3 # dodge
+	archer2.start_dodging()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -212,11 +213,13 @@ func next_turn() -> void:
 	if duel_state == DuelStates.P1TURN:
 		duel_state = DuelStates.P2TURN
 		archer2.state = 1
-		archer1.state = 0
+		archer1.state = 3 # dodge
+		archer1.start_dodging()
 	elif duel_state == DuelStates.P2TURN:
 		duel_state = DuelStates.P1TURN
 		archer1.state = 1
-		archer2.state = 0
+		archer2.state = 3 # dodge
+		archer2.start_dodging()
 
 func _on_Back_pressed() -> void:
 	get_tree().set_input_as_handled()
@@ -240,6 +243,7 @@ func _on_Home_pressed() -> void:
 
 func _on_GameOver_pressed() -> void:
 	get_tree().paused = false
+	game_started = false
 	archer1.state = 0
 	archer2.state = 0
 	hud.visible = false
@@ -268,9 +272,9 @@ func _on_Archer2_update_draw(draw_start, draw_end, force) -> void:
 	var angle = rad2deg((draw_end - draw_start).angle())
 	var angle_displayed = 0
 	if angle < 0.0:
-		angle_displayed = -180.0 - angle
+		angle_displayed = angle
 	elif angle < 180.0 and angle > 0:
-		angle_displayed = 180.0 - angle
+		angle_displayed = angle
 	else:
 		angle_displayed = 0.0
 	angle2_display.text = str(stepify(angle_displayed, 0.01))
