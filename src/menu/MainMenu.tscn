@@ -71,33 +71,35 @@ text = "Daily Hunt"
 
 [node name="Range" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_left = 520.0
-margin_top = 240.0
+margin_top = 200.0
 margin_right = 640.0
-margin_bottom = 300.0
+margin_bottom = 260.0
 text = "Practice"
 
 [node name="Duel" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_top = 240.0
-margin_right = 120.0
-margin_bottom = 300.0
+margin_left = 520.0
+margin_top = 300.0
+margin_right = 640.0
+margin_bottom = 360.0
 toggle_mode = true
 text = "Duel"
 
 [node name="Quit" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 160.0
+visible = false
+margin_left = 260.0
 margin_top = 300.0
-margin_right = 280.0
+margin_right = 380.0
 margin_bottom = 360.0
 text = "Quit"
 
 [node name="Settings" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_left = 360.0
 margin_top = 300.0
-margin_right = 480.0
+margin_right = 120.0
 margin_bottom = 360.0
 text = "Settings"
 
 [node name="DuelOptions" parent="Panels/Menu" instance=ExtResource( 8 )]
+visible = false
 color = Color( 0, 0, 0, 0.705882 )
 
 [node name="Settings" parent="Panels/Menu" instance=ExtResource( 6 )]

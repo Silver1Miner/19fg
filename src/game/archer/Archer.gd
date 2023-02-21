@@ -1,6 +1,7 @@
 extends Node2D
 
 signal update_draw(draw_start, draw_end, force)
+signal dodge_finished()
 signal arrow_fired()
 signal increase_score(score_increase)
 signal picked_up(coin_value)
@@ -10,13 +11,21 @@ export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
 export var bow_elastic_force = 500.0
+const base_bow_force = 1000.0
 export var bow_reload_time = 1.0
+const base_reload_time = 1.0
 export var arrow_mass = 10.0
-export var arrow_damage = 10
+const base_arrow_mass = 10.0
+export var arrow_damage = 20
+const base_arrow_damage = 20
 export var gravity = 5.0
 export var dodge_range = 300.0
+const base_dodge_range = 300.0
 export var dodge_duration = 1.0
+const base_dodge_duration = 1.0
 export var dodge_direction = 1
+export var sight_range = 50
+const base_sight_range = 20
 onready var game_objects = get_node_or_null("../GameObjects")
 onready var tween = $Tween
 onready var bow_sprite = $Aiming/Bow
@@ -45,6 +54,7 @@ enum States {
 	DODGE,
 }
 var state = States.READY
+const base_hp = 100
 export var hp = 100 setget _set_hp
 
 func _ready() -> void:
@@ -55,32 +65,44 @@ func _ready() -> void:
 
 func update_loadout(loadout_data: Dictionary) -> void:
 	print(loadout_data)
+	dodge_duration = base_dodge_duration
+	dodge_range = base_dodge_range
+	var start_hp = base_hp
+	arrow_damage = base_arrow_damage
+	arrow_mass = base_arrow_mass
+	bow_elastic_force = base_bow_force
+	bow_reload_time = base_reload_time
 	if loadout_data.has("arrow"):
 		arrow_type = loadout_data.arrow
 		arrow_sprite.self_modulate = itemdata.colors[arrow_type]
-		arrow_mass = itemdata.arrow_stats[arrow_type].mass
-		arrow_damage = itemdata.arrow_stats[arrow_type].damage
+		arrow_mass += itemdata.arrow_stats[arrow_type].mass
+		arrow_damage += itemdata.arrow_stats[arrow_type].damage
 	if loadout_data.has("bow"):
 		bow_type = loadout_data.bow
-		trajectory_draw.color = itemdata.colors[bow_type]
+		#trajectory_draw.color = itemdata.colors[bow_type]
 		bow_sprite.self_modulate = itemdata.colors[bow_type]
-		bow_elastic_force = itemdata.bow_stats[bow_type].force
-		bow_reload_time = itemdata.bow_stats[bow_type].cooldown
+		bow_elastic_force += itemdata.bow_stats[bow_type].force
+		bow_reload_time += itemdata.bow_stats[bow_type].cooldown
+		dodge_duration += itemdata.bow_stats[bow_type].weight
 		reload_timer.wait_time = bow_reload_time
-		$ProgressBar.max_value = bow_reload_time
+		#$ProgressBar.max_value = bow_reload_time
 	if loadout_data.has("banner"):
 		if loadout_data.banner < 0:
 			banner_sprite.visible = false
 		else:
 			banner_sprite.self_modulate = itemdata.colors[loadout_data.banner]
 			banner_sprite.visible = true
+			dodge_range += itemdata.banner_stats[loadout_data.banner].range
+			start_hp += itemdata.banner_stats[loadout_data.banner].hp
 	if loadout_data.has("helm"):
 		if loadout_data.helm < 0:
 			hat_sprite.visible = false
 		else:
 			hat_sprite.self_modulate = itemdata.colors[loadout_data.helm]
 			hat_sprite.visible = true
-	_set_hp(100)
+			start_hp += itemdata.helm_stats[loadout_data.helm].hp
+			dodge_duration += itemdata.helm_stats[loadout_data.helm].weight
+	_set_hp(start_hp)
 
 func active_toggle(disable: bool) -> void:
 	visible = disable
@@ -113,7 +135,7 @@ func _input(event):
 func _physics_process(_delta):
 	if reload_timer.time_left > 0:
 		emit_signal("cooldown_update", reload_timer.time_left)
-		$ProgressBar.value = reload_timer.time_left
+		#$ProgressBar.value = reload_timer.time_left
 	match state:
 		States.AIMING:
 			if arrow_instance:
@@ -147,13 +169,15 @@ func load_projectile():
 func bow_grab(touch_position: Vector2) -> void:
 	if state == States.IDLE:
 		return
+	print("start aiming at ", touch_position)
+	if touch_position.y > 0 and touch_position.y < 40 and touch_position.x > 0 and touch_position.x < 80:
+		print("back button position")
+		return
 	Audio.play_sound("res://assets/audio/sounds/arrows/536067__eminyildirim__bow-loading.wav")
 	load_projectile()
 	draw_start = touch_position
 	draw_end = touch_position
 	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
-	print("start aiming at ", touch_position)
-	trajectory_draw.visible = true
 	emit_signal("update_draw", draw_start, draw_end, force)
 
 func bow_move(touch_position: Vector2) -> void:
@@ -163,7 +187,7 @@ func bow_move(touch_position: Vector2) -> void:
 	state = States.AIMING
 	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
 	emit_signal("update_draw", draw_start, draw_end, force)
-	trajectory_draw.visible = force >= 200
+	trajectory_draw.visible = (draw_start-draw_end).length() >= 20
 
 func remove_arrows() -> void:
 	for node in hitbox.get_children():
@@ -178,6 +202,7 @@ func bow_release(touch_position: Vector2) -> void:
 		draw_start = Vector2.ZERO
 		draw_end = Vector2.ZERO
 		var force = 0
+		trajectory_draw.clear()
 		trajectory_draw.visible = false
 		aiming_sprite.rotation_degrees = 0
 		anim.play_backwards("start_aiming")
@@ -244,3 +269,5 @@ func start_dodging() -> void:
 func _on_Tween_tween_all_completed() -> void:
 	if state == States.DODGE:
 		start_dodging()
+	else:
+		emit_signal("dodge_finished")

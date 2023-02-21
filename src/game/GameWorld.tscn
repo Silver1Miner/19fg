@@ -349,6 +349,24 @@ rect_min_size = Vector2( 30, 20 )
 text = "99"
 align = 1
 
+[node name="ReadyP1" type="Label" parent="CanvasLayer/HUD/TopBar"]
+margin_left = 180.0
+margin_top = 100.0
+margin_right = 320.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 120, 0 )
+text = "Player 1 ready"
+align = 1
+
+[node name="ReadyP2" type="Label" parent="CanvasLayer/HUD/TopBar"]
+margin_left = 320.0
+margin_top = 100.0
+margin_right = 460.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 120, 0 )
+text = "Player 2 ready"
+align = 1
+
 [node name="Pause" type="ColorRect" parent="CanvasLayer/HUD"]
 pause_mode = 2
 visible = false
@@ -476,10 +494,13 @@ text = "Back"
 
 [connection signal="arrow_fired" from="Archer" to="." method="_on_Archer_arrow_fired"]
 [connection signal="cooldown_update" from="Archer" to="." method="_on_Archer_cooldown_update"]
+[connection signal="dodge_finished" from="Archer" to="." method="_on_Archer_dodge_finished"]
 [connection signal="hp_changed" from="Archer" to="." method="_on_Archer_hp_changed"]
 [connection signal="increase_score" from="Archer" to="." method="_on_Archer_increase_score"]
 [connection signal="picked_up" from="Archer" to="." method="_on_Archer_picked_up"]
 [connection signal="update_draw" from="Archer" to="." method="_on_Archer_update_draw"]
+[connection signal="arrow_fired" from="Archer2" to="." method="_on_Archer2_arrow_fired"]
+[connection signal="dodge_finished" from="Archer2" to="." method="_on_Archer2_dodge_finished"]
 [connection signal="hp_changed" from="Archer2" to="." method="_on_Archer2_hp_changed"]
 [connection signal="update_draw" from="Archer2" to="." method="_on_Archer2_update_draw"]
 [connection signal="camera_ready" from="GameCamera" to="." method="_on_GameCamera_camera_ready"]

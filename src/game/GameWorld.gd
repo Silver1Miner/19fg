@@ -37,6 +37,8 @@ onready var aim2_display = $CanvasLayer/HUD/TopBar/Aim2
 onready var tick = $Tick
 onready var archer1 = $Archer
 onready var archer2 = $Archer2
+onready var readyp1 = $CanvasLayer/HUD/TopBar/ReadyP1
+onready var readyp2 = $CanvasLayer/HUD/TopBar/ReadyP2
 onready var hud = $CanvasLayer/HUD
 onready var topbar = $CanvasLayer/HUD/TopBar
 onready var instructions = $CanvasLayer/Instructions
@@ -69,6 +71,8 @@ func _ready() -> void:
 	instructions.visible = false
 	archer1.state = 0
 	archer2.state = 0
+	readyp1.visible = false
+	readyp2.visible = false
 	archer2.active_toggle(false)
 	line_draw.add_point(Vector2.ZERO)
 	line_draw.add_point(Vector2.ZERO)
@@ -115,6 +119,8 @@ func set_daily_seed() -> void:
 
 func start_game() -> void:
 	hud.visible = true
+	readyp1.visible = false
+	readyp2.visible = false
 	topbar.visible = true
 	get_tree().paused = false
 	pause_screen.visible = false
@@ -186,6 +192,8 @@ func _on_GameCamera_camera_ready() -> void:
 func start_duel() -> void:
 	game_started = true
 	duel_state = DuelStates.P1TURN
+	readyp1.visible = true
+	readyp2.visible = false
 	archer1.state = 1 # ready
 	archer2.state = 3 # dodge
 	archer2.start_dodging()
@@ -336,10 +344,14 @@ func spawn_practice_target() -> void:
 	target_instance.direction = Vector2.LEFT
 
 func _on_Archer_arrow_fired() -> void:
+	readyp1.visible = false
 	arrow_in_flight = true
 	_set_shots(shots + 1)
 	if game_mode == GameModes.HUNT:
 		set_arrows(arrows - 1)
+
+func _on_Archer2_arrow_fired() -> void:
+	readyp2.visible = false
 
 func _on_target_hit() -> void:
 	_set_hits(hits + 1)
@@ -379,6 +391,8 @@ func end_game() -> void:
 	game_started = false
 	archer1.state = 0
 	archer2.state = 0
+	archer1.trajectory_draw.visible = false
+	archer2.trajectory_draw.visible = false
 	archer1.remove_arrows()
 	archer2.remove_arrows()
 	for obj in game_objects.get_children():
@@ -455,3 +469,11 @@ func _on_Archer2_hp_changed(hp: int) -> void:
 	if hp <= 0:
 		game_over_duel.get_node("Result").text = "Player 1 Wins"
 		game_over_duel.visible = true
+
+func _on_Archer_dodge_finished() -> void:
+	if archer1.state == 1:
+		readyp1.visible = true
+
+func _on_Archer2_dodge_finished() -> void:
+	if archer2.state == 1:
+		readyp2.visible = true

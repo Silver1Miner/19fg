@@ -4,9 +4,9 @@ var initial_velocity = Vector2()
 var drawing = false
 var gravity = 100
 var color = Color(1, 0 ,0)
-var dot_range = 200
-var gap = 10
-var radius = 2
+var dot_range = 50
+var gap = 40
+var radius = 3
 
 func draw_trajectory(init_vel: Vector2, from: Vector2, new_gravity = 100):
 	initial_velocity = init_vel
@@ -37,7 +37,7 @@ func _draw() -> void:
 				gravity,
 				initial_velocity.length())
 			)
-			col.a = 1 - (i / dot_range)
+			col.a = 1 - (i / float(dot_range))
 			#col.a = 1 - (i / 50.0)
 			draw_circle(pos, radius * (col.a + 0.1), col)
 
