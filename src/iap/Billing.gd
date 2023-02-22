@@ -39,10 +39,10 @@ func _ready() -> void:
 
 func _on_connected() -> void:
 	android_iap.querySkuDetails(
-		["gems_60_99",
-		"gems_315_499",
-		"gems_630_999",
-		"gems_1650_1999",
+		["gems_600_99",
+		"gems_3150_499",
+		"gems_6300_999",
+		"gems_16500_1999",
 		]
 		, "inapp"
 	)
@@ -61,25 +61,25 @@ func android_purchase(index: int) -> void:
 	match index:
 		0:
 			var response = android_iap.purchase("gems_60_99")
-			gem_value = 60
+			gem_value = 600
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
 				print("error purchasing item")
 		1:
 			var response = android_iap.purchase("gems_315_499")
-			gem_value = 315
+			gem_value = 3150
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
 				print("error purchasing item")
 		2:
 			var response = android_iap.purchase("gems_630_999")
-			gem_value = 630
+			gem_value = 6300
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
 				print("error purchasing item")
 		3:
 			var response = android_iap.purchase("gems_1650_1999")
-			gem_value = 1650
+			gem_value = 16500
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
 				print("error purchasing item")
@@ -110,16 +110,16 @@ func consume_items() -> void:
 	print(query)
 	for purchase in query.purchases:
 		if purchase.sku == "gems_60_99" and purchase.purchase_state == 1:
-			emit_signal("purchase_consumed", 60)
+			emit_signal("purchase_consumed", 600)
 			android_iap.consumePurchase(purchase.purchase_token)
 		elif purchase.sku == "gems_315_499" and purchase.purchase_state == 1:
-			emit_signal("purchase_consumed", 315)
+			emit_signal("purchase_consumed", 3150)
 			android_iap.consumePurchase(purchase.purchase_token)
 		elif purchase.sku == "gems_630_999" and purchase.purchase_state == 1:
-			emit_signal("purchase_consumed", 630)
+			emit_signal("purchase_consumed", 6300)
 			android_iap.consumePurchase(purchase.purchase_token)
 		elif purchase.sku == "gems_1650_1999" and purchase.purchase_state == 1:
-			emit_signal("purchase_consumed", 1650)
+			emit_signal("purchase_consumed", 16500)
 			android_iap.consumePurchase(purchase.purchase_token)
 
 #=====
@@ -133,25 +133,25 @@ func ios_purchase(index: int) -> void:
 	match index:
 		0:
 			var response = ios_iap.purchase({"product_id": "gems_60_99"})
-			gem_value = 60
+			gem_value = 600
 			print("purchase attempted with result: ", response)
 			if response != OK:
 				print("error purchasing item")
 		1:
 			var response = ios_iap.purchase({"product_id": "gems_315_499"})
-			gem_value = 315
+			gem_value = 3150
 			print("purchase attempted with result: ", response)
 			if response != OK:
 				print("error purchasing item")
 		2:
 			var response = ios_iap.purchase({"product_id": "gems_630_999"})
-			gem_value = 630
+			gem_value = 6300
 			print("purchase attempted with result: ", response)
 			if response != OK:
 				print("error purchasing item")
 		3:
 			var response = ios_iap.purchase({"product_id": "gems_1650_1999"})
-			gem_value = 1650
+			gem_value = 16500
 			print("purchase attempted with result: ", response)
 			if response != OK:
 				print("error purchasing item")
@@ -171,33 +171,33 @@ func _on_Timer_timeout() -> void:
 				print("error handling purchase")
 
 func handle_purchase(product_id) -> void:
-	if product_id == "coins_60_99":
-		emit_signal("purchase_consumed", 60)
-	elif product_id == "coins_315_499":
-		emit_signal("purchase_consumed", 315)
-	elif product_id == "coins_630_999":
-		emit_signal("purchase_consumed", 630)
-	elif product_id == "coins_1650_1999":
-		emit_signal("purchase_consumed", 1650)
+	if product_id == "gems_60_99":
+		emit_signal("purchase_consumed", 600)
+	elif product_id == "gems_315_499":
+		emit_signal("purchase_consumed", 3150)
+	elif product_id == "gems_630_999":
+		emit_signal("purchase_consumed", 6300)
+	elif product_id == "gems_1650_1999":
+		emit_signal("purchase_consumed", 16500)
 
 func non_mobile_testing(gem_index: int) -> void:
 	match gem_index:
 		0:
-			emit_signal("purchase_consumed", 60)
+			emit_signal("purchase_consumed", 600)
 		1:
-			emit_signal("purchase_consumed", 315)
+			emit_signal("purchase_consumed", 3150)
 		2:
-			emit_signal("purchase_consumed", 630)
+			emit_signal("purchase_consumed", 6300)
 		3:
-			emit_signal("purchase_consumed", 1650)
+			emit_signal("purchase_consumed", 16500)
 
 func get_ios_iap_details() -> void:
 	var event = ios_iap.request_product_info(
 		 { "product_ids":
-			 ["coins_60_99",
-			"coins_315_499",
-			"coins_630_999",
-			"coins_1650_1999",
+			 ["gems_600_99",
+			"gems_3150_499",
+			"gems_6300_999",
+			"gems_16500_1999",
 			]
 		})
 	print(event)

@@ -235,6 +235,7 @@ playing = true
 pause_mode = 2
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
+frame = 9
 playing = true
 flip_h = true
 

@@ -26,8 +26,8 @@ var inventory = {
 	"helm": [0, 0, 0, 0, 0],
 }
 var loadout = {
-	"arrow": 2,
-	"bow": 2,
+	"arrow": 0,
+	"bow": 0,
 	"banner": -1,
 	"helm": -1,
 }

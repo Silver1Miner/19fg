@@ -118,7 +118,7 @@ margin_right = 280.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 120, 60 )
 text = "Tip Jar
-(+60 Bonus Coins)"
+(+600 Bonus Coins)"
 align = 1
 valign = 2
 autowrap = true
@@ -156,8 +156,8 @@ rect_min_size = Vector2( 80, 140 )
 [node name="Label" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems1"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "300
-(+15)
+text = "3,000
+(+150)
 
 $4.99"
 align = 1
@@ -172,8 +172,8 @@ rect_min_size = Vector2( 80, 140 )
 [node name="Label" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "600
-(+30)
+text = "6,000
+(+300)
 
 $9.99"
 align = 1
@@ -188,8 +188,8 @@ rect_min_size = Vector2( 80, 140 )
 [node name="Label" type="Label" parent="ShopPanel/TabContainer/Coins/SupportOptions/GemOptions/BuyGems3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "1500
-(+150)
+text = "15,000
+(+1,500)
 
 $19.99"
 align = 1
