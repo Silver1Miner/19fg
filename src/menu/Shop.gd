@@ -98,16 +98,28 @@ func _on_LoadoutOptions_request_purchase(item_type: int, item_index: int) -> voi
 		0:
 			confirm_purchase.disabled = coins < itemdata.bow_stats[item_index].cost
 			confirm_descrption.text = itemdata.bow_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/bow-base.png")
 		1:
 			confirm_purchase.disabled = coins < itemdata.arrow_stats[item_index].cost
 			confirm_descrption.text = itemdata.arrow_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/arrows-base.png")
 		2:
 			confirm_purchase.disabled = coins < itemdata.banner_stats[item_index].cost
 			confirm_descrption.text = itemdata.banner_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/banner-base.png")
+			if item_index < 0:
+				confirm_preview.texture = null
+				confirm_descrption.text = "No Banner"
 		3:
 			confirm_purchase.disabled = coins < itemdata.helm_stats[item_index].cost
 			confirm_descrption.text = itemdata.helm_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/helm-base.png")
+			if item_index < 0:
+				confirm_preview.texture = null
+				confirm_descrption.text = "No Cap"
 	confirm_preview.self_modulate = itemdata.colors[item_index]
+	if item_index < 0:
+		confirm_preview.texture = null
 	confirm_panel.visible = true
 
 func _on_LoadoutOptions_request_equip(item_type, item_index) -> void:
@@ -119,12 +131,22 @@ func _on_LoadoutOptions_request_equip(item_type, item_index) -> void:
 	match item_type:
 		0:
 			confirm_descrption.text = itemdata.bow_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/bow-base.png")
 		1:
 			confirm_descrption.text = itemdata.arrow_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/arrows-base.png")
 		2:
 			confirm_descrption.text = itemdata.banner_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/banner-base.png")
+			if item_index < 0:
+				confirm_preview.texture = null
+				confirm_descrption.text = "No Banner"
 		3:
 			confirm_descrption.text = itemdata.helm_stats[item_index].description
+			confirm_preview.texture = preload("res://assets/gui/icons/helm-base.png")
+			if item_index < 0:
+				confirm_preview.texture = null
+				confirm_descrption.text = "No Cap"
 	confirm_preview.self_modulate = itemdata.colors[item_index]
 	confirm_panel.visible = true
 

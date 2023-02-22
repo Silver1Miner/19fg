@@ -50,7 +50,7 @@ func update_bows_display() -> void:
 	if UserData.inventory.arrow[1] > 0:
 		arrow1.text = "White Arrow\nEquip"
 	else:
-		arrow1.text = "White Bow\nBuy for %s" % itemdata.arrow_stats[1].cost
+		arrow1.text = "White Arrow\nBuy for %s" % itemdata.arrow_stats[1].cost
 	if UserData.inventory.arrow[2] > 0:
 		arrow2.text = "Blue Arrow\nEquip"
 	else:
@@ -63,7 +63,6 @@ func update_bows_display() -> void:
 		arrow4.text = "Red Arrow\nEquip"
 	else:
 		arrow4.text = "Red Arrow\nBuy for %s" % itemdata.arrow_stats[4].cost
-
 
 func update_banners_display() -> void:
 	if UserData.inventory.banner[0] > 0:

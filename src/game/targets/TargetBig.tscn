@@ -3,6 +3,6 @@
 [ext_resource path="res://src/game/targets/Target.tscn" type="PackedScene" id=1]
 
 [node name="TargetBig" instance=ExtResource( 1 )]
-coin_value = 50
+coin_value = 20
 speed = 400
 score_value = 400

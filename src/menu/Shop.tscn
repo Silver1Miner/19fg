@@ -208,7 +208,6 @@ margin_bottom = 40.0
 text = "Back"
 
 [node name="ConfirmPanel" type="Panel" parent="."]
-visible = false
 margin_right = 320.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 320, 360 )
@@ -230,6 +229,7 @@ text = "Red Arrows
 Cost: 1000
 Weight: 1"
 align = 1
+autowrap = true
 
 [node name="Options" type="HBoxContainer" parent="ConfirmPanel"]
 margin_left = 20.0

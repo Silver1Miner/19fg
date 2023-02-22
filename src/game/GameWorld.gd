@@ -251,7 +251,6 @@ func _on_Home_pressed() -> void:
 
 func _on_GameOver_pressed() -> void:
 	get_tree().paused = false
-	game_started = false
 	archer1.state = 0
 	archer2.state = 0
 	hud.visible = false

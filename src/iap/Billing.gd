@@ -171,13 +171,13 @@ func _on_Timer_timeout() -> void:
 				print("error handling purchase")
 
 func handle_purchase(product_id) -> void:
-	if product_id == "gems_60_99":
+	if product_id == "coins_60_99":
 		emit_signal("purchase_consumed", 60)
-	elif product_id == "gems_315_499":
+	elif product_id == "coins_315_499":
 		emit_signal("purchase_consumed", 315)
-	elif product_id == "gems_630_999":
+	elif product_id == "coins_630_999":
 		emit_signal("purchase_consumed", 630)
-	elif product_id == "gems_1650_1999":
+	elif product_id == "coins_1650_1999":
 		emit_signal("purchase_consumed", 1650)
 
 func non_mobile_testing(gem_index: int) -> void:
@@ -194,10 +194,10 @@ func non_mobile_testing(gem_index: int) -> void:
 func get_ios_iap_details() -> void:
 	var event = ios_iap.request_product_info(
 		 { "product_ids":
-			 ["gems_60_99",
-			"gems_315_499",
-			"gems_630_999",
-			"gems_1650_1999",
+			 ["coins_60_99",
+			"coins_315_499",
+			"coins_630_999",
+			"coins_1650_1999",
 			]
 		})
 	print(event)

@@ -77,15 +77,14 @@ func update_loadout(loadout_data: Dictionary) -> void:
 		arrow_sprite.self_modulate = itemdata.colors[arrow_type]
 		arrow_mass += itemdata.arrow_stats[arrow_type].mass
 		arrow_damage += itemdata.arrow_stats[arrow_type].damage
+		trajectory_draw.color = itemdata.colors[arrow_type]
 	if loadout_data.has("bow"):
 		bow_type = loadout_data.bow
-		#trajectory_draw.color = itemdata.colors[bow_type]
 		bow_sprite.self_modulate = itemdata.colors[bow_type]
 		bow_elastic_force += itemdata.bow_stats[bow_type].force
 		bow_reload_time += itemdata.bow_stats[bow_type].cooldown
 		dodge_duration += itemdata.bow_stats[bow_type].weight
 		reload_timer.wait_time = bow_reload_time
-		#$ProgressBar.max_value = bow_reload_time
 	if loadout_data.has("banner"):
 		if loadout_data.banner < 0:
 			banner_sprite.visible = false
@@ -121,7 +120,6 @@ func _input(event):
 	if state == States.READY:
 		if event is InputEventScreenTouch:
 			if event.is_pressed():
-				trajectory_draw.visible = true
 				bow_grab(event.position)
 	elif state == States.AIMING:
 		if event is InputEventScreenTouch:
@@ -135,7 +133,6 @@ func _input(event):
 func _physics_process(_delta):
 	if reload_timer.time_left > 0:
 		emit_signal("cooldown_update", reload_timer.time_left)
-		#$ProgressBar.value = reload_timer.time_left
 	match state:
 		States.AIMING:
 			if arrow_instance:
@@ -179,6 +176,7 @@ func bow_grab(touch_position: Vector2) -> void:
 	draw_end = touch_position
 	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
 	emit_signal("update_draw", draw_start, draw_end, force)
+	trajectory_draw.visible = true
 
 func bow_move(touch_position: Vector2) -> void:
 	if state == States.IDLE:
@@ -187,7 +185,7 @@ func bow_move(touch_position: Vector2) -> void:
 	state = States.AIMING
 	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
 	emit_signal("update_draw", draw_start, draw_end, force)
-	trajectory_draw.visible = (draw_start-draw_end).length() >= 20
+	#trajectory_draw.visible = (draw_start-draw_end).length() >= 20
 
 func remove_arrows() -> void:
 	for node in hitbox.get_children():

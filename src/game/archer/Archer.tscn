@@ -221,20 +221,20 @@ texture = ExtResource( 4 )
 pause_mode = 2
 visible = false
 frames = SubResource( 7 )
+frame = 1
 playing = true
 
 [node name="Banner" type="AnimatedSprite" parent="ArcherBody"]
 pause_mode = 2
 position = Vector2( 43, -1 )
 frames = SubResource( 8 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="Horse" type="AnimatedSprite" parent="."]
 pause_mode = 2
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
-frame = 6
 playing = true
 flip_h = true
 
@@ -269,13 +269,6 @@ volume_db = -10.0
 pitch_scale = 0.95
 autoplay = true
 bus = "Sound"
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-visible = false
-margin_left = -48.0
-margin_top = -51.0
-margin_right = 52.0
-margin_bottom = -37.0
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
