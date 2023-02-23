@@ -59,7 +59,7 @@ text = "Armory"
 margin_left = 520.0
 margin_right = 640.0
 margin_bottom = 80.0
-text = "Daily Hunt"
+text = "Hunt"
 
 [node name="Range" type="Button" parent="Panels/Menu/MenuOptions"]
 margin_left = 520.0

@@ -129,7 +129,8 @@ func start_game() -> void:
 	match game_mode:
 		0: # HUNT
 			game_started = true
-			set_daily_seed()
+			if UserData.is_daily_challenge:
+				set_daily_seed()
 			status_display.visible = true
 			inventory_display.visible = true
 			accuracy_display.visible = true
@@ -448,7 +449,8 @@ func save_hunting_results() -> void:
 	hunting_result.update_accuracy_display(shots, hits)
 	hunting_result.update_score_display(score)
 	hunting_result.update_pay_display(payout)
-	UserData.save_today(minutes, seconds, shots, hits, score, payout)
+	if UserData.is_daily_challenge:
+		UserData.save_today(minutes, seconds, shots, hits, score, payout)
 
 func update_archer() -> void:
 	archer1.update_loadout(UserData.loadout)

@@ -31,10 +31,11 @@ func _on_GameWorld_end_game() -> void:
 	start = false
 	anim.play_backwards("move_game")
 
-func _on_MainMenu_start_hunt(loaded_arrows: int) -> void:
+func _on_MainMenu_start_hunt(is_daily_challenge: bool) -> void:
 	main_menu.visible = false
 	current_game_mode = 0
-	gameworld.set_arrows(loaded_arrows + 10)
+	UserData.is_daily_challenge = is_daily_challenge
+	gameworld.set_arrows(10)
 	start = true
 	anim.play("move_game")
 

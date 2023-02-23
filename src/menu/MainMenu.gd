@@ -5,7 +5,7 @@ signal shop_to_main()
 signal log_to_main()
 signal to_log()
 signal start_practice()
-signal start_hunt(loaded_arrows)
+signal start_hunt(is_daily_challenge)
 signal start_duel()
 signal loadout_changed()
 var current_panel = 1
@@ -61,8 +61,8 @@ func _on_Quit_button_up() -> void:
 func _on_Range_pressed() -> void:
 	emit_signal("start_practice")
 
-func _on_Hunt_start_hunt(loaded_arrows: int) -> void:
-	emit_signal("start_hunt", loaded_arrows)
+func _on_Hunt_start_hunt(is_daily_challenge: bool) -> void:
+	emit_signal("start_hunt", is_daily_challenge)
 
 func _on_Settings_pressed() -> void:
 	settings_menu.visible = true
