@@ -5,7 +5,7 @@ var drawing = false
 var gravity = 100
 var color = Color(1, 0 ,0)
 var dot_range = 50
-var gap = 40
+var gap = 30
 var radius = 3
 
 func draw_trajectory(init_vel: Vector2, from: Vector2, new_gravity = 100):
