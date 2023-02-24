@@ -112,9 +112,10 @@ func _set_hp(new_value: int) -> void:
 	hp = int(clamp(new_value, 0, 999))
 	emit_signal("hp_changed", hp)
 
-func _input(event):
-	if get_parent() and not get_parent().game_started:
-		return
+func _input(event) -> void:
+	if get_parent():
+		if not get_parent().game_started or get_parent().game_over_screen.visible or get_parent().game_over_duel.visible:
+			return
 	if tween.is_active():
 		return
 	if state == States.READY:

@@ -3,7 +3,10 @@ extends Node
 const privacy_policy_link = "https://itch.io/t/2660829/privacy-policy"
 const copyright_text = """v 0.3.0.22 -- February 2, 2023
 Copyright © 2023 Jack Anderson"""
+# GAME MODE
 var current_game_mode = 0
+var is_daily_challenge = false
+var duel_vs_bot = false
 # SETTINGS
 var jukebox_index = 2
 var mute_music = false
@@ -14,7 +17,6 @@ var current_year_loaded = 0
 var current_month_loaded = 0
 var current_loaded = {}
 # INVENTORY
-var is_daily_challenge = false
 var owned_tracks = 1
 var arrows = 10 setget set_arrows
 var gems = 0 setget set_gems

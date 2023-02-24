@@ -2,6 +2,7 @@ extends ColorRect
 
 signal closed_duel()
 signal duel_start()
+onready var bot_check = $DuelType/CheckButton
 onready var p1bow = $Players/Player1/Bow1
 onready var p2bow = $Players/Player2/Bow2
 onready var p1arrow = $Players/Player1/Arrow1
@@ -25,6 +26,8 @@ func _on_Start_pressed() -> void:
 	emit_signal("duel_start")
 
 func update_option_buttons() -> void:
+	bot_check.pressed = false
+	UserData.duel_vs_bot = false
 	p1bow.clear()
 	p2bow.clear()
 	bow_indices.clear()
@@ -137,3 +140,6 @@ func _on_Hat2_item_selected(index: int) -> void:
 		UserData.p2_loadout.helm = hat_indices[index]
 	else:
 		UserData.p2_loadout.helm = -1
+
+func _on_CheckButton_toggled(button_pressed: bool) -> void:
+	UserData.duel_vs_bot = button_pressed

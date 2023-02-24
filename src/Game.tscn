@@ -106,7 +106,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -360.0
 margin_right = 1120.0
-color = Color( 0.752941, 0.752941, 0.752941, 1 )
+color = Color( 0.490196, 0.541176, 0.588235, 1 )
 
 [node name="GameWorld" parent="." instance=ExtResource( 1 )]
 position = Vector2( 240, -50 )

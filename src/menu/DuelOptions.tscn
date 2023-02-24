@@ -7,7 +7,7 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
-color = Color( 0, 0, 0, 0.941176 )
+color = Color( 0, 0, 0, 0.980392 )
 script = ExtResource( 2 )
 
 [node name="DuelCancel" type="Button" parent="."]
@@ -120,24 +120,24 @@ margin_right = 120.0
 margin_bottom = 120.0
 
 [node name="DuelType" type="HBoxContainer" parent="."]
-visible = false
-margin_left = 460.0
-margin_top = 280.0
-margin_right = 576.0
-margin_bottom = 320.0
+margin_left = 500.0
+margin_right = 626.0
+margin_bottom = 40.0
+custom_constants/separation = 0
 
 [node name="Label" type="Label" parent="DuelType"]
-margin_right = 40.0
+margin_right = 60.0
 margin_bottom = 40.0
-rect_min_size = Vector2( 40, 40 )
-text = "BOT"
+rect_min_size = Vector2( 60, 40 )
+text = "P2 BOT"
 align = 1
 valign = 1
 
 [node name="CheckButton" type="CheckButton" parent="DuelType"]
-margin_left = 44.0
-margin_right = 116.0
+margin_left = 60.0
+margin_right = 140.0
 margin_bottom = 40.0
+rect_min_size = Vector2( 80, 0 )
 
 [connection signal="pressed" from="DuelCancel" to="." method="_on_DuelCancel_pressed"]
 [connection signal="item_selected" from="Players/Player1/Bow1" to="." method="_on_Bow1_item_selected"]
@@ -149,3 +149,4 @@ margin_bottom = 40.0
 [connection signal="item_selected" from="Players/Player2/Banner2" to="." method="_on_Banner2_item_selected"]
 [connection signal="item_selected" from="Players/Player2/Hat2" to="." method="_on_Hat2_item_selected"]
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
+[connection signal="toggled" from="DuelType/CheckButton" to="." method="_on_CheckButton_toggled"]

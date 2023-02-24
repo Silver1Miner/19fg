@@ -12,9 +12,11 @@ var target_big = preload("res://src/game/targets/TargetBig.tscn")
 var target_practice_low = preload("res://src/game/targets/TargetPracticeLow.tscn")
 var target_practice_mid = preload("res://src/game/targets/TargetPracticeMid.tscn")
 var target_practice_high = preload("res://src/game/targets/TargetPracticeHigh.tscn")
+onready var bot = $Bot
 onready var line_draw = $Line2D
 onready var camera = $GameCamera
 onready var pause_screen = $CanvasLayer/HUD/Pause
+onready var pause_warning = $CanvasLayer/HUD/Pause/Warning
 onready var game_over_screen = $CanvasLayer/HUD/GameOver
 onready var game_over_duel = $CanvasLayer/HUD/GameOverDuel
 onready var hunting_result = $CanvasLayer/HUD/GameOver/HuntDisplay
@@ -61,6 +63,8 @@ var game_started = false
 var targets_to_pickup = 0 setget _set_targets_onfield
 var arrow_in_flight = false
 var ready = false
+var vs_bot = false
+var is_bots_turn = false
 
 func _ready() -> void:
 	_set_targets_onfield(0)
@@ -121,6 +125,7 @@ func start_game() -> void:
 	hud.visible = true
 	readyp1.visible = false
 	readyp2.visible = false
+	is_bots_turn = false
 	topbar.visible = true
 	get_tree().paused = false
 	pause_screen.visible = false
@@ -233,6 +238,7 @@ func next_turn() -> void:
 func _on_Back_pressed() -> void:
 	get_tree().set_input_as_handled()
 	get_tree().paused = true
+	pause_warning.visible = (game_mode == GameModes.HUNT and not UserData.is_daily_challenge)
 	pause_screen.visible = true
 
 func _on_Resume_pressed() -> void:
@@ -352,6 +358,7 @@ func _on_Archer_arrow_fired() -> void:
 
 func _on_Archer2_arrow_fired() -> void:
 	readyp2.visible = false
+	is_bots_turn = false
 
 func _on_target_hit() -> void:
 	_set_hits(hits + 1)
@@ -472,9 +479,12 @@ func _on_Archer2_hp_changed(hp: int) -> void:
 		game_over_duel.visible = true
 
 func _on_Archer_dodge_finished() -> void:
-	if archer1.state == 1:
+	if archer1.state == 1 and not game_over_duel.visible:
 		readyp1.visible = true
 
 func _on_Archer2_dodge_finished() -> void:
-	if archer2.state == 1:
+	if archer2.state == 1 and not game_over_duel.visible:
 		readyp2.visible = true
+		if UserData.duel_vs_bot:
+			is_bots_turn = true
+			bot.take_turn()
