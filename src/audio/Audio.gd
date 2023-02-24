@@ -1,10 +1,14 @@
 extends AudioStreamPlayer
 
+var tracks = [
+	["heart", preload("res://assets/audio/music/chinese-peaceful-heartwarming-harp-asian-emotional-traditional-music-21041.mp3")],
+]
+
 func play_music(id: int) -> void:
-	if id >= 0 and id < len(UserData.tracks):
-		stream = UserData.tracks[id][1]
+	if id >= 0 and id < len(tracks):
+		stream = tracks[id][1]
 	else:
-		stream = UserData.tracks[0][1]
+		stream = tracks[0][1]
 	play()
 
 var available = []
@@ -12,7 +16,7 @@ var queue = []
 func _ready():
 	AudioServer.set_bus_mute(1, UserData.mute_sound)
 	AudioServer.set_bus_mute(2, UserData.mute_music)
-	play_music(UserData.jukebox_index)
+	play_music(0)
 	for i in 4:
 		var p = AudioStreamPlayer.new()
 		add_child(p)

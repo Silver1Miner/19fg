@@ -1,7 +1,7 @@
 extends Control
 
 signal back()
-signal start_hunt(is_daily_challenge)
+signal start_hunt()
 onready var hunt_button = $Hunt
 onready var calendar_ui = $CalendarUI
 onready var date_display = $HuntDisplay/DateDisplay
@@ -47,10 +47,10 @@ func check_today() -> void:
 	check_hunt_button()
 
 func _on_Hunt_pressed() -> void:
-	emit_signal("start_hunt", true)
+	emit_signal("start_hunt")
 
 func _on_PracticeHunt_pressed() -> void:
-	emit_signal("start_hunt", false)
+	emit_signal("start_hunt")
 	UserData.set_arrows(UserData.arrows - 10)
 
 func set_arrows(new_value: int) -> void:

@@ -5,7 +5,6 @@ const copyright_text = """v 0.3.0.22 -- February 2, 2023
 Copyright © 2023 Jack Anderson"""
 # GAME MODE
 var current_game_mode = 0
-var is_daily_challenge = false
 var duel_vs_bot = false
 # SETTINGS
 var jukebox_index = 2
@@ -40,13 +39,6 @@ var p2_loadout = {
 	"banner": -1,
 	"helm": -1,
 }
-
-var tracks = [
-	["peaceful", preload("res://assets/audio/music/a-peaceful-morning-traditional-chinese-style-folk-music-129024.mp3")],
-	["steppe", preload("res://assets/audio/music/Alexander_Borodin_-_In_The_Steppes_Of_Central_Asia.ogg")],
-	["steppe", preload("res://assets/audio/music/chinese-peaceful-heartwarming-harp-asian-emotional-traditional-music-21041.mp3")],
-	["tibet", preload("res://assets/audio/music/tibet-13636.mp3")],
-]
 
 func _ready() -> void:
 	load_settings()
@@ -129,7 +121,7 @@ func save_today(minutes: int, seconds: int, shots: int, hits: int, score: int, p
 	change_records_loaded(OS.get_date()["year"], OS.get_date()["month"])
 	var day = OS.get_date()["day"]
 	if current_loaded.has(day):
-		push_error("a record was already saved for this day; overwriting")
+		print("a record was already saved for this day; overwriting it")
 	current_loaded[day] = {
 		"shots": shots,
 		"hits": hits,

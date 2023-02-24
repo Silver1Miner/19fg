@@ -61,7 +61,7 @@ var hits = 0 setget _set_hits
 var payout = 0 setget _set_bagged_value
 var game_started = false
 var targets_to_pickup = 0 setget _set_targets_onfield
-var arrow_in_flight = false
+var arrows_in_flight = 0
 var ready = false
 var vs_bot = false
 var is_bots_turn = false
@@ -134,8 +134,7 @@ func start_game() -> void:
 	match game_mode:
 		0: # HUNT
 			game_started = true
-			if UserData.is_daily_challenge:
-				set_daily_seed()
+			set_daily_seed()
 			status_display.visible = true
 			inventory_display.visible = true
 			accuracy_display.visible = true
@@ -212,7 +211,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_arrow_landed() -> void:
 	print("arrow landed")
-	arrow_in_flight = false
+	arrows_in_flight -= 1
 	if arrows <= 0 and targets_to_pickup <= 0:
 		check_hunt_end()
 	if game_mode == GameModes.DUEL:
@@ -238,7 +237,7 @@ func next_turn() -> void:
 func _on_Back_pressed() -> void:
 	get_tree().set_input_as_handled()
 	get_tree().paused = true
-	pause_warning.visible = (game_mode == GameModes.HUNT and not UserData.is_daily_challenge)
+	pause_warning.visible = (game_mode == GameModes.HUNT)
 	pause_screen.visible = true
 
 func _on_Resume_pressed() -> void:
@@ -351,7 +350,7 @@ func spawn_practice_target() -> void:
 
 func _on_Archer_arrow_fired() -> void:
 	readyp1.visible = false
-	arrow_in_flight = true
+	arrows_in_flight += 1
 	_set_shots(shots + 1)
 	if game_mode == GameModes.HUNT:
 		set_arrows(arrows - 1)
@@ -442,8 +441,8 @@ func _set_targets_onfield(new_value: int) -> void:
 func check_hunt_end() -> void:
 	print("targets to pickup: ", targets_to_pickup)
 	print("arrows: ", arrows)
-	print("is arrow in flight?", arrow_in_flight)
-	if game_mode == GameModes.HUNT and targets_to_pickup <= 0 and arrows <= 0 and not arrow_in_flight:
+	print("how many arrows in flight? ", arrows_in_flight)
+	if game_mode == GameModes.HUNT and targets_to_pickup <= 0 and arrows <= 0 and arrows_in_flight <= 0:
 		tick.stop()
 		save_hunting_results()
 		topbar.visible = false
@@ -456,8 +455,7 @@ func save_hunting_results() -> void:
 	hunting_result.update_accuracy_display(shots, hits)
 	hunting_result.update_score_display(score)
 	hunting_result.update_pay_display(payout)
-	if UserData.is_daily_challenge:
-		UserData.save_today(minutes, seconds, shots, hits, score, payout)
+	UserData.save_today(minutes, seconds, shots, hits, score, payout)
 
 func update_archer() -> void:
 	archer1.update_loadout(UserData.loadout)

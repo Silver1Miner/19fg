@@ -33,6 +33,7 @@ onready var arrow_sprite = $Aiming/Arrow
 onready var banner_sprite = $ArcherBody/Banner
 onready var hat_sprite = $ArcherBody/Hat
 onready var hitbox = $Hitbox
+onready var hitboxc = $Hitbox/CollisionShape2D
 onready var pickupbox = $PickupBox
 onready var reload_timer = $Timer
 onready var aiming_sprite = $Aiming
@@ -115,6 +116,8 @@ func _set_hp(new_value: int) -> void:
 func _input(event) -> void:
 	if get_parent():
 		if not get_parent().game_started or get_parent().game_over_screen.visible or get_parent().game_over_duel.visible:
+			return
+		elif get_parent().is_bots_turn:
 			return
 	if tween.is_active():
 		return
@@ -246,10 +249,10 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 		get_parent().add_child(fct)
 		fct.rect_position = global_position
 		#fct.reset_physics_interpolation()
-		fct.show_value(str(area.coin_value), Vector2(0,-8), 1, PI/2, false)
+		fct.show_value(str(area.coin_value), Vector2(0,-8), 1, PI/2, area.coin_value>30)
 		emit_signal("increase_score", area.score_value)
 		emit_signal("picked_up", area.coin_value)
-		Audio.play_sound("res://assets/audio/sounds/confirmation_004.ogg")
+		Audio.play_sound("res://assets/audio/sounds/coin_c_02-102844.mp3")
 		area.picked_up()
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
