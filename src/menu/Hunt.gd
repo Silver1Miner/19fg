@@ -3,6 +3,7 @@ extends Control
 signal back()
 signal start_hunt()
 onready var hunt_button = $Hunt
+onready var extra_hunts = $ExtraHunt
 onready var calendar_ui = $CalendarUI
 onready var date_display = $HuntDisplay/DateDisplay
 onready var spinbox = $SpinBox
@@ -22,7 +23,7 @@ func _ready() -> void:
 	hunt_display.default_display()
 	set_arrows(UserData.arrows)
 	set_coins(UserData.gems)
-	check_hunt_button()
+	check_extra_hunt_button()
 
 func _on_Back_button_up() -> void:
 	emit_signal("back")
@@ -44,14 +45,15 @@ func check_today() -> void:
 	hunt_button.disabled = todays_hunt_completed
 	set_arrows(UserData.arrows)
 	set_coins(UserData.gems)
-	check_hunt_button()
+	check_extra_hunt_button()
 
 func _on_Hunt_pressed() -> void:
+	UserData.is_extra_hunt = false
 	emit_signal("start_hunt")
 
 func _on_PracticeHunt_pressed() -> void:
+	UserData.is_extra_hunt = true
 	emit_signal("start_hunt")
-	UserData.set_arrows(UserData.arrows - 10)
 
 func set_arrows(new_value: int) -> void:
 	arrows = new_value
@@ -67,8 +69,9 @@ func _on_SpinBox_request_decrease() -> void:
 func _on_SpinBox_request_increase() -> void:
 	spinbox_try_increase(spinbox.step)
 
-func check_hunt_button() -> void:
-	$PracticeHunt.disabled = UserData.arrows < 10
+func check_extra_hunt_button() -> void:
+	if extra_hunts and hunt_button:
+		extra_hunts.disabled = UserData.arrows < 10 or not hunt_button.disabled
 
 func check_spin_buttons() -> void:
 	spinbox_down.disabled = (spinbox.value == spinbox.min_value) or arrows == max_arrows or todays_hunt_completed

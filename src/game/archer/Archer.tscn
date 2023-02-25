@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://assets/audio/sounds/horse/029398_maxheadroom39s-galloping-horse-39-sec-loop-73481.mp3" type="AudioStream" id=1]
 [ext_resource path="res://src/game/archer/Archer.gd" type="Script" id=2]
@@ -80,8 +80,11 @@ animations = [ {
 "speed": 24.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 7, 7 )
+
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 12, 14 )
+extents = Vector2( 12, 10 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 60, 30 )
@@ -220,28 +223,33 @@ texture = ExtResource( 4 )
 [node name="Hat" type="AnimatedSprite" parent="ArcherBody"]
 pause_mode = 2
 frames = SubResource( 7 )
-frame = 1
 playing = true
 
 [node name="Banner" type="AnimatedSprite" parent="ArcherBody"]
 pause_mode = 2
 position = Vector2( 43, -1 )
 frames = SubResource( 8 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="Horse" type="AnimatedSprite" parent="."]
 pause_mode = 2
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
-frame = 5
+frame = 10
 playing = true
 flip_h = true
+
+[node name="HeadHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadHitbox"]
+position = Vector2( 0, -7 )
+shape = SubResource( 16 )
 
 [node name="Hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2( 0, 2 )
+position = Vector2( 0, 8 )
 shape = SubResource( 1 )
 
 [node name="TrajectoryDraw" type="Node2D" parent="."]
@@ -270,6 +278,7 @@ pitch_scale = 0.95
 autoplay = true
 bus = "Sound"
 
+[connection signal="area_entered" from="HeadHitbox" to="." method="_on_HeadHitbox_area_entered"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="area_entered" from="PickupBox" to="." method="_on_PickupBox_area_entered"]

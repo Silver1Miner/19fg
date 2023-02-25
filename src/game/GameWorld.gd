@@ -44,6 +44,7 @@ onready var readyp2 = $CanvasLayer/HUD/TopBar/ReadyP2
 onready var hud = $CanvasLayer/HUD
 onready var topbar = $CanvasLayer/HUD/TopBar
 onready var instructions = $CanvasLayer/Instructions
+onready var instructions_extra = $CanvasLayer/Instructions/Tutorial2
 onready var clock_display = $CanvasLayer/HUD/TopBar/Status/Clock
 onready var shots_display = $CanvasLayer/HUD/TopBar/Accuracy/Shots/ShotsValue
 onready var hits_display = $CanvasLayer/HUD/TopBar/Accuracy/Hits/HitsValue
@@ -96,6 +97,8 @@ func set_game_mode(new_mode: int) -> void:
 	game_mode = new_mode
 	if UserData.tutorial_on:
 		instructions.visible = true
+		if game_mode == GameModes.DUEL:
+			instructions_extra.visible = true
 	else:
 		start_game()
 
@@ -134,7 +137,8 @@ func start_game() -> void:
 	match game_mode:
 		0: # HUNT
 			game_started = true
-			set_daily_seed()
+			if not UserData.is_extra_hunt:
+				set_daily_seed()
 			status_display.visible = true
 			inventory_display.visible = true
 			accuracy_display.visible = true
@@ -212,7 +216,7 @@ func _input(event: InputEvent) -> void:
 func _on_arrow_landed() -> void:
 	print("arrow landed")
 	arrows_in_flight -= 1
-	if arrows <= 0 and targets_to_pickup <= 0:
+	if arrows_in_flight == 0:
 		check_hunt_end()
 	if game_mode == GameModes.DUEL:
 		next_turn()
@@ -237,7 +241,7 @@ func next_turn() -> void:
 func _on_Back_pressed() -> void:
 	get_tree().set_input_as_handled()
 	get_tree().paused = true
-	pause_warning.visible = (game_mode == GameModes.HUNT)
+	#pause_warning.visible = (game_mode == GameModes.HUNT)
 	pause_screen.visible = true
 
 func _on_Resume_pressed() -> void:
@@ -324,6 +328,8 @@ func spawn_bird() -> void:
 		push_error("fail to connect target shot signal")
 	if target_instance.connect("shot", self, "_on_target_to_pickup") != OK:
 		push_error("fail to connect target shot signal")
+	if target_instance.connect("shot_score", self, "_on_target_hit_scoring") != OK:
+		push_error("fail to connect target shot signal")
 	var offset = rand_range(-60, 60)
 	target_instance.global_position = $Spawner/Bird1.global_position + Vector2(0, offset)
 	target_instance.direction = Vector2.RIGHT
@@ -364,6 +370,9 @@ func _on_target_hit() -> void:
 
 func _on_target_to_pickup() -> void:
 	_set_targets_onfield(targets_to_pickup + 1)
+
+func _on_target_hit_scoring(score_increase: int) -> void:
+	_set_score(score + score_increase)
 
 func _on_Archer_increase_score(score_increase: int) -> void:
 	_set_score(score + score_increase)
@@ -407,6 +416,9 @@ func end_game() -> void:
 	spawn_timer.stop()
 	tick.stop()
 	hud.visible = false
+	if game_mode == GameModes.HUNT and UserData.is_extra_hunt:
+		UserData.set_arrows(UserData.arrows - 10)
+		UserData.is_extra_hunt = false
 	emit_signal("end_game")
 
 func _set_score(new_value: int) -> void:

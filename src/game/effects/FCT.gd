@@ -2,7 +2,7 @@ extends Label
 
 onready var tween = $Tween
 
-func show_value(value: String, travel: Vector2, duration, spread, crit=false, crit_color=Color(1,1,1)):
+func show_value(value: String, travel: Vector2, duration, spread, crit=false, crit_color=Color(1,198.0/255,0)):
 	text = value
 	var move = travel.rotated(rand_range(-spread/2,spread/2))
 	rect_pivot_offset = rect_size/2

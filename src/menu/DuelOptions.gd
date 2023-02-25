@@ -2,7 +2,7 @@ extends ColorRect
 
 signal closed_duel()
 signal duel_start()
-onready var bot_check = $DuelType/CheckButton
+onready var bot_check = $CheckButton
 onready var p1bow = $Players/Player1/Bow1
 onready var p2bow = $Players/Player2/Bow2
 onready var p1arrow = $Players/Player1/Arrow1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/gui/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/menu/Hunt.tscn" type="PackedScene" id=2]
@@ -6,7 +6,9 @@
 [ext_resource path="res://src/menu/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://assets/gui/EBGaramond-Regular.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://src/menu/Settings.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/gui/icons/transparent-fei.png" type="Texture" id=7]
 [ext_resource path="res://src/menu/DuelOptions.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/gui/icons/transparent-jiang.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 36
@@ -37,14 +39,14 @@ margin_bottom = 360.0
 rect_min_size = Vector2( 640, 360 )
 
 [node name="Title" type="Label" parent="Panels/Menu"]
-margin_top = 40.0
-margin_right = 640.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 0, 60 )
+margin_left = 170.0
+margin_top = 80.0
+margin_right = 480.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 0, 50 )
 custom_fonts/font = SubResource( 1 )
 text = "FLYING GENERAL"
 align = 1
-valign = 1
 
 [node name="MenuOptions" type="Control" parent="Panels/Menu"]
 anchor_right = 1.0
@@ -73,7 +75,6 @@ margin_left = 520.0
 margin_top = 280.0
 margin_right = 640.0
 margin_bottom = 360.0
-toggle_mode = true
 text = "Duel"
 
 [node name="Quit" type="Button" parent="Panels/Menu/MenuOptions"]
@@ -85,18 +86,35 @@ margin_bottom = 360.0
 text = "Quit"
 
 [node name="Settings" type="Button" parent="Panels/Menu/MenuOptions"]
-margin_top = 300.0
+margin_top = 280.0
 margin_right = 120.0
 margin_bottom = 360.0
 text = "Settings"
 
 [node name="DuelOptions" parent="Panels/Menu" instance=ExtResource( 8 )]
 visible = false
-color = Color( 0, 0, 0, 0.705882 )
 
 [node name="Settings" parent="Panels/Menu" instance=ExtResource( 6 )]
 visible = false
 color = Color( 0, 0, 0, 0.862745 )
+
+[node name="Fei" type="TextureRect" parent="Panels/Menu"]
+margin_left = 120.0
+margin_top = 80.0
+margin_right = 170.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 50, 50 )
+texture = ExtResource( 7 )
+expand = true
+
+[node name="Jiang" type="TextureRect" parent="Panels/Menu"]
+margin_left = 120.0
+margin_top = 130.0
+margin_right = 170.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 50, 50 )
+texture = ExtResource( 9 )
+expand = true
 
 [node name="Hunt" parent="Panels" instance=ExtResource( 2 )]
 margin_left = 1280.0

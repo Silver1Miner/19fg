@@ -374,30 +374,31 @@ align = 1
 
 [node name="Pause" type="ColorRect" parent="CanvasLayer/HUD"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.470588 )
 
 [node name="Resume" type="Button" parent="CanvasLayer/HUD/Pause"]
 margin_left = 240.0
-margin_top = 180.0
+margin_top = 140.0
 margin_right = 400.0
-margin_bottom = 220.0
+margin_bottom = 200.0
 text = "Resume Game"
 
 [node name="Home" type="Button" parent="CanvasLayer/HUD/Pause"]
 margin_left = 240.0
 margin_top = 280.0
 margin_right = 400.0
-margin_bottom = 320.0
+margin_bottom = 340.0
 text = "Quit Game"
 
 [node name="Warning" type="Label" parent="CanvasLayer/HUD/Pause"]
-margin_left = 200.0
+margin_left = 160.0
 margin_top = 240.0
-margin_right = 440.0
-margin_bottom = 264.0
-text = "You will lose any unused arroWS!"
+margin_right = 480.0
+margin_bottom = 280.0
+text = "You will lose all progress if you quit now!"
 align = 1
 valign = 1
 
@@ -418,11 +419,10 @@ mouse_filter = 2
 margin_left = 240.0
 margin_top = 280.0
 margin_right = 400.0
-margin_bottom = 320.0
+margin_bottom = 340.0
 text = "Home"
 
 [node name="GameOverDuel" type="ColorRect" parent="CanvasLayer/HUD"]
-visible = false
 margin_right = 640.0
 margin_bottom = 360.0
 color = Color( 0, 0, 0, 0.470588 )
@@ -431,7 +431,7 @@ color = Color( 0, 0, 0, 0.470588 )
 margin_left = 240.0
 margin_top = 280.0
 margin_right = 400.0
-margin_bottom = 320.0
+margin_bottom = 340.0
 text = "Home"
 
 [node name="Result" type="Label" parent="CanvasLayer/HUD/GameOverDuel"]
@@ -477,13 +477,12 @@ valign = 1
 autowrap = true
 
 [node name="Tutorial2" type="Label" parent="CanvasLayer/Instructions"]
-visible = false
 margin_left = 120.0
 margin_top = 160.0
 margin_right = 520.0
 margin_bottom = 280.0
-text = "Different Bows and Arrows have different effects
-Experiment!"
+text = "Different Equipment has different effects
+Headshots do double damage"
 align = 1
 valign = 1
 autowrap = true

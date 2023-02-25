@@ -2,6 +2,7 @@ extends Area2D
 class_name Target
 
 signal shot()
+signal shot_score(score_value)
 var is_shot = false
 export var pickup = true
 export var takes_impulse = true
@@ -39,6 +40,10 @@ func _physics_process(delta: float) -> void:
 
 func _on_Target_area_entered(area: Area2D) -> void:
 	if area.is_in_group("arrow") and area.fired:
+		if area.velocity.y > 0:
+			emit_signal("shot_score", 200)
+		else:
+			emit_signal("shot_score", 50)
 		emit_signal("shot")
 		area.remove_from_group("arrow")
 		anim.stop()

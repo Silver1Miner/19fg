@@ -1,5 +1,6 @@
 extends Node
 
+const start = Vector2(1280,720)
 var pull = Vector2.ZERO
 var target = Vector2(-900, 0)
 var archer1 = null
@@ -36,14 +37,14 @@ func set_draw_pull(magnitude: float, angle: float) -> void:
 
 func bot_spoof_click() -> void:
 	if archer2:
-		archer2.bow_grab(Vector2.ZERO)
+		archer2.bow_grab(start)
 	else:
 		push_error("no archer 2")
 		get_parent().is_bots_turn = false
 
 func bot_spoof_drag() -> void:
 	if archer2:
-		archer2.bow_move(pull)
+		archer2.bow_move(start + pull)
 	else:
 		push_error("no archer 2")
 		get_parent().is_bots_turn = false

@@ -201,15 +201,13 @@ align = 1
 valign = 1
 
 [node name="Inventory" parent="." instance=ExtResource( 5 )]
-margin_left = 380.0
-margin_top = 0.0
-margin_right = 540.0
-margin_bottom = 40.0
+margin_left = 360.0
+margin_right = 520.0
 
 [node name="Back" type="Button" parent="."]
-margin_left = 560.0
+margin_left = 540.0
 margin_right = 640.0
-margin_bottom = 40.0
+margin_bottom = 60.0
 text = "Back"
 
 [node name="ConfirmPanel" type="Panel" parent="."]

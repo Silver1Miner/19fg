@@ -163,7 +163,7 @@ func load_projectile():
 		arrow_instance.connect("arrow_accounted_for", get_parent(), "_on_arrow_accounted_for")
 		arrow_instance.add_to_group(player_group)
 		arrow_instance.position = position
-		#arrow_instance.reset_physics_interpolation()
+		arrow_instance.reset_physics_interpolation()
 		arrow_instance.visible = false
 		anim.play("start_aiming")
 
@@ -238,9 +238,24 @@ func _on_Timer_timeout() -> void:
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group(enemy_group):
+		var fct = FCT.instance()
+		get_parent().add_child(fct)
+		fct.rect_position = area.global_position
 		area.remove_from_group(enemy_group)
 		area.stick_to(hitbox)
 		_set_hp(hp - area.damage)
+		fct.show_value(str(area.damage), Vector2(0,-8), 1, PI/2, false)
+
+func _on_HeadHitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group(enemy_group):
+		var fct = FCT.instance()
+		get_parent().add_child(fct)
+		fct.rect_position = area.global_position
+		fct.reset_physics_interpolation()
+		area.remove_from_group(enemy_group)
+		area.stick_to(hitbox)
+		_set_hp(hp - 2*area.damage)
+		fct.show_value(str(2*area.damage), Vector2(0,-8), 1, PI/2, true)
 
 func _on_PickupBox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("prize"):
@@ -248,7 +263,7 @@ func _on_PickupBox_area_entered(area: Area2D) -> void:
 		var fct = FCT.instance()
 		get_parent().add_child(fct)
 		fct.rect_position = global_position
-		#fct.reset_physics_interpolation()
+		fct.reset_physics_interpolation()
 		fct.show_value(str(area.coin_value), Vector2(0,-8), 1, PI/2, area.coin_value>30)
 		emit_signal("increase_score", area.score_value)
 		emit_signal("picked_up", area.coin_value)

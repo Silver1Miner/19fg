@@ -6,6 +6,7 @@ Copyright © 2023 Jack Anderson"""
 # GAME MODE
 var current_game_mode = 0
 var duel_vs_bot = false
+var is_extra_hunt = false
 # SETTINGS
 var jukebox_index = 2
 var mute_music = false
