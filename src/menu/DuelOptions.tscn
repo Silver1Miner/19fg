@@ -120,18 +120,16 @@ margin_right = 120.0
 margin_bottom = 120.0
 
 [node name="Label" type="Label" parent="."]
-margin_left = 520.0
+margin_left = 537.0
 margin_top = 36.0
-margin_right = 590.0
+margin_right = 560.0
 margin_bottom = 60.0
 text = "BOT"
-align = 1
-valign = 1
 
 [node name="CheckButton" type="CheckButton" parent="."]
-margin_left = 510.0
+margin_left = 500.0
 margin_top = 40.0
-margin_right = 590.0
+margin_right = 580.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 80, 0 )
 

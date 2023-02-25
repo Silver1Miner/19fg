@@ -180,7 +180,7 @@ func bow_grab(touch_position: Vector2) -> void:
 	draw_end = touch_position
 	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
 	emit_signal("update_draw", draw_start, draw_end, force)
-	trajectory_draw.visible = true
+	trajectory_draw.visible = UserData.aim_sight_on
 
 func bow_move(touch_position: Vector2) -> void:
 	if state == States.IDLE:
@@ -189,7 +189,6 @@ func bow_move(touch_position: Vector2) -> void:
 	state = States.AIMING
 	var force = clamp((draw_start-draw_end).length() * 10, 0, bow_elastic_force)
 	emit_signal("update_draw", draw_start, draw_end, force)
-	#trajectory_draw.visible = (draw_start-draw_end).length() >= 20
 
 func remove_arrows() -> void:
 	for node in hitbox.get_children():

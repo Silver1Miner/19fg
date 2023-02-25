@@ -17,8 +17,8 @@ var coins = 0
 
 func _ready() -> void:
 	check_status()
-	#if not OS.get_name() in ["Android", "iOS"]:
-	#	$ShopPanel/TabContainer/Coins.queue_free()
+	if not OS.get_name() in ["Android", "iOS"]:
+		$ShopPanel/TabContainer/Coins.queue_free()
 	if Billing.connect("purchase_consumed", self, "_on_purchase_consumed") != OK:
 		push_error("fail to connect signal")
 

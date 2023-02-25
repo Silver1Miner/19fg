@@ -1,17 +1,17 @@
 extends Node
 
 const privacy_policy_link = "https://itch.io/t/2660829/privacy-policy"
-const copyright_text = """v 0.3.0.22 -- February 2, 2023
+const copyright_text = """v 0.5.0.25 -- February 25, 2023
 Copyright © 2023 Jack Anderson"""
 # GAME MODE
 var current_game_mode = 0
 var duel_vs_bot = false
 var is_extra_hunt = false
 # SETTINGS
-var jukebox_index = 2
 var mute_music = false
 var mute_sound = false
 var tutorial_on = true
+var aim_sight_on = true
 # RECORDS
 var current_year_loaded = 0
 var current_month_loaded = 0
@@ -53,6 +53,7 @@ func save_settings() -> void:
 		"mute_music": mute_music,
 		"mute_sound": mute_sound,
 		"tutorial_on": tutorial_on,
+		"aim_sight_on": aim_sight_on,
 	}
 	print(settings_dict)
 	settings.store_line(to_json(settings_dict))
@@ -73,6 +74,8 @@ func load_settings() -> void:
 			mute_sound = bool(sd.mute_sound)
 		if sd.has("tutorial_on"):
 			tutorial_on = bool(sd.tutorial_on)
+		if sd.has("aim_sight_on"):
+			aim_sight_on = bool(sd.aim_sight_on)
 	settings.close()
 
 func change_records_loaded(new_year: int, new_month: int) -> void:

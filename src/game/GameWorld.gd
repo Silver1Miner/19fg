@@ -240,7 +240,7 @@ func next_turn() -> void:
 func _on_Back_pressed() -> void:
 	get_tree().set_input_as_handled()
 	get_tree().paused = true
-	#pause_warning.visible = (game_mode == GameModes.HUNT)
+	pause_warning.visible = (game_mode == GameModes.HUNT)
 	pause_screen.visible = true
 
 func _on_Resume_pressed() -> void:

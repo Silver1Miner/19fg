@@ -11,7 +11,7 @@
 [ext_resource path="res://assets/gui/icons/transparent-jiang.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
-size = 36
+size = 32
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
@@ -38,33 +38,50 @@ margin_right = 1280.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 640, 360 )
 
-[node name="Fei" type="TextureRect" parent="Panels/Menu"]
+[node name="Title" type="HBoxContainer" parent="Panels/Menu"]
 margin_left = 120.0
-margin_top = 80.0
-margin_right = 170.0
-margin_bottom = 130.0
+margin_top = 40.0
+margin_right = 510.0
+margin_bottom = 90.0
+custom_constants/separation = 20
+
+[node name="Title" type="Label" parent="Panels/Menu/Title"]
+margin_right = 190.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 190, 50 )
+custom_fonts/font = SubResource( 1 )
+text = "FLYING"
+align = 2
+
+[node name="Title2" type="Label" parent="Panels/Menu/Title"]
+margin_left = 210.0
+margin_right = 390.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 180, 50 )
+custom_fonts/font = SubResource( 1 )
+text = "GENERAL"
+
+[node name="TitleLogo" type="HBoxContainer" parent="Panels/Menu"]
+margin_left = 270.0
+margin_top = 90.0
+margin_right = 370.0
+margin_bottom = 140.0
+custom_constants/separation = 0
+
+[node name="Fei" type="TextureRect" parent="Panels/Menu/TitleLogo"]
+margin_right = 50.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 texture = ExtResource( 7 )
 expand = true
 
-[node name="Jiang" type="TextureRect" parent="Panels/Menu"]
-margin_left = 120.0
-margin_top = 130.0
-margin_right = 170.0
-margin_bottom = 180.0
+[node name="Jiang" type="TextureRect" parent="Panels/Menu/TitleLogo"]
+margin_left = 50.0
+margin_right = 100.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 texture = ExtResource( 9 )
 expand = true
-
-[node name="Title" type="Label" parent="Panels/Menu"]
-margin_left = 120.0
-margin_top = 80.0
-margin_right = 520.0
-margin_bottom = 130.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = SubResource( 1 )
-text = "FLYING GENERAL"
-align = 1
 
 [node name="MenuOptions" type="Control" parent="Panels/Menu"]
 anchor_right = 1.0

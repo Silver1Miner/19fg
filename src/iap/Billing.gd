@@ -60,25 +60,25 @@ func android_purchase(index: int) -> void:
 		return
 	match index:
 		0:
-			var response = android_iap.purchase("gems_60_99")
+			var response = android_iap.purchase("gems_600_99")
 			gem_value = 600
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
 				print("error purchasing item")
 		1:
-			var response = android_iap.purchase("gems_315_499")
+			var response = android_iap.purchase("gems_3150_499")
 			gem_value = 3150
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
 				print("error purchasing item")
 		2:
-			var response = android_iap.purchase("gems_630_999")
+			var response = android_iap.purchase("gems_6300_999")
 			gem_value = 6300
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
 				print("error purchasing item")
 		3:
-			var response = android_iap.purchase("gems_1650_1999")
+			var response = android_iap.purchase("gems_16500_1999")
 			gem_value = 16500
 			print("purchase attempted with result: ", response.status)
 			if response.status != OK:
@@ -109,16 +109,16 @@ func consume_items() -> void:
 	var query = android_iap.queryPurchases("inapp") # Or "subs" for subscriptions
 	print(query)
 	for purchase in query.purchases:
-		if purchase.sku == "gems_60_99" and purchase.purchase_state == 1:
+		if purchase.sku == "gems_600_99" and purchase.purchase_state == 1:
 			emit_signal("purchase_consumed", 600)
 			android_iap.consumePurchase(purchase.purchase_token)
-		elif purchase.sku == "gems_315_499" and purchase.purchase_state == 1:
+		elif purchase.sku == "gems_3150_499" and purchase.purchase_state == 1:
 			emit_signal("purchase_consumed", 3150)
 			android_iap.consumePurchase(purchase.purchase_token)
-		elif purchase.sku == "gems_630_999" and purchase.purchase_state == 1:
+		elif purchase.sku == "gems_6300_999" and purchase.purchase_state == 1:
 			emit_signal("purchase_consumed", 6300)
 			android_iap.consumePurchase(purchase.purchase_token)
-		elif purchase.sku == "gems_1650_1999" and purchase.purchase_state == 1:
+		elif purchase.sku == "gems_16500_1999" and purchase.purchase_state == 1:
 			emit_signal("purchase_consumed", 16500)
 			android_iap.consumePurchase(purchase.purchase_token)
 
@@ -132,25 +132,25 @@ func ios_purchase(index: int) -> void:
 	ios_iap.set_auto_finish_transaction(true)
 	match index:
 		0:
-			var response = ios_iap.purchase({"product_id": "gems_60_99"})
+			var response = ios_iap.purchase({"product_id": "gems_600_99"})
 			gem_value = 600
 			print("purchase attempted with result: ", response)
 			if response != OK:
 				print("error purchasing item")
 		1:
-			var response = ios_iap.purchase({"product_id": "gems_315_499"})
+			var response = ios_iap.purchase({"product_id": "gems_3150_499"})
 			gem_value = 3150
 			print("purchase attempted with result: ", response)
 			if response != OK:
 				print("error purchasing item")
 		2:
-			var response = ios_iap.purchase({"product_id": "gems_630_999"})
+			var response = ios_iap.purchase({"product_id": "gems_6300_999"})
 			gem_value = 6300
 			print("purchase attempted with result: ", response)
 			if response != OK:
 				print("error purchasing item")
 		3:
-			var response = ios_iap.purchase({"product_id": "gems_1650_1999"})
+			var response = ios_iap.purchase({"product_id": "gems_16500_1999"})
 			gem_value = 16500
 			print("purchase attempted with result: ", response)
 			if response != OK:
@@ -171,13 +171,13 @@ func _on_Timer_timeout() -> void:
 				print("error handling purchase")
 
 func handle_purchase(product_id) -> void:
-	if product_id == "gems_60_99":
+	if product_id == "gems_600_99":
 		emit_signal("purchase_consumed", 600)
-	elif product_id == "gems_315_499":
+	elif product_id == "gems_3150_499":
 		emit_signal("purchase_consumed", 3150)
-	elif product_id == "gems_630_999":
+	elif product_id == "gems_6300_999":
 		emit_signal("purchase_consumed", 6300)
-	elif product_id == "gems_1650_1999":
+	elif product_id == "gems_16500_1999":
 		emit_signal("purchase_consumed", 16500)
 
 func non_mobile_testing(gem_index: int) -> void:
