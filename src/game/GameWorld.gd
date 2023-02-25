@@ -97,8 +97,7 @@ func set_game_mode(new_mode: int) -> void:
 	game_mode = new_mode
 	if UserData.tutorial_on:
 		instructions.visible = true
-		if game_mode == GameModes.DUEL:
-			instructions_extra.visible = true
+		instructions_extra.visible = game_mode == GameModes.DUEL
 	else:
 		start_game()
 

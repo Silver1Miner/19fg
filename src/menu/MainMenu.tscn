@@ -38,10 +38,28 @@ margin_right = 1280.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 640, 360 )
 
-[node name="Title" type="Label" parent="Panels/Menu"]
-margin_left = 170.0
+[node name="Fei" type="TextureRect" parent="Panels/Menu"]
+margin_left = 120.0
 margin_top = 80.0
-margin_right = 480.0
+margin_right = 170.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 50, 50 )
+texture = ExtResource( 7 )
+expand = true
+
+[node name="Jiang" type="TextureRect" parent="Panels/Menu"]
+margin_left = 120.0
+margin_top = 130.0
+margin_right = 170.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 50, 50 )
+texture = ExtResource( 9 )
+expand = true
+
+[node name="Title" type="Label" parent="Panels/Menu"]
+margin_left = 120.0
+margin_top = 80.0
+margin_right = 520.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 0, 50 )
 custom_fonts/font = SubResource( 1 )
@@ -97,24 +115,6 @@ visible = false
 [node name="Settings" parent="Panels/Menu" instance=ExtResource( 6 )]
 visible = false
 color = Color( 0, 0, 0, 0.862745 )
-
-[node name="Fei" type="TextureRect" parent="Panels/Menu"]
-margin_left = 120.0
-margin_top = 80.0
-margin_right = 170.0
-margin_bottom = 130.0
-rect_min_size = Vector2( 50, 50 )
-texture = ExtResource( 7 )
-expand = true
-
-[node name="Jiang" type="TextureRect" parent="Panels/Menu"]
-margin_left = 120.0
-margin_top = 130.0
-margin_right = 170.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 50, 50 )
-texture = ExtResource( 9 )
-expand = true
 
 [node name="Hunt" parent="Panels" instance=ExtResource( 2 )]
 margin_left = 1280.0

@@ -477,6 +477,7 @@ valign = 1
 autowrap = true
 
 [node name="Tutorial2" type="Label" parent="CanvasLayer/Instructions"]
+visible = false
 margin_left = 120.0
 margin_top = 160.0
 margin_right = 520.0
