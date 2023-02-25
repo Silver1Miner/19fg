@@ -22,12 +22,6 @@ func _ready() -> void:
 	anim.play(animation_name)
 
 func _physics_process(delta: float) -> void:
-	if body.global_position.x < -160 or body.global_position.x > 640 + 1280:
-		if is_shot:
-			#emit_signal("out_of_range")
-			return
-		else:
-			queue_free()
 	if body.global_position.y > 330:
 		gravity = 0
 		direction = Vector2.LEFT
@@ -37,6 +31,9 @@ func _physics_process(delta: float) -> void:
 		rotation = direction.angle()
 	if is_shot and gravity > 0:
 		direction.y += gravity * mass * delta
+	if body.global_position.x < -160 or body.global_position.x > 640 + 1280:
+		if not is_shot:
+			queue_free()
 
 func _on_Target_area_entered(area: Area2D) -> void:
 	if area.is_in_group("arrow") and area.fired:

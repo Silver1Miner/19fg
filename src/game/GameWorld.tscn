@@ -35,6 +35,8 @@ dodge_direction = -1
 
 [node name="Tick" type="Timer" parent="."]
 
+[node name="Failsafe" type="Timer" parent="."]
+
 [node name="Spawner" type="Node2D" parent="."]
 
 [node name="PracticeHigh" type="Position2D" parent="Spawner"]
@@ -384,14 +386,14 @@ margin_left = 240.0
 margin_top = 140.0
 margin_right = 400.0
 margin_bottom = 200.0
-text = "Resume Game"
+text = "Resume"
 
 [node name="Home" type="Button" parent="CanvasLayer/HUD/Pause"]
 margin_left = 240.0
 margin_top = 280.0
 margin_right = 400.0
 margin_bottom = 340.0
-text = "Quit Game"
+text = "Quit"
 
 [node name="Warning" type="Label" parent="CanvasLayer/HUD/Pause"]
 margin_left = 160.0
@@ -401,6 +403,23 @@ margin_bottom = 280.0
 text = "You will lose all progress if you quit now!"
 align = 1
 valign = 1
+
+[node name="Waiting" type="ColorRect" parent="CanvasLayer/HUD"]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.470588 )
+
+[node name="Warning" type="Label" parent="CanvasLayer/HUD/Waiting"]
+margin_left = 160.0
+margin_top = 220.0
+margin_right = 480.0
+margin_bottom = 291.0
+text = "Waiting for arrows to land and quarry to be collected..."
+align = 1
+valign = 1
+autowrap = true
 
 [node name="GameOver" type="ColorRect" parent="CanvasLayer/HUD"]
 visible = false
@@ -448,7 +467,14 @@ visible = false
 margin_top = 220.0
 margin_right = 40.0
 margin_bottom = 244.0
-text = "99"
+text = "0"
+
+[node name="ArrowsOnField" type="Label" parent="CanvasLayer/HUD"]
+visible = false
+margin_top = 180.0
+margin_right = 40.0
+margin_bottom = 204.0
+text = "0"
 
 [node name="Instructions" type="ColorRect" parent="CanvasLayer"]
 visible = false

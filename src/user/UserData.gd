@@ -1,7 +1,7 @@
 extends Node
 
 const privacy_policy_link = "https://itch.io/t/2660829/privacy-policy"
-const copyright_text = """v 0.5.0.25 -- February 25, 2023
+const copyright_text = """v 0.5.1.25 -- February 25, 2023
 Copyright © 2023 Jack Anderson"""
 # GAME MODE
 var current_game_mode = 0

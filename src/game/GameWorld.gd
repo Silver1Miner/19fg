@@ -52,6 +52,7 @@ onready var inventory_display = $CanvasLayer/HUD/TopBar/Inventory
 onready var bagged_display = $CanvasLayer/HUD/TopBar/Inventory/Bagged/BaggedValue
 onready var arrow_display = $CanvasLayer/HUD/TopBar/Inventory/Arrows/ArrowValue
 onready var targets_active_display = $CanvasLayer/HUD/TargetsOnField
+onready var waiting_warning = $CanvasLayer/HUD/Waiting
 var current_seed = 1
 var score = 0 setget _set_score
 var seconds = 0
@@ -74,6 +75,7 @@ func _ready() -> void:
 	game_over_screen.visible = false
 	game_over_duel.visible = false
 	instructions.visible = false
+	waiting_warning.visible = false
 	archer1.state = 0
 	archer2.state = 0
 	readyp1.visible = false
@@ -133,6 +135,7 @@ func start_game() -> void:
 	pause_screen.visible = false
 	game_over_screen.visible = false
 	game_over_duel.visible = false
+	waiting_warning.visible = false
 	match game_mode:
 		0: # HUNT
 			game_started = true
@@ -214,11 +217,13 @@ func _input(event: InputEvent) -> void:
 
 func _on_arrow_landed() -> void:
 	print("arrow landed")
-	arrows_in_flight -= 1
-	if arrows_in_flight == 0:
-		check_hunt_end()
 	if game_mode == GameModes.DUEL:
 		next_turn()
+	else:
+		arrows_in_flight -= 1
+		$CanvasLayer/HUD/ArrowsOnField.text = str(arrows_in_flight)
+		if arrows_in_flight <= 0:
+			check_hunt_end()
 
 func _on_arrow_accounted_for() -> void:
 	print("arrow gone")
@@ -356,6 +361,7 @@ func spawn_practice_target() -> void:
 func _on_Archer_arrow_fired() -> void:
 	readyp1.visible = false
 	arrows_in_flight += 1
+	$CanvasLayer/HUD/ArrowsOnField.text = str(arrows_in_flight)
 	_set_shots(shots + 1)
 	if game_mode == GameModes.HUNT:
 		set_arrows(arrows - 1)
@@ -434,6 +440,8 @@ func set_arrows(new_value: int) -> void:
 	if arrows <= 0:
 		archer1.hunting_mode = false
 		archer1.reload_timer.stop()
+		if game_mode == GameModes.HUNT:
+			waiting_warning.visible = true
 
 func _set_shots(new_value: int) -> void:
 	shots = new_value
@@ -454,6 +462,7 @@ func check_hunt_end() -> void:
 	print("arrows: ", arrows)
 	print("how many arrows in flight? ", arrows_in_flight)
 	if game_mode == GameModes.HUNT and targets_to_pickup <= 0 and arrows <= 0 and arrows_in_flight <= 0:
+		waiting_warning.visible = false
 		tick.stop()
 		save_hunting_results()
 		topbar.visible = false
