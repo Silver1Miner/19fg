@@ -204,6 +204,7 @@ func start_duel() -> void:
 	game_started = true
 	duel_state = DuelStates.P1TURN
 	readyp1.visible = true
+	Audio.play_sound("res://assets/audio/sounds/ping-82822.mp3")
 	readyp2.visible = false
 	archer1.state = 1 # ready
 	archer2.state = 3 # dodge
@@ -499,10 +500,12 @@ func _on_Archer2_hp_changed(hp: int) -> void:
 func _on_Archer_dodge_finished() -> void:
 	if archer1.state == 1 and not game_over_duel.visible:
 		readyp1.visible = true
+		Audio.play_sound("res://assets/audio/sounds/ping-82822.mp3")
 
 func _on_Archer2_dodge_finished() -> void:
 	if archer2.state == 1 and not game_over_duel.visible:
 		readyp2.visible = true
+		Audio.play_sound("res://assets/audio/sounds/ping-82822.mp3")
 		if UserData.duel_vs_bot:
 			is_bots_turn = true
 			bot.take_turn()
