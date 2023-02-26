@@ -30,14 +30,20 @@ func _on_AimToggle_toggled(button_pressed: bool) -> void:
 	UserData.aim_sight_on = button_pressed
 	UserData.save_settings()
 
-func _on_Privacy_toggled(button_pressed: bool) -> void:
-	privacy_panel.visible = button_pressed
-	if button_pressed:
-		if OS.shell_open(UserData.privacy_policy_link) != OK:
-			push_error("fail to open link")
-
 func _on_Back_pressed() -> void:
+	privacy_panel.visible = false
 	about_panel.visible = false
 
 func _on_About_pressed() -> void:
+	privacy_panel.visible = false
 	about_panel.visible = true
+
+func _on_FullRead_pressed() -> void:
+	if OS.shell_open(UserData.privacy_policy_link) != OK:
+		push_error("fail to open link")
+
+func _on_ClosePrivacy_pressed() -> void:
+	privacy_panel.visible = false
+
+func _on_Privacy_pressed() -> void:
+	privacy_panel.visible = true

@@ -82,7 +82,6 @@ margin_bottom = 80.0
 text = "About"
 
 [node name="AboutPanel" type="Panel" parent="."]
-visible = false
 margin_right = 640.0
 margin_bottom = 360.0
 
@@ -125,6 +124,17 @@ align = 2
 valign = 1
 autowrap = true
 
+[node name="Back" type="Button" parent="AboutPanel"]
+margin_right = 120.0
+margin_bottom = 80.0
+text = "Back"
+
+[node name="Privacy" type="Button" parent="AboutPanel"]
+margin_top = 280.0
+margin_right = 120.0
+margin_bottom = 360.0
+text = "Privacy Policy"
+
 [node name="PrivacyPanel" type="Panel" parent="AboutPanel"]
 visible = false
 margin_right = 640.0
@@ -135,15 +145,13 @@ margin_left = 20.0
 margin_top = 40.0
 margin_right = 620.0
 margin_bottom = 280.0
-text = "Privacy Policy
-
-One Three Software built the NPuzzle app as a Freemium app. This SERVICE is provided by One Three Software at no cost and is intended for use as is.
+text = "One Three Software built the Flying General app as a Freemium app. This SERVICE is provided by One Three Software at no cost and is intended for use as is.
 
 This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.
 
 If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.
 
-The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at NPuzzle unless otherwise defined in this Privacy Policy.
+The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at Flying General unless otherwise defined in this Privacy Policy.
 
 Information Collection and Use
 
@@ -153,9 +161,8 @@ The app does use third-party services that may collect information used to ident
 
 Link to the privacy policy of third-party service providers used by the app
 
-    Google Play Services
-    Godot 
-
+Google Play Services
+Godot
 Log Data
 
 We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third-party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.
@@ -170,11 +177,10 @@ Service Providers
 
 We may employ third-party companies and individuals due to the following reasons:
 
-    To facilitate our Service;
-    To provide the Service on our behalf;
-    To perform Service-related services; or
-    To assist us in analyzing how our Service is used. 
-
+To facilitate our Service;
+To provide the Service on our behalf;
+To perform Service-related services; or
+To assist us in analyzing how our Service is used.
 We want to inform users of this Service that these third parties have access to their Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.
 
 Security
@@ -193,28 +199,31 @@ Changes to This Privacy Policy
 
 We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.
 
-This policy is effective as of 2023-01-28
+This policy is effective as of 2023-02-26
 
 Contact Us
 
-If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at onethreesoftware@gmail.com. "
+If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at onethreesoftware@gmail.com."
 
-[node name="Privacy" type="Button" parent="AboutPanel"]
+[node name="ClosePrivacy" type="Button" parent="AboutPanel/PrivacyPanel"]
 margin_left = 20.0
 margin_top = 300.0
 margin_right = 140.0
-margin_bottom = 340.0
-toggle_mode = true
-text = "Privacy Policy"
+margin_bottom = 332.0
+text = "Close"
 
-[node name="Back" type="Button" parent="AboutPanel"]
-margin_right = 120.0
-margin_bottom = 80.0
-text = "Back"
+[node name="FullRead" type="Button" parent="AboutPanel/PrivacyPanel"]
+margin_left = 500.0
+margin_top = 300.0
+margin_right = 620.0
+margin_bottom = 332.0
+text = "Link"
 
 [connection signal="button_up" from="Back" to="." method="_on_Back_button_up"]
 [connection signal="toggled" from="TutorialSettings/TutorialToggle" to="." method="_on_TutorialToggle_toggled"]
 [connection signal="toggled" from="AimSettings/AimToggle" to="." method="_on_AimToggle_toggled"]
 [connection signal="pressed" from="About" to="." method="_on_About_pressed"]
-[connection signal="toggled" from="AboutPanel/Privacy" to="." method="_on_Privacy_toggled"]
 [connection signal="pressed" from="AboutPanel/Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="AboutPanel/Privacy" to="." method="_on_Privacy_pressed"]
+[connection signal="pressed" from="AboutPanel/PrivacyPanel/ClosePrivacy" to="." method="_on_ClosePrivacy_pressed"]
+[connection signal="pressed" from="AboutPanel/PrivacyPanel/FullRead" to="." method="_on_FullRead_pressed"]

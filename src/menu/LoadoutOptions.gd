@@ -30,7 +30,7 @@ func _ready() -> void:
 
 func update_bows_display() -> void:
 	bow0.text = "Black Bow\nEquip"
-	arrow1.text = "Black Arrows\nEquip"
+	arrow1.text = "Black Arrow\nEquip"
 	if UserData.inventory.bow[1] > 0:
 		bow1.text = "White Bow\nEquip"
 	else:
@@ -66,25 +66,25 @@ func update_bows_display() -> void:
 
 func update_banners_display() -> void:
 	if UserData.inventory.banner[0] > 0:
-		banner0.text = "Black Banner\nEquip"
+		banner0.text = "Black Flag\nEquip"
 	else:
-		banner0.text = "Black Banner\nBuy for %s" % itemdata.banner_stats[1].cost
+		banner0.text = "Black Flag\nBuy for %s" % itemdata.banner_stats[1].cost
 	if UserData.inventory.banner[1] > 0:
-		banner1.text = "White Banner\nEquip"
+		banner1.text = "White Flag\nEquip"
 	else:
-		banner1.text = "White Banner\nBuy for %s" % itemdata.banner_stats[1].cost
+		banner1.text = "White Flag\nBuy for %s" % itemdata.banner_stats[1].cost
 	if UserData.inventory.banner[2] > 0:
-		banner2.text = "Blue Banner\nEquip"
+		banner2.text = "Blue Flag\nEquip"
 	else:
-		banner2.text = "Blue Banner\nBuy for %s" % itemdata.banner_stats[2].cost
+		banner2.text = "Blue Flag\nBuy for %s" % itemdata.banner_stats[2].cost
 	if UserData.inventory.banner[3] > 0:
-		banner3.text = "Yellow Banner\nEquip"
+		banner3.text = "Yellow Flag\nEquip"
 	else:
-		banner3.text = "Yellow Banner\nBuy for %s" % itemdata.banner_stats[3].cost
+		banner3.text = "Yellow Flag\nBuy for %s" % itemdata.banner_stats[3].cost
 	if UserData.inventory.banner[4] > 0:
-		banner4.text = "Red Banner\nEquip"
+		banner4.text = "Red Flag\nEquip"
 	else:
-		banner4.text = "Red Banner\nBuy for %s" % itemdata.banner_stats[4].cost
+		banner4.text = "Red Flag\nBuy for %s" % itemdata.banner_stats[4].cost
 	if UserData.inventory.helm[0] > 0:
 		helm0.text = "Black Cap\nEquip"
 	else:

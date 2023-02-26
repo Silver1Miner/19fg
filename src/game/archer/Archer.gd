@@ -30,6 +30,7 @@ onready var game_objects = get_node_or_null("../GameObjects")
 onready var tween = $Tween
 onready var bow_sprite = $Aiming/Bow
 onready var arrow_sprite = $Aiming/Arrow
+onready var arms_sprite = $Aiming/ArcherArms
 onready var banner_sprite = $ArcherBody/Banner
 onready var hat_sprite = $ArcherBody/Hat
 onready var hitbox = $Hitbox
@@ -63,6 +64,11 @@ func _ready() -> void:
 		update_loadout(UserData.loadout)
 	else:
 		update_loadout(UserData.p2_loadout)
+
+func reset_arms() -> void:
+	bow_sprite.frame = 0
+	arrow_sprite.frame = 0
+	arms_sprite.frame = 0
 
 func update_loadout(loadout_data: Dictionary) -> void:
 	print(loadout_data)

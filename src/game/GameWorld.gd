@@ -425,6 +425,8 @@ func end_game() -> void:
 	if game_mode == GameModes.HUNT and UserData.is_extra_hunt:
 		UserData.set_arrows(UserData.arrows - 10)
 		UserData.is_extra_hunt = false
+	archer1.reset_arms()
+	archer2.reset_arms()
 	emit_signal("end_game")
 
 func _set_score(new_value: int) -> void:

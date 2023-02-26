@@ -223,19 +223,21 @@ texture = ExtResource( 4 )
 [node name="Hat" type="AnimatedSprite" parent="ArcherBody"]
 pause_mode = 2
 frames = SubResource( 7 )
+frame = 1
 playing = true
 
 [node name="Banner" type="AnimatedSprite" parent="ArcherBody"]
 pause_mode = 2
 position = Vector2( 43, -1 )
 frames = SubResource( 8 )
+frame = 3
 playing = true
 
 [node name="Horse" type="AnimatedSprite" parent="."]
 pause_mode = 2
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
-frame = 5
+frame = 7
 playing = true
 flip_h = true
 

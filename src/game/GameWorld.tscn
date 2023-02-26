@@ -495,7 +495,7 @@ margin_left = 120.0
 margin_top = 60.0
 margin_right = 520.0
 margin_bottom = 180.0
-text = "touch/click to notch arrow
+text = "touch to notch arrow
 drag to pull back arrow
 release to fire arrow"
 align = 1
