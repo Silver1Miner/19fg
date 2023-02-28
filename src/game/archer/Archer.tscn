@@ -81,7 +81,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=16]
-extents = Vector2( 7, 7 )
+extents = Vector2( 8, 8 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 12, 10 )
@@ -230,21 +230,20 @@ playing = true
 pause_mode = 2
 position = Vector2( 43, -1 )
 frames = SubResource( 8 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="Horse" type="AnimatedSprite" parent="."]
 pause_mode = 2
 position = Vector2( -23, 20 )
 frames = SubResource( 2 )
-frame = 7
 playing = true
 flip_h = true
 
 [node name="HeadHitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeadHitbox"]
-position = Vector2( 0, -7 )
+position = Vector2( 0, -6 )
 shape = SubResource( 16 )
 
 [node name="Hitbox" type="Area2D" parent="."]

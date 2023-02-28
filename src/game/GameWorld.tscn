@@ -35,8 +35,6 @@ dodge_direction = -1
 
 [node name="Tick" type="Timer" parent="."]
 
-[node name="Failsafe" type="Timer" parent="."]
-
 [node name="Spawner" type="Node2D" parent="."]
 
 [node name="PracticeHigh" type="Position2D" parent="Spawner"]
@@ -374,9 +372,29 @@ rect_min_size = Vector2( 120, 0 )
 text = "Player 2 ready"
 align = 1
 
+[node name="Waiting" type="ColorRect" parent="CanvasLayer/HUD"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.470588 )
+
+[node name="Back" type="Button" parent="CanvasLayer/HUD/Waiting"]
+margin_right = 80.0
+margin_bottom = 60.0
+text = "Back"
+
+[node name="Warning" type="Label" parent="CanvasLayer/HUD/Waiting"]
+margin_left = 160.0
+margin_top = 280.0
+margin_right = 480.0
+margin_bottom = 351.0
+text = "Waiting for arrows to land and quarry to be collected..."
+align = 1
+valign = 1
+autowrap = true
+
 [node name="Pause" type="ColorRect" parent="CanvasLayer/HUD"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.470588 )
@@ -404,23 +422,6 @@ text = "You will lose all progress if you quit now!"
 align = 1
 valign = 1
 
-[node name="Waiting" type="ColorRect" parent="CanvasLayer/HUD"]
-pause_mode = 2
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.470588 )
-
-[node name="Warning" type="Label" parent="CanvasLayer/HUD/Waiting"]
-margin_left = 160.0
-margin_top = 220.0
-margin_right = 480.0
-margin_bottom = 291.0
-text = "Waiting for arrows to land and quarry to be collected..."
-align = 1
-valign = 1
-autowrap = true
-
 [node name="GameOver" type="ColorRect" parent="CanvasLayer/HUD"]
 visible = false
 margin_right = 640.0
@@ -442,6 +443,7 @@ margin_bottom = 340.0
 text = "Home"
 
 [node name="GameOverDuel" type="ColorRect" parent="CanvasLayer/HUD"]
+visible = false
 margin_right = 640.0
 margin_bottom = 360.0
 color = Color( 0, 0, 0, 0.470588 )
@@ -547,6 +549,7 @@ text = "Back"
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
 [connection signal="pressed" from="CanvasLayer/HUD/TopBar/Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="CanvasLayer/HUD/Waiting/Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="CanvasLayer/HUD/Pause/Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="CanvasLayer/HUD/Pause/Home" to="." method="_on_Home_pressed"]
 [connection signal="pressed" from="CanvasLayer/HUD/GameOver/GameOver" to="." method="_on_GameOver_pressed"]

@@ -36,6 +36,8 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 
 func _on_Target_area_entered(area: Area2D) -> void:
+	if global_position.x < 0:
+		return
 	if area.is_in_group("arrow") and area.fired:
 		if area.velocity.y > 0:
 			emit_signal("shot_score", 200)

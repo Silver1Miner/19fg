@@ -48,7 +48,7 @@ func _physics_process(delta: float) -> void:
 		global_rotation = velocity.angle()
 	elif on_ground:
 		global_position += Vector2.LEFT * ground_speed * delta
-	if on_ground and global_position.x < -1280:
-		print("arrow out of range")
-		emit_signal("arrow_accounted_for")
-		queue_free()
+		if global_position.x < -1280:
+			print("arrow out of range")
+			emit_signal("arrow_accounted_for")
+			queue_free()
