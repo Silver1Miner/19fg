@@ -53,6 +53,7 @@ onready var bagged_display = $CanvasLayer/HUD/TopBar/Inventory/Bagged/BaggedValu
 onready var arrow_display = $CanvasLayer/HUD/TopBar/Inventory/Arrows/ArrowValue
 onready var targets_active_display = $CanvasLayer/HUD/TargetsOnField
 onready var waiting_warning = $CanvasLayer/HUD/Waiting
+onready var failsafe = $Failsafe
 var current_seed = 1
 var score = 0 setget _set_score
 var seconds = 0
@@ -210,11 +211,11 @@ func start_duel() -> void:
 	archer2.state = 3 # dodge
 	archer2.start_dodging()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		Engine.time_scale = 0.2
-	elif event.is_action_released("ui_cancel"):
-		Engine.time_scale = 1.0
+#func _input(event: InputEvent) -> void:
+#	if event.is_action_pressed("ui_cancel"):
+#		Engine.time_scale = 0.2
+#	elif event.is_action_released("ui_cancel"):
+#		Engine.time_scale = 1.0
 
 func _on_arrow_landed() -> void:
 	print("arrow landed")
@@ -445,6 +446,8 @@ func set_arrows(new_value: int) -> void:
 		archer1.reload_timer.stop()
 		if game_mode == GameModes.HUNT:
 			waiting_warning.visible = true
+			Engine.time_scale = 3.0
+			failsafe.start(30)
 
 func _set_shots(new_value: int) -> void:
 	shots = new_value
@@ -465,8 +468,10 @@ func check_hunt_end() -> void:
 	print("arrows: ", arrows)
 	print("how many arrows in flight? ", arrows_in_flight)
 	if game_mode == GameModes.HUNT and targets_to_pickup <= 0 and arrows <= 0 and arrows_in_flight <= 0:
+		failsafe.stop()
 		waiting_warning.visible = false
 		tick.stop()
+		Engine.time_scale = 1.0
 		save_hunting_results()
 		topbar.visible = false
 		game_over_screen.visible = true
@@ -511,3 +516,12 @@ func _on_Archer2_dodge_finished() -> void:
 		if UserData.duel_vs_bot:
 			is_bots_turn = true
 			bot.take_turn()
+
+func _on_Failsafe_timeout() -> void:
+	waiting_warning.visible = false
+	tick.stop()
+	Engine.time_scale = 1.0
+	save_hunting_results()
+	topbar.visible = false
+	game_over_screen.visible = true
+	failsafe.stop()

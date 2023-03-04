@@ -31,6 +31,9 @@ dodge_direction = -1
 
 [node name="GameCamera" parent="." instance=ExtResource( 6 )]
 
+[node name="Failsafe" type="Timer" parent="."]
+one_shot = true
+
 [node name="SpawnTimer" type="Timer" parent="."]
 
 [node name="Tick" type="Timer" parent="."]
@@ -546,6 +549,7 @@ text = "Back"
 [connection signal="hp_changed" from="Archer2" to="." method="_on_Archer2_hp_changed"]
 [connection signal="update_draw" from="Archer2" to="." method="_on_Archer2_update_draw"]
 [connection signal="camera_ready" from="GameCamera" to="." method="_on_GameCamera_camera_ready"]
+[connection signal="timeout" from="Failsafe" to="." method="_on_Failsafe_timeout"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="Tick" to="." method="_on_Tick_timeout"]
 [connection signal="pressed" from="CanvasLayer/HUD/TopBar/Back" to="." method="_on_Back_pressed"]
