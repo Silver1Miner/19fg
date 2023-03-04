@@ -1,25 +1,88 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/audio/sounds/horse/029398_maxheadroom39s-galloping-horse-39-sec-loop-73481.mp3" type="AudioStream" id=1]
 [ext_resource path="res://src/game/archer/Archer.gd" type="Script" id=2]
 [ext_resource path="res://src/game/archer/TrajectoryDraw.gd" type="Script" id=3]
 [ext_resource path="res://assets/game/archer/archer-body.png" type="Texture" id=4]
-[ext_resource path="res://assets/game/horse/horse2.png" type="Texture" id=5]
-[ext_resource path="res://assets/game/horse/horse3.png" type="Texture" id=6]
-[ext_resource path="res://assets/game/horse/horse6.png" type="Texture" id=7]
-[ext_resource path="res://assets/game/horse/horse1.png" type="Texture" id=8]
-[ext_resource path="res://assets/game/horse/horse7.png" type="Texture" id=9]
-[ext_resource path="res://assets/game/horse/horse4.png" type="Texture" id=10]
-[ext_resource path="res://assets/game/horse/horse5.png" type="Texture" id=11]
-[ext_resource path="res://assets/game/horse/horse10.png" type="Texture" id=12]
-[ext_resource path="res://assets/game/horse/horse11.png" type="Texture" id=13]
-[ext_resource path="res://assets/game/horse/horse9.png" type="Texture" id=14]
-[ext_resource path="res://assets/game/horse/horse8.png" type="Texture" id=15]
+[ext_resource path="res://assets/game/horse/horse-Sheet-export.png" type="Texture" id=5]
 [ext_resource path="res://assets/game/archer/archer-arms.png" type="Texture" id=16]
 [ext_resource path="res://assets/game/archer/archer-bow-only.png" type="Texture" id=17]
 [ext_resource path="res://assets/game/archer/archer-arrow-only.png" type="Texture" id=18]
 [ext_resource path="res://assets/game/archer/cap.png" type="Texture" id=19]
 [ext_resource path="res://assets/game/archer/banner-Sheet.png" type="Texture" id=20]
+
+[sub_resource type="Animation" id=17]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Horse:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "bob"
+length = 0.55
+loop = true
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.1, 0.55 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Horse:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+}
 
 [sub_resource type="AtlasTexture" id=9]
 flags = 4
@@ -70,14 +133,6 @@ animations = [ {
 "loop": true,
 "name": "default",
 "speed": 20.0
-} ]
-
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 12 ), ExtResource( 13 ) ],
-"loop": true,
-"name": "default",
-"speed": 24.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=16]
@@ -216,7 +271,13 @@ scale = Vector2( -1, 1 )
 texture = ExtResource( 16 )
 hframes = 6
 
+[node name="HorseBob" type="AnimationPlayer" parent="."]
+root_node = NodePath("../ArcherBody")
+anims/RESET = SubResource( 17 )
+anims/bob = SubResource( 18 )
+
 [node name="ArcherBody" type="Sprite" parent="."]
+pause_mode = 2
 scale = Vector2( -1, 1 )
 texture = ExtResource( 4 )
 
@@ -230,15 +291,14 @@ playing = true
 pause_mode = 2
 position = Vector2( 43, -1 )
 frames = SubResource( 8 )
-frame = 2
 playing = true
 
-[node name="Horse" type="AnimatedSprite" parent="."]
+[node name="Horse" type="Sprite" parent="."]
 pause_mode = 2
 position = Vector2( -23, 20 )
-frames = SubResource( 2 )
-playing = true
+texture = ExtResource( 5 )
 flip_h = true
+hframes = 11
 
 [node name="HeadHitbox" type="Area2D" parent="."]
 

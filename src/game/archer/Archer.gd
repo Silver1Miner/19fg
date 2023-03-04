@@ -28,6 +28,7 @@ export var sight_range = 50
 const base_sight_range = 20
 onready var game_objects = get_node_or_null("../GameObjects")
 onready var tween = $Tween
+onready var ride_anim = $HorseBob
 onready var bow_sprite = $Aiming/Bow
 onready var arrow_sprite = $Aiming/Arrow
 onready var arms_sprite = $Aiming/ArcherArms
@@ -60,6 +61,7 @@ const base_hp = 100
 export var hp = 100 setget _set_hp
 
 func _ready() -> void:
+	ride_anim.play("bob")
 	if player_group == "P1":
 		update_loadout(UserData.loadout)
 	else:
