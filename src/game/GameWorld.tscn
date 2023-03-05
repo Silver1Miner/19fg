@@ -41,16 +41,16 @@ one_shot = true
 [node name="Spawner" type="Node2D" parent="."]
 
 [node name="PracticeHigh" type="Position2D" parent="Spawner"]
-position = Vector2( 680, 80 )
+position = Vector2( 1320, 80 )
 
 [node name="PracticeMid" type="Position2D" parent="Spawner"]
-position = Vector2( 680, 200 )
+position = Vector2( 1320, 200 )
 
 [node name="PracticeLow" type="Position2D" parent="Spawner"]
-position = Vector2( 680, 320 )
+position = Vector2( 1320, 320 )
 
 [node name="Bird1" type="Position2D" parent="Spawner"]
-position = Vector2( -40, 120 )
+position = Vector2( -40, 20 )
 
 [node name="Line2D" type="Line2D" parent="."]
 width = 2.0

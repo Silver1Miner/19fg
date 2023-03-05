@@ -31,7 +31,7 @@ func _physics_process(delta: float) -> void:
 		rotation = direction.angle()
 	if is_shot and gravity > 0:
 		direction.y += gravity * mass * delta
-	if body.global_position.x < -160 or body.global_position.x > 640 + 1280:
+	if body.global_position.x < -160 or body.global_position.x > 2560:
 		if not is_shot:
 			queue_free()
 

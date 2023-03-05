@@ -10,7 +10,7 @@ signal hp_changed(hp)
 export var player_group = "P1"
 export var enemy_group = "P2"
 export var hunting_mode = false
-export var bow_elastic_force = 500.0
+export var bow_elastic_force = 1000.0
 const base_bow_force = 1000.0
 export var bow_reload_time = 1.0
 const base_reload_time = 1.0

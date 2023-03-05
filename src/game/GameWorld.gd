@@ -102,11 +102,11 @@ func set_game_mode(new_mode: int) -> void:
 		instructions.visible = true
 		instructions_extra.visible = game_mode == GameModes.DUEL
 	else:
-		start_game()
+		ready_game()
 
 func _on_Start_pressed() -> void:
 	instructions.visible = false
-	start_game()
+	ready_game()
 
 func set_daily_seed() -> void:
 	var time = OS.get_datetime()
@@ -126,7 +126,7 @@ func set_daily_seed() -> void:
 	var daily_seed = int(str(year)+month_string+day_string)
 	seed(daily_seed)
 
-func start_game() -> void:
+func ready_game() -> void:
 	hud.visible = true
 	readyp1.visible = false
 	readyp2.visible = false
@@ -137,11 +137,9 @@ func start_game() -> void:
 	game_over_screen.visible = false
 	game_over_duel.visible = false
 	waiting_warning.visible = false
+	camera.make_current()
 	match game_mode:
 		0: # HUNT
-			game_started = true
-			if not UserData.is_extra_hunt:
-				set_daily_seed()
 			status_display.visible = true
 			inventory_display.visible = true
 			accuracy_display.visible = true
@@ -160,10 +158,7 @@ func start_game() -> void:
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
-			spawn_timer.wait_time = 1.0
-			spawn_timer.start()
 		1: # DUEL
-			camera.make_current()
 			status_display.visible = false
 			inventory_display.visible = false
 			accuracy_display.visible = false
@@ -175,9 +170,7 @@ func start_game() -> void:
 			archer1.hunting_mode = false
 			archer2.active_toggle(true)
 			archer2.update_loadout(UserData.p2_loadout)
-			camera.to_duel_view()
 		2: # PRACTICE
-			game_started = true
 			status_display.visible = false
 			inventory_display.visible = false
 			accuracy_display.visible = true
@@ -191,25 +184,36 @@ func start_game() -> void:
 			archer1.state = 1
 			archer2.state = 0
 			archer2.active_toggle(false)
-			spawn_timer.start()
-			spawn_timer.wait_time = 5.0
+	camera.to_duel_view()
 
 func _on_GameCamera_camera_ready() -> void:
 	if game_started:
 		emit_signal("end_camera")
 		end_game()
 	else:
-		start_duel()
+		start_game()
 
-func start_duel() -> void:
-	game_started = true
-	duel_state = DuelStates.P1TURN
-	readyp1.visible = true
-	Audio.play_sound("res://assets/audio/sounds/ping-82822.mp3")
-	readyp2.visible = false
-	archer1.state = 1 # ready
-	archer2.state = 3 # dodge
-	archer2.start_dodging()
+func start_game() -> void:
+	match game_mode:
+		0: # HUNT
+			if not UserData.is_extra_hunt:
+				set_daily_seed()
+			spawn_timer.wait_time = 1.0
+			spawn_timer.start()
+			game_started = true
+		1: # DUEL
+			game_started = true
+			duel_state = DuelStates.P1TURN
+			readyp1.visible = true
+			Audio.play_sound("res://assets/audio/sounds/ping-82822.mp3")
+			readyp2.visible = false
+			archer1.state = 1 # ready
+			archer2.state = 3 # dodge
+			archer2.start_dodging()
+		2: # PRACTICE
+			spawn_timer.start()
+			spawn_timer.wait_time = 5.0
+			game_started = true
 
 #func _input(event: InputEvent) -> void:
 #	if event.is_action_pressed("ui_cancel"):
@@ -260,20 +264,22 @@ func _on_Home_pressed() -> void:
 	archer1.state = 0
 	archer2.state = 0
 	hud.visible = false
-	if game_mode == GameModes.DUEL:
-		camera.to_normal_view()
-	else:
-		end_game()
+	camera.to_normal_view()
+	#if game_mode == GameModes.DUEL:
+	#	camera.to_normal_view()
+	#else:
+	#	end_game()
 
 func _on_GameOver_pressed() -> void:
 	get_tree().paused = false
 	archer1.state = 0
 	archer2.state = 0
 	hud.visible = false
-	if game_mode == GameModes.DUEL:
-		camera.to_normal_view()
-	else:
-		end_game()
+	camera.to_normal_view()
+	#if game_mode == GameModes.DUEL:
+	#	camera.to_normal_view()
+	#else:
+	#	end_game()
 
 func _on_Archer_update_draw(draw_start: Vector2, draw_end: Vector2, force: float) -> void:
 	line_draw.points[0] = draw_start * camera.zoom.x + camera.global_position
@@ -336,7 +342,7 @@ func spawn_bird() -> void:
 		push_error("fail to connect target shot signal")
 	if target_instance.connect("shot_score", self, "_on_target_hit_scoring") != OK:
 		push_error("fail to connect target shot signal")
-	var offset = rand_range(-60, 60)
+	var offset = rand_range(-60, 120)
 	target_instance.global_position = $Spawner/Bird1.global_position + Vector2(0, offset)
 	target_instance.direction = Vector2.RIGHT
 
@@ -446,7 +452,7 @@ func set_arrows(new_value: int) -> void:
 		archer1.reload_timer.stop()
 		if game_mode == GameModes.HUNT:
 			waiting_warning.visible = true
-			Engine.time_scale = 3.0
+			Engine.time_scale = 2.0
 			failsafe.start(30)
 
 func _set_shots(new_value: int) -> void:
